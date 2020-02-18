@@ -5,8 +5,8 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 
 import {createStackNavigator} from '@react-navigation/stack';
 
-import Detail from './Screens/Detail';
-import Week from './Screens/Week';
+import Detail from './src/Screens/Detail';
+import Week from './src/Screens/Week';
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
