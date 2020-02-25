@@ -32,7 +32,7 @@ export default function Detail({route}) {
     const ingredientList = ['Chickpea','Celery','Onion','LimeJuice','Black Bean','Corn','Tomato','Cheddar Cheese','Jalapeno','Cilantro','Extra Virgin Olive Oil'];
     return (
       <View style={{ flex: 1, borderWidth:2, borderColor:'red'}}>
-        <Image source={require('../assets/Chickpea-Salad.jpg')} style={styles.img}/>
+        <Image source={require('../../assets/Chickpea-Salad.jpg')} style={styles.img}/>
 
         <View style={[styles.tabView, {flexDirection:'row'}]}>
           <TouchableOpacity style={[styles.tab, selectedItem.ingredient? {backgroundColor:'green'}:{}]} 

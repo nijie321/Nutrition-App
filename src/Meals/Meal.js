@@ -11,9 +11,9 @@ export default function Meal({day}){
     const route = useRoute();
 
 
-    const pic1 = (<Image source={require('../assets/Chickpea-Salad.jpg')} 
+    const pic1 = (<Image source={require('../../assets/Chickpea-Salad.jpg')} 
     style = {{height: 130, width: 130}}/>)
-    const pic2 = (<Image source={require('../assets/placeholder.png')}
+    const pic2 = (<Image source={require('../../assets/placeholder.png')}
     style={{height:130,width:130}}/>)
 
     function determinePic(){
