@@ -12,7 +12,10 @@ export default function Meal({day}){
 
 
     const pic1 = (<Image source={require('../../assets/Chickpea-Salad.jpg')} 
-    style = {{height: 130, width: 130}}/>)
+    style = {{flex: 1,
+        width: null,
+        height: null,
+        resizeMode: 'contain'}}/>)
     const pic2 = (<Image source={require('../../assets/placeholder.png')}
     style={{height:130,width:130}}/>)
 

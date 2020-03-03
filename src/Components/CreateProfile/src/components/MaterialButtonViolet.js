@@ -6,21 +6,21 @@ import * as Font from 'expo-font';
 
 function MaterialButtonViolet(props) {
 
-  const [fontLoaded, setFontLoaded] = useState(false);
+  // const [fontLoaded, setFontLoaded] = useState(false);
   
-  useEffect(() => {
-    const loadFont = async () =>{
-      await Font.loadAsync({
-        "roboto-regular":require("../assets/fonts/roboto-regular.ttf"),
-        "roboto-700":require("../assets/fonts/roboto-700.ttf") 
-      });
-      setFontLoaded(true);
-    }
+  // useEffect(() => {
+  //   const loadFont = async () =>{
+  //     await Font.loadAsync({
+  //       "roboto-regular":require("../assets/fonts/roboto-regular.ttf"),
+  //       "roboto-700":require("../assets/fonts/roboto-700.ttf") 
+  //     });
+  //     setFontLoaded(true);
+  //   }
 
-    loadFont();
-  })
+  //   loadFont();
+  // })
 
-  if(fontLoaded){
+  // if(fontLoaded){
   return (
     <TouchableOpacity style={[styles.container, props.style]}
       onPress={props.onButtonPress}
@@ -28,13 +28,14 @@ function MaterialButtonViolet(props) {
       <Text style={styles.caption}>Join now</Text>
     </TouchableOpacity>
   );
-  }else{
-    return(
-      <View>
-        <Text>Hello</Text>
-      </View>
-    )
-  }
+
+// }else{
+//     return(
+//       <View>
+//         <Text>Hello</Text>
+//       </View>
+//     )
+//   }
 }
 
 const styles = StyleSheet.create({

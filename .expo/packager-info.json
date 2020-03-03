@@ -1,10 +1,10 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 14755,
-  "expoServerNgrokUrl": "https://ct-rqc.anonymous.nutrition-app.exp.direct",
-  "packagerNgrokUrl": "https://packager.ct-rqc.anonymous.nutrition-app.exp.direct",
-  "ngrokPid": 14793,
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": "https://cf-ngc.anonymous.nutrition-app.exp.direct",
+  "packagerNgrokUrl": "https://packager.cf-ngc.anonymous.nutrition-app.exp.direct",
+  "ngrokPid": 23157,
   "webpackServerPort": null
 }

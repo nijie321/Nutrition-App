@@ -1,0 +1,1 @@
+export { default as MyProfile } from "./src/screens/MyProfile.js";

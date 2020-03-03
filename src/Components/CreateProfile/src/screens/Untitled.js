@@ -5,7 +5,7 @@ import MaterialDisabledTextbox from "../components/MaterialDisabledTextbox";
 import MaterialCheckbox1 from "../components/MaterialCheckbox1";
 import MaterialButtonViolet from "../components/MaterialButtonViolet";
 
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation,StackActions, CommonActions} from '@react-navigation/native';
 import * as Font from 'expo-font';
 // import * as firebase from 'firebase';
 
@@ -14,7 +14,7 @@ const db = firebase.firestore();
 
 function CreateProfile(props) {
   const navigation = useNavigation();
-  const [fontLoaded, setFontLoaded] = useState(false);
+  // const [fontLoaded, setFontLoaded] = useState(false);
   
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -22,20 +22,7 @@ function CreateProfile(props) {
   const [email, setEmail] = useState("");
   const [password,setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
-
-  useEffect(() => {
-    const loadFont = async () =>{
-      await Font.loadAsync({
-        "roboto-regular":require("../assets/fonts/roboto-regular.ttf"),
-        "roboto-700":require("../assets/fonts/roboto-700.ttf") 
-      });
-      setFontLoaded(true);
-    }
-    
-    loadFont();
-    // console.log(firstName)
-  })
-
+  const [address, setAddress] = useState("");
 
   function onSignupPress(){
     if(password !== passwordConfirm){
@@ -45,46 +32,41 @@ function CreateProfile(props) {
 
     firebase.auth().createUserWithEmailAndPassword(email, password)
         .then(function(credential) {
+          const uid = credential.user.uid;
             Alert.alert("Created the account successfully.");
             var docData = {   
               firstName: firstName,
               lastName: lastName,
               phoneNumber: phoneNumber,
-              email: email
+              email: email,
+              address: address
               };
-            db.collection("data").doc(credential.user.uid).set(docData).then(function() {
+            db.collection("users").doc(uid).set(docData).then(function() {
                 console.log("Document successfully written!");
             });
-            // console.log("user id=",e.user.uid);
+        
         })
         .then(() => {
-          navigation.navigate("Home");
-        })
+          navigation.dispatch(
+          CommonActions.reset({
+            index:0,
+            routes:[
+              {name: "Home"}
+            ]
+          })
+          )
+
+        //   navigation.dispatch(
+        //     StackActions.replace('Home')
+        // )
+      })
         .catch(function(error){
             // var errorCode = error.code;
             var errorMessage = error.message;
             Alert.alert(errorMessage);
         });
-
-
-  //   var docData = {   
-  //     firstName: firstName,
-  //     lastName: lastName,
-  //     phoneNumber: phoneNumber,
-  //     email: email
-  //     };
-  // db.collection("data").doc(uuid.v1()).set(docData).then(function() {
-  //     console.log("Document successfully written!");
-  // });
 }
 
-function onBtnPress(){
-  onSignupPress();
-}
-
-
-
-  if(fontLoaded){
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
       <ScrollView  showsVerticalScrollIndicator={false}>
@@ -94,6 +76,7 @@ function onBtnPress(){
         <MaterialDisabledTextbox
           style={styles.materialDisabledTextbox}
           firstName={firstName}
+          placeholder="Enter Your First Name"
           onFristNameChange={setFirstName}
         ></MaterialDisabledTextbox>
       </View>
@@ -101,13 +84,22 @@ function onBtnPress(){
       <MaterialDisabledTextbox
         style={styles.materialDisabledTextbox2}
         lastName={lastName}
+        placeholder="Enter Your Last Name"
         onLastNameChange={setLastName}
       ></MaterialDisabledTextbox>
       <Text style={styles.phoneNumber}>Phone number</Text>
       <MaterialDisabledTextbox
         style={[styles.materialDisabledTextbox3]}
         phoneNumber={phoneNumber}
+        placeholder="Enter Your Phone Number"
         onPhoneNumberChange={setPhoneNumber}
+      ></MaterialDisabledTextbox>
+      <Text style={styles.phoneNumber}>Address</Text>
+      <MaterialDisabledTextbox
+        style={[styles.materialDisabledTextbox3]}
+        address={address}
+        placeholder="Enter Your Address"
+        onAddressChange={setAddress}
       ></MaterialDisabledTextbox>
       <Text style={styles.security}>Security</Text>
       <MaterialDisabledTextbox
@@ -149,7 +141,7 @@ function onBtnPress(){
       </View>
       <MaterialButtonViolet
         style={styles.materialButtonViolet}
-        onButtonPress={onBtnPress}
+        onButtonPress={onSignupPress}
       ></MaterialButtonViolet>
       <View>
       <Text>{firstName}</Text>
@@ -157,13 +149,7 @@ function onBtnPress(){
       </ScrollView> 
     </KeyboardAvoidingView>
   );
-  }else{
-    return(
-      <View>
-        <Text>Helloo</Text>
-      </View>
-    )
-  }
+
 }
 
 const styles = StyleSheet.create({
@@ -235,7 +221,7 @@ const styles = StyleSheet.create({
     color: "rgba(0,0,0,1)",
     fontSize: 18,
     fontFamily: "roboto-regular",
-    marginTop: 22,
+    marginTop: 12,
     marginLeft: 29
   },
   materialDisabledTextbox3: {

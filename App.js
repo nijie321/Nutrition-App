@@ -1,149 +1,139 @@
-import React, {useState} from 'react';
-import { Text, View,Image,TouchableOpacity, Button, StyleSheet, ScrollView, Dimensions} from 'react-native';
-import { NavigationContainer} from '@react-navigation/native';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import React, {useState, useEffect} from 'react';
+import {Button} from 'react-native';
+import { NavigationContainer, useNavigation, StackActions} from '@react-navigation/native';
+// import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+
 
 import {Buffer} from 'buffer';  
 global.Buffer = Buffer;
-// import { Font } from "expo";
 
-// async componentDidMount(){
-//   await Font.loadAsync({
-//     <font-name>:require(<relative-path-to-font-file>)
-//   })
-// }
-
-
-// import * as ImagePicker from 'expo-image-picker';
 
 import {createStackNavigator} from '@react-navigation/stack';
 
-// import * as firebase from 'firebase';
-// import "firebase/firebase-firestore";
-// import {firebaseConfig} from './config';
 
-import {Welcome} from './src/Components/Welcome/index';
-import Index from './src/Components/Component_5/Index';
+import {Welcome} from './src/Components/Welcome/Welcome/index';
 
 import {CreateProfile} from './src/Components/CreateProfile/index';
 import {ForgotPassword} from './src/Components/ForgotPassword/index';
 
-import {MainScreen} from './src/Components/MainScreen';
-// if(!firebase.apps.length){
-//   firebase.initializeApp(firebaseConfig);
-// }else{
-//   firebase.app();
-// }
+// import {MainScreen} from './src/Components/Main/Main/index';
+import MainScreen1 from './src/Screens/MainScreen';
+import {MainScreen} from './src/Components/MainScreen2/MainScreen2/index';
+import {DetailMeal} from './src/Components/DetailedMeal/DetailedMeal/index';
+
+// import {EditProfile} from './src/Components/EditProfile/EditProfile/index';
+import {EditProfile} from './src/Components/EditProfile2/EditProfile2/index';
+// import {MyProfile} from './src/Components/MyProfile2/MyProfile2/index';
+
+
+// import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 
 import firebase from './FireBase';
 
-// firebase.initializeApp(firebaseConfig);
 
 
-import Detail from './src/Screens/Detail';
-import Week from './src/Screens/Week';
-import WelcomeScreen from './src/Screens/WelcomeScreen';
-
-import SignupScreen from './src/Screens/Authentication/SignupScreen';
-import LoginScreen from './src/Screens/Authentication/LoginScreen';
-import ResetPasswordScreen from "./src/Screens/Authentication/ResetPasswordScreen";
-
-import CreateProfileScreen from './src/Screens/CreateProfileScreen';
+// import Detail from './src/Screens/Detail';
+// import Week from './src/Screens/Week';
 
 
-const Tab = createMaterialTopTabNavigator();
+import * as Font from 'expo-font';
+
+import AntDesign from 'react-native-vector-icons/AntDesign';
+// import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+
+
+// const Tab = createMaterialTopTabNavigator();
+const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
-
-// const Week2 = () => {
-//   const [selectedImage, setSelectedImage] = useState();
-
-//   let openImagePickerAsync = async () => {
-//     let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
-
-//     if(permissionResult.granted === false){
-//       alert("Permission to access camera roll is required!");
-//       return;
-//     }
-
-//     let pickerResult = await ImagePicker.launchImageLibraryAsync();
-    
-//     if(pickerResult.cancelled === true){
-//       return;
-//     }
-
-//     setSelectedImage({localUri: pickerResult.uri});
-//   };
-
-//   return(
-//     <View
-//       style={{flex:1}}>
-      
-//       <Button
-//         onPress={openImagePickerAsync}
-//         title="pick picture">
-//       </Button>
-//       {selectedImage &&
-//         <Image 
-//         source={{ uri: selectedImage.localUri }}
-//         style={{ width: 200, height: 200 }}
-//       />
-//       }
-
-//     </View>
-//   )  
-// }
 
 const db = firebase.firestore();
 
-function firebaseExample(){
-  return(
-    <View style={{paddingTop: 50, alignItems:"center"}}>
-      <Button 
-        title="add user"
-        onPress={() => {
-          db.collection("users").add({
-            first: "Ada",
-            last: "Lovelace",
-            born: 1815
-          })
-          .then(function(docRef){
-            console.log("Document written with ID: ", docRef.id);
-          })
-          .catch(function(error){
-            console.error("Error adding document: ", error);
-          });
-        }}
-      />
-
-      <Button
-        title="view users"
-        onPress={() => {
-          db.collection("users").get()
-          .then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-              console.log(`${doc.id} => ${doc.data()}`)
-            });
-          });
-        }}
-      />
-
-    </View>
-  )  
-}
-
+// Week
 const HomeTabNavigator = () => {
-  console.log(firebase.auth().currentUser.uid);
+  const navigation = useNavigation();
+  var user = firebase.auth().currentUser;
+  useEffect(() => {
+      if(user){
+        navigation.setOptions({headerRight: () => (
+            <Button
+              onPress={() => {
+                navigation.dispatch(
+                  StackActions.replace("Welcome")
+                )
+              }}
+              title="Log Out"
+              color="#00cc00"//"#00cc00" 
+            />
+          )
+        })
+      }
+      // console.log("use effect");
+  },[])
+
   return(
-    <Tab.Navigator>
-        <Tab.Screen name="Week 1" component={Week} options={{ title: 'Week 1'}} />
-        <Tab.Screen name="Week 2" component={Week} options={{title: 'Week 2'}} />
+    <Tab.Navigator
+      barStyle={{backgroundColor: '#a1c559', height:60}} //marginBottom:20,
+    >
+        <Tab.Screen name="Week 1" component={MainScreen1} 
+        options={{
+          tabBarLabel: 'Home',
+          tabBarIcon: ({ color, size }) => (
+            <AntDesign name="home" color={color} size={20} />
+          ),
+        }}
+        />
+        <Tab.Screen name="Edit Profile" component={EditProfile}
+        options={{
+          tabBarLabel: 'Profile',
+          tabBarIcon: ({color,size}) => (  
+              <AntDesign name="profile" color={color} size={20} />
+          )  
+        }} />
+
+        <Tab.Screen name="Shopping Cart" component={MainScreen}
+        options={{
+          tabBarLabel: 'Shopping Cart',
+          tabBarIcon: ({color,size}) => (
+            <AntDesign name="shoppingcart" color={color} size={20} />
+          )  
+        }} />
+
+        <Tab.Screen name="History" component={MainScreen}
+        options={{
+          tabBarLabel: 'History',
+          tabBarIcon: ({color,size}) => (
+            <FontAwesome5 name="history" color={color} size={20} />
+          )  
+        }} />
+        
       </Tab.Navigator>
   )
 }
 
 
 export default function App() {
+  const [fontLoaded, setFontLoaded] = useState(false);
+  useEffect(() => {
+    const loadFont = async () => {
+      await Font.loadAsync({
+        "roboto-300":require("./assets/fonts/roboto-300.ttf"),
+        "roboto-500":require("./assets/fonts/roboto-500.ttf"),
+        "roboto-700":require("./assets/fonts/roboto-700.ttf"),
+        "roboto-900":require("./assets/fonts/roboto-900.ttf"),
+        "roboto-regular":require("./assets/fonts/roboto-regular.ttf"),
+        "impact-regular":require("./assets/fonts/impact-regular.ttf"),
+        "courier-regular":require("./assets/fonts/courier-regular.ttf"), 
+        "arial-regular":require("./assets/fonts/arial-regular.ttf"),
+        "Roboto":require("./assets/fonts/roboto-regular.ttf"),
+      });
+      setFontLoaded(true);
+    }
+    loadFont();
+  })
   
+  if(fontLoaded){
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Welcome">
@@ -151,32 +141,48 @@ export default function App() {
           name="Untitled"
           component={Untitled}
         /> */}
+
+        <Stack.Screen
+          name="Edit Profile"
+          component={EditProfile}
+        />
+        
+        {/* <Stack.Screen
+          name="My Profile"
+          component={MyProfile}
+        /> */}
+
+        <Stack.Screen
+          name="Detail Meal"
+          component={DetailMeal}
+        />
         <Stack.Screen
           name="Main"
-          component={MainScreen}
+          component={MainScreen1}
+          // options={{headerLeft: null}}
         />
         <Stack.Screen
           name="Create Profile"
           component={CreateProfile}
         />
-        <Stack.Screen
+        {/* <Stack.Screen
           name="BTN"
           component={firebaseExample}
-        />
-        <Stack.Screen
+        /> */}
+        {/* <Stack.Screen
           name="Sign Up"
           component={SignupScreen}
-        />
+        /> */}
 
         <Stack.Screen
           name="Forget Password"
           component={ForgotPassword}
         />
 
-        <Stack.Screen
+        {/* <Stack.Screen
           name="Log in"
           component={LoginScreen}
-        />
+        /> */}
         <Stack.Screen
           name="Welcome"
           component={Welcome}
@@ -185,15 +191,18 @@ export default function App() {
           name="Home"
           component={HomeTabNavigator}
         />
-        
+{/*         
         <Stack.Screen
           name="Detail"
           component={Detail}
           title="Detail"
-        />
+        /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );
+  }else{
+    return null;
+  }
 }
 
 

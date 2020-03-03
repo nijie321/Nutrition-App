@@ -22,14 +22,7 @@ function CupertinoHeaderWithLargeTitle1(props) {
   if(fontLoaded){
   return (
     <View style={[styles.container, props.style]}>
-      <View style={styles.header}>
-        <View style={styles.leftWrapper}>
-          <TouchableOpacity style={styles.leftIconButton}>
-            <Icon name="ios-arrow-back" style={styles.leftIcon2}></Icon>
-            <Text style={styles.leftText}>Back</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      
       <View style={styles.textWrapper}>
         <Text numberOfLines={1} style={styles.title}>
           Forgot Your Password
@@ -45,7 +38,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "rgba(255,255,255,1)",
     paddingRight: 8,
-    paddingLeft: 8
+    paddingLeft: 8,
   },
   header: {
     width: 359,

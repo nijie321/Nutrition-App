@@ -7,25 +7,6 @@ import * as Font from 'expo-font';
 
 function MaterialDisabledTextbox(props) {
 
-  const [fontLoaded, setFontLoaded] = useState(false);
-  
-  useEffect(() => {
-    const loadFont = async () =>{
-      await Font.loadAsync({
-        "roboto-regular":require("../assets/fonts/roboto-regular.ttf"),
-        "Roboto":require("../assets/fonts/roboto-700.ttf") 
-      });
-      setFontLoaded(true);
-    }
-
-    loadFont();
-  })
-  
-
-  // function onFirstNameChange(text){
-  //   props.onFirstNameChange(text)
-  // }
-
   function action(text){
     if("lastName" in props){
       props.onLastNameChange(text);
@@ -33,6 +14,8 @@ function MaterialDisabledTextbox(props) {
       props.onFristNameChange(text);
     }else if("phoneNumber" in props){
       props.onPhoneNumberChange(text);
+    }else if("address" in props){
+      props.onAddressChange(text);
     }else if("email" in props){
       props.onEmailChange(text)
     }else if("password" in props){
@@ -74,33 +57,20 @@ function MaterialDisabledTextbox(props) {
         />)
     }else{
       return(<TextInput
-        placeholder="Disabled Textbox"
+        placeholder={props.placeholder}
         style={[styles.inputStyle]}
         onChangeText={action}
       />)
     }
   }
 
-  if(fontLoaded){
   return (
     <View style={[styles.container, props.style]}>
-
-      {/* <TextInput
-        placeholder="Disabled Textbox"
-        style={[styles.inputStyle]}
-        onChangeText={action}
-      /> */}
       {rendering()}
       <Icon name="information-outline" style={styles.iconStyle}></Icon>
     </View>
   );
-  }else{
-    return(
-      <View>
-        <Text>Hello</Text>
-      </View>
-    )
-  }
+
 }
 
 const styles = StyleSheet.create({
