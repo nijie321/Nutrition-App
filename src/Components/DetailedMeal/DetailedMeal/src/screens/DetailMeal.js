@@ -22,7 +22,7 @@ import {useNavigation} from '@react-navigation/native';
 import firebase from '../../../../../../FireBase';
 // import MainScreen from "../../../../Main/Main/src/screens/MainScreen";
 
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 const db = firebase.firestore();
 
 
@@ -147,10 +147,24 @@ function DetailMeal(props) {
   //   )}
   //   }
 
+  function setBackButton(){
+    navigation.setOptions({
+      headerLeft: () => (
+        <View style={{paddingLeft:10}}>
+          <TouchableOpacity
+            onPress={() => {navigation.goBack()}}
+          >
+            <FontAwesome5 name="angle-left" color={"#00cc00"} size={30} />
+          </TouchableOpacity>
+        </View>
+      )
+    })
+  }
+
   useEffect(() => {
     determineImg();
     getMealInfo();
-    // setBackButton();
+    setBackButton();
   },[]);
 
   // getMealInfo();

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useLayoutEffect} from 'react';
 import {Button} from 'react-native';
 import { NavigationContainer, useNavigation, StackActions} from '@react-navigation/native';
 // import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -9,7 +9,7 @@ import {Buffer} from 'buffer';
 global.Buffer = Buffer;
 
 
-import {createStackNavigator} from '@react-navigation/stack';
+import {createStackNavigator, HeaderTitle} from '@react-navigation/stack';
 
 
 import {Welcome} from './src/Components/Welcome/Welcome/index';
@@ -51,10 +51,34 @@ const Stack = createStackNavigator();
 const db = firebase.firestore();
 
 // Week
-const HomeTabNavigator = () => {
-  const navigation = useNavigation();
+function HomeTabNavigator({navigation,route}){
+  // const navigation = useNavigation();
   var user = firebase.auth().currentUser;
-  useEffect(() => {
+
+  function getHeaderTitle(route) {
+    // Access the tab navigator's state using `route.state`
+    const routeName = route.state
+      ? // Get the currently active route name in the tab navigator
+        route.state.routes[route.state.index].name
+      : // If state doesn't exist, we need to default to `screen` param if available, or the initial screen
+        // In our case, it's "Feed" as that's the first screen inside the navigator
+        route.params?.screen || 'Feed';
+  
+    switch (routeName) {
+      case 'Feed':
+        return 'Main';
+      case 'Edit Profile':
+        return 'Edit Profile';
+      case 'Main':
+        return 'Main';
+      case 'Shopping Cart':
+        return 'Shopping Cart';
+      case 'History':
+        return 'History';
+    }
+  }
+  
+  useLayoutEffect(() => {
       if(user){
         navigation.setOptions({headerRight: () => (
             <Button
@@ -66,17 +90,21 @@ const HomeTabNavigator = () => {
               title="Log Out"
               color="#00cc00"//"#00cc00" 
             />
-          )
-        })
-      }
+          ),
+          headerTitle: getHeaderTitle(route)
+        },[navigation,route])
+ 
+      };
       // console.log("use effect");
-  },[])
+  }
+  )
 
   return(
     <Tab.Navigator
+      title="Profile"
       barStyle={{backgroundColor: '#a1c559', height:60}} //marginBottom:20,
     >
-        <Tab.Screen name="Week 1" component={MainScreen1} 
+        <Tab.Screen name="Main" component={MainScreen1} 
         options={{
           tabBarLabel: 'Home',
           tabBarIcon: ({ color, size }) => (
@@ -89,8 +117,11 @@ const HomeTabNavigator = () => {
           tabBarLabel: 'Profile',
           tabBarIcon: ({color,size}) => (  
               <AntDesign name="profile" color={color} size={20} />
-          )  
-        }} />
+          ),
+          title:"Edit Profile"
+        }}
+        // tabPress={() => {}}
+        />
 
         <Tab.Screen name="Shopping Cart" component={MainScreen}
         options={{
@@ -136,7 +167,11 @@ export default function App() {
   if(fontLoaded){
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Welcome">
+      <Stack.Navigator initialRouteName="Welcome"
+        // screenOptions={{
+        //   headerShown: false
+        // }}
+      >
         {/* <Stack.Screen
           name="Untitled"
           component={Untitled}
@@ -145,6 +180,7 @@ export default function App() {
         <Stack.Screen
           name="Edit Profile"
           component={EditProfile}
+          options={{title:"Profile"}}
         />
         
         {/* <Stack.Screen
@@ -186,10 +222,12 @@ export default function App() {
         <Stack.Screen
           name="Welcome"
           component={Welcome}
+          options={{headerShown:false}}
         />
         <Stack.Screen
           name="Home"
           component={HomeTabNavigator}
+          // options={{title:"home1"}}
         />
 {/*         
         <Stack.Screen
