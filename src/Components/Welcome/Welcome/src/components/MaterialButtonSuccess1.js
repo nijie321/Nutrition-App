@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { StyleSheet, TouchableOpacity, Text } from "react-native";
 
 function MaterialButtonSuccess1(props) {
@@ -17,8 +17,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    paddingRight: 16,
-    paddingLeft: 16,
+    // paddingRight: 16,
+    // paddingLeft: 16,
     elevation: 2,
     minWidth: 88,
     borderRadius: 2,

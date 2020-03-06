@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { StyleSheet,Text, TouchableOpacity, TextInput } from "react-native";
+import React from "react";
+import { StyleSheet,Text, TouchableOpacity } from "react-native";
 
 function MaterialButtonDanger(props) {
   return (

@@ -1,15 +1,9 @@
-import React, { Component, useState, useEffect } from "react";
-import { StyleSheet, View, TextInput,Text, Alert } from "react-native";
+import React from "react";
+import { StyleSheet, View, TextInput, Alert } from "react-native";
 import CupertinoHeaderWithLargeTitle1 from "../components/CupertinoHeaderWithLargeTitle1";
 import CupertinoButtonWarning from "../components/CupertinoButtonWarning";
 
-import * as Font from 'expo-font';
-
 import firebase from '../../../../../FireBase';
-
-
-
-
 
 
 function ForgotPassword(props) {
@@ -24,22 +18,6 @@ function ForgotPassword(props) {
     });
   }
   
-
-
-  const [fontLoaded, setFontLoaded] = useState(false);
-  
-  useEffect(() => {
-    const loadFont = async () =>{
-      await Font.loadAsync({
-        "roboto-700":require("../assets/fonts/roboto-700.ttf")
-      });
-      setFontLoaded(true);
-    }
-
-    loadFont();
-  })
-
-  if(fontLoaded){
   return (
     <View style={styles.container}>
       <View style={styles.group}>
@@ -57,11 +35,6 @@ function ForgotPassword(props) {
       </View>
     </View>
   );
-  }else{
-    return(
-      null
-    );
-  }
 
 }
 

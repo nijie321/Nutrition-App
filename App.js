@@ -1,33 +1,23 @@
 import React, {useState, useEffect, useLayoutEffect} from 'react';
-import {Button} from 'react-native';
-import { NavigationContainer, useNavigation, StackActions} from '@react-navigation/native';
-// import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import {Platform, InteractionManager} from 'react-native';
+import { NavigationContainer, StackActions} from '@react-navigation/native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 
 
-import {Buffer} from 'buffer';  
-global.Buffer = Buffer;
+// import {Buffer} from 'buffer';  
+// global.Buffer = Buffer;
 
 
-import {createStackNavigator, HeaderTitle} from '@react-navigation/stack';
+import {createStackNavigator} from '@react-navigation/stack';
 
 
 import {Welcome} from './src/Components/Welcome/Welcome/index';
 
 import {CreateProfile} from './src/Components/CreateProfile/index';
 import {ForgotPassword} from './src/Components/ForgotPassword/index';
-
-// import {MainScreen} from './src/Components/Main/Main/index';
 import MainScreen1 from './src/Screens/MainScreen';
-import {MainScreen} from './src/Components/MainScreen2/MainScreen2/index';
 import {DetailMeal} from './src/Components/DetailedMeal/DetailedMeal/index';
-
-// import {EditProfile} from './src/Components/EditProfile/EditProfile/index';
 import {EditProfile} from './src/Components/EditProfile2/EditProfile2/index';
-// import {MyProfile} from './src/Components/MyProfile2/MyProfile2/index';
-
-
-// import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 
 import firebase from './FireBase';
 
@@ -40,15 +30,58 @@ import firebase from './FireBase';
 import * as Font from 'expo-font';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
-// import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 
 
-// const Tab = createMaterialTopTabNavigator();
+
+const _setTimeout = global.setTimeout;
+const _clearTimeout = global.clearTimeout;
+const MAX_TIMER_DURATION_MS = 60 * 1000;
+if (Platform.OS === 'android') {
+// Work around issue `Setting a timer for long time`
+// see: https://github.com/firebase/firebase-js-sdk/issues/97
+    const timerFix = {};
+    const runTask = (id, fn, ttl, args) => {
+        const waitingTime = ttl - Date.now();
+        if (waitingTime <= 1) {
+            InteractionManager.runAfterInteractions(() => {
+                if (!timerFix[id]) {
+                    return;
+                }
+                delete timerFix[id];
+                fn(...args);
+            });
+            return;
+        }
+
+        const afterTime = Math.min(waitingTime, MAX_TIMER_DURATION_MS);
+        timerFix[id] = _setTimeout(() => runTask(id, fn, ttl, args), afterTime);
+    };
+
+    global.setTimeout = (fn, time, ...args) => {
+        if (MAX_TIMER_DURATION_MS < time) {
+            const ttl = Date.now() + time;
+            const id = '_lt_' + Object.keys(timerFix).length;
+            runTask(id, fn, ttl, args);
+            return id;
+        }
+        return _setTimeout(fn, time, ...args);
+    };
+
+    global.clearTimeout = id => {
+        if (typeof id === 'string' && id.startsWith('_lt_')) {
+            _clearTimeout(timerFix[id]);
+            delete timerFix[id];
+            return;
+        }
+        _clearTimeout(id);
+    };
+}
+
+
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
-
-const db = firebase.firestore();
 
 // Week
 function HomeTabNavigator({navigation,route}){
@@ -81,17 +114,22 @@ function HomeTabNavigator({navigation,route}){
   useLayoutEffect(() => {
       if(user){
         navigation.setOptions({headerRight: () => (
-            <Button
-              onPress={() => {
-                navigation.dispatch(
-                  StackActions.replace("Welcome")
-                )
-              }}
-              title="Log Out"
-              color="#00cc00"//"#00cc00" 
-            />
+            // <TouchableOpacity
+            //   onPress={() => {navigation.dispatch(StackActions.replace("Welcome"))}}
+            // >
+            //   <Text>Log Out</Text>
+            // </TouchableOpacity>
+            <SimpleLineIcons.Button
+              name="logout"
+              backgroundColor="#3b5998"
+              onPress={() => {navigation.dispatch(StackActions.replace("Welcome"))}}
+            >
+              Log out
+            </SimpleLineIcons.Button>
           ),
-          headerTitle: getHeaderTitle(route)
+          headerTitle: getHeaderTitle(route),
+          // headerStyle: {height: 80}
+          headerTitleAlign:"center",
         },[navigation,route])
  
       };
@@ -123,7 +161,7 @@ function HomeTabNavigator({navigation,route}){
         // tabPress={() => {}}
         />
 
-        <Tab.Screen name="Shopping Cart" component={MainScreen}
+        <Tab.Screen name="Shopping Cart" component={MainScreen1}
         options={{
           tabBarLabel: 'Shopping Cart',
           tabBarIcon: ({color,size}) => (
@@ -131,7 +169,7 @@ function HomeTabNavigator({navigation,route}){
           )  
         }} />
 
-        <Tab.Screen name="History" component={MainScreen}
+        <Tab.Screen name="History" component={MainScreen1}
         options={{
           tabBarLabel: 'History',
           tabBarIcon: ({color,size}) => (
@@ -171,22 +209,14 @@ export default function App() {
         // screenOptions={{
         //   headerShown: false
         // }}
+        // screenOptions={{headerTitleAlign:"center"}}
       >
-        {/* <Stack.Screen
-          name="Untitled"
-          component={Untitled}
-        /> */}
 
         <Stack.Screen
           name="Edit Profile"
           component={EditProfile}
           options={{title:"Profile"}}
         />
-        
-        {/* <Stack.Screen
-          name="My Profile"
-          component={MyProfile}
-        /> */}
 
         <Stack.Screen
           name="Detail Meal"
@@ -201,24 +231,11 @@ export default function App() {
           name="Create Profile"
           component={CreateProfile}
         />
-        {/* <Stack.Screen
-          name="BTN"
-          component={firebaseExample}
-        /> */}
-        {/* <Stack.Screen
-          name="Sign Up"
-          component={SignupScreen}
-        /> */}
 
         <Stack.Screen
           name="Forget Password"
           component={ForgotPassword}
         />
-
-        {/* <Stack.Screen
-          name="Log in"
-          component={LoginScreen}
-        /> */}
         <Stack.Screen
           name="Welcome"
           component={Welcome}
@@ -229,12 +246,6 @@ export default function App() {
           component={HomeTabNavigator}
           // options={{title:"home1"}}
         />
-{/*         
-        <Stack.Screen
-          name="Detail"
-          component={Detail}
-          title="Detail"
-        /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,12 +1,11 @@
 import React, { Component,useState, useEffect } from "react";
 import { StyleSheet, View, Text, ScrollView, Button, Alert, KeyboardAvoidingView} from "react-native";
-import Icon from "react-native-vector-icons/Entypo";
 import MaterialDisabledTextbox from "../components/MaterialDisabledTextbox";
 import MaterialCheckbox1 from "../components/MaterialCheckbox1";
 import MaterialButtonViolet from "../components/MaterialButtonViolet";
 
-import {useNavigation,StackActions, CommonActions} from '@react-navigation/native';
-import * as Font from 'expo-font';
+import {useNavigation, CommonActions} from '@react-navigation/native';
+
 // import * as firebase from 'firebase';
 
 import firebase from '../../../../../FireBase';
@@ -22,7 +21,7 @@ function CreateProfile(props) {
   const [email, setEmail] = useState("");
   const [password,setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
-  const [address, setAddress] = useState("");
+  // const [address, setAddress] = useState("");
 
   function onSignupPress(){
     if(password !== passwordConfirm){
@@ -38,8 +37,8 @@ function CreateProfile(props) {
               firstName: firstName,
               lastName: lastName,
               phoneNumber: phoneNumber,
-              email: email,
-              address: address
+              email: email
+              // ,address: address
               };
             db.collection("users").doc(uid).set(docData).then(function() {
                 console.log("Document successfully written!");
@@ -94,13 +93,14 @@ function CreateProfile(props) {
         placeholder="Enter Your Phone Number"
         onPhoneNumberChange={setPhoneNumber}
       ></MaterialDisabledTextbox>
-      <Text style={styles.phoneNumber}>Address</Text>
+    {/* ignore the address field*/}
+      {/* <Text style={styles.phoneNumber}>Address</Text>
       <MaterialDisabledTextbox
         style={[styles.materialDisabledTextbox3]}
         address={address}
         placeholder="Enter Your Address"
         onAddressChange={setAddress}
-      ></MaterialDisabledTextbox>
+      ></MaterialDisabledTextbox> */}
       <Text style={styles.security}>Security</Text>
       <MaterialDisabledTextbox
         style={styles.materialDisabledTextbox4}

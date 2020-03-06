@@ -8,21 +8,18 @@ import {
   TouchableOpacity,
   Dimensions,
   ScrollView,
-  Button,
   TextInput
 } from "react-native";
 import Icon from "react-native-vector-icons/EvilIcons";
 import MaterialButtonDanger from "../components/MaterialButtonDanger";
-// import { getAppLoadingLifecycleEmitter } from "expo/build/launch/AppLoading";
 
-import {useRoute} from "@react-navigation/native";
-
-import {useNavigation} from '@react-navigation/native';
+import {useRoute, useNavigation} from "@react-navigation/native";
 
 import firebase from '../../../../../../FireBase';
-// import MainScreen from "../../../../Main/Main/src/screens/MainScreen";
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 const db = firebase.firestore();
 
 
@@ -313,7 +310,8 @@ const styles = StyleSheet.create({
     alignSelf:"center",
     // width: 320,
     width: width,
-    height: 300,
+    // height: 300,
+    height: wp("60%"),
     // width: 250,
     // height:250,
     marginTop: 0

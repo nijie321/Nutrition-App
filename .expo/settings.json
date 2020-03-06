@@ -1,8 +1,8 @@
 {
-  "hostType": "tunnel",
+  "hostType": "lan",
   "lanType": "ip",
   "dev": true,
   "minify": false,
-  "urlRandomness": "cf-ngc",
+  "urlRandomness": "yr-xmx",
   "https": false
 }

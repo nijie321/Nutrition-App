@@ -1,25 +1,8 @@
-import React, { Component,useState,useEffect } from "react";
-import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
-import Icon from "react-native-vector-icons/Ionicons";
-
-import * as Font from 'expo-font';
+import React from "react";
+import { StyleSheet, View, Text } from "react-native";
 
 function CupertinoHeaderWithLargeTitle1(props) {
 
-  const [fontLoaded, setFontLoaded] = useState(false);
-  
-  useEffect(() => {
-    const loadFont = async () =>{
-      await Font.loadAsync({
-        "roboto-300":require("../assets/fonts/roboto-300.ttf") 
-      });
-      setFontLoaded(true);
-    }
-
-    loadFont();
-  })
-
-  if(fontLoaded){
   return (
     <View style={[styles.container, props.style]}>
       
@@ -30,8 +13,6 @@ function CupertinoHeaderWithLargeTitle1(props) {
       </View>
     </View>
   );
-}else{return null;}
-
 }
 
 const styles = StyleSheet.create({

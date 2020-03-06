@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {
   StyleSheet,
   View,
@@ -9,14 +9,26 @@ import {
 } from "react-native";
 import IoniconsIcon from "react-native-vector-icons/Ionicons";
 import EntypoIcon from "react-native-vector-icons/Entypo";
-import CupertinoButtonPurple from "../components/CupertinoButtonPurple";
 
-import firebase from "../../../../../../FireBase";
+// import firebase from "../../../../../../FireBase";
+// const db = firebase.firestore();
+
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 function EditProfile() {
-  var user = firebase.auth().currentUser;
-  console.log(user.uid);
+  // var user = firebase.auth().currentUser;
   
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [address, setAddress] = useState("");
+  
+
+  // function onUpdate(){
+  //   db.collection("users").doc()
+  // }
+
+
   return (
     <View style={styles.container}>
       <View style={styles.group7}>
@@ -26,25 +38,28 @@ function EditProfile() {
             placeholder="Lorem Ipsum"
             placeholderTextColor="rgba(230, 230, 230,1)"
             style={styles.textInput}
-
+            onChangeText={(text) => {setFirstName(text)}}
           ></TextInput>
           <Text style={styles.lastName}>Last name:</Text>
           <TextInput
             placeholder="Lorem Ipsum"
             placeholderTextColor="rgba(230, 230, 230,1)"
             style={styles.textInput2}
+            onChangeText={(text) => {setLastName(text)}}
           ></TextInput>
           <Text style={styles.phoneNumber}>Phone number:</Text>
           <TextInput
             placeholder="Lorem Ipsum"
             placeholderTextColor="rgba(230, 230, 230,1)"
             style={styles.textInput3}
+            onChangeText={(text) => {setPhoneNumber(text)}}
           ></TextInput>
           <Text style={styles.address}>Address:</Text>
           <TextInput
             placeholder="Lorem Ipsum"
             placeholderTextColor="rgba(230, 230, 230,1)"
             style={styles.textInput4}
+            onChangeText={(text) => {setAddress(text)}}
           ></TextInput>
         </View>
         <View style={styles.group2}>
@@ -89,9 +104,24 @@ function EditProfile() {
           </ScrollView>
         </View>
       </View>
-      <CupertinoButtonPurple
+
+      <TouchableOpacity
+        style={[ {backgroundColor: "rgba(248,217,28,1)",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        alignSelf:"center",
+        paddingRight: 16,
+        paddingLeft: 16,
+        borderRadius: 5, marginTop:30, width:wp("20%"), height:hp("5%")}]}
+      >
+        <Text style={{color: "rgba(118,118,118,1)",
+    fontSize: 17,
+    fontFamily: "roboto-500"}}>SAVE</Text>
+      </TouchableOpacity>
+      {/* <CupertinoButtonPurple
         style={styles.cupertinoButtonPurple}
-      ></CupertinoButtonPurple>
+      ></CupertinoButtonPurple> */}
     </View>
   );
 }
@@ -102,14 +132,25 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(255,255,255,1)"
   },
   group7: {
-    width: 318,
-    height: 471,
-    marginTop: 70,
-    marginLeft: 48
+    // width: 318,
+    // height: 471,
+    width: wp("100%"),//318,
+    height: hp("60%"),//471,
+    // marginTop: 70,
+    marginTop: hp("5%"),
+    // marginLeft: 48,
+    alignItems:"center",
+    // alignSelf:"center"
   },
   group6: {
-    width: 318,
-    height: 383
+    // width: 318,
+    // height: 383
+    // width: wp("50%"),
+    // height: hp("50%"),
+    // alignItems:"center"
+    // alignContent:"center"
+    // alignSelf:"center"
+    // alignItems:"center"
   },
   firstName: {
     color: "rgba(161,197,89,1)",
@@ -125,13 +166,13 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     fontSize: 15,
     fontFamily: "roboto-regular",
-    marginTop: 15
+    marginTop: 10
   },
   lastName: {
     color: "rgba(161,197,89,1)",
     fontSize: 18,
     fontFamily: "roboto-300",
-    marginTop: 22,
+    marginTop: 10,
     marginLeft: 2
   },
   textInput2: {
@@ -142,13 +183,13 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     fontSize: 15,
     fontFamily: "roboto-regular",
-    marginTop: 15
+    marginTop: 10
   },
   phoneNumber: {
     color: "rgba(161,197,89,1)",
     fontSize: 18,
     fontFamily: "roboto-300",
-    marginTop: 22,
+    marginTop: 10,
     marginLeft: 2
   },
   textInput3: {
@@ -159,13 +200,13 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     fontSize: 15,
     fontFamily: "roboto-regular",
-    marginTop: 15
+    marginTop: 10
   },
   address: {
     color: "rgba(161,197,89,1)",
     fontSize: 18,
     fontFamily: "roboto-300",
-    marginTop: 27,
+    marginTop: 10,
     marginLeft: 2
   },
   textInput4: {
@@ -176,7 +217,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     fontSize: 15,
     fontFamily: "roboto-regular",
-    marginTop: 15
+    marginTop: 10
   },
   group2: {
     width: 238,
@@ -300,6 +341,8 @@ const styles = StyleSheet.create({
   cupertinoButtonPurple: {
     width: 100,
     height: 44,
+    width: wp("50%"),
+    height: hp("10%"),
     elevation: 45,
     shadowOffset: {
       width: 2,
@@ -308,8 +351,10 @@ const styles = StyleSheet.create({
     shadowColor: "rgba(0,0,0,1)",
     shadowOpacity: 0.27,
     shadowRadius: 15,
-    marginTop: 70,
-    marginLeft: 157
+    // marginTop: 70,
+    // marginLeft: 157
+    // marginTop:10,
+    alignSelf:"center"
   }
 });
 
