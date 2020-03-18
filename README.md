@@ -1,4 +1,4 @@
-# Nutrition-App!
+# Nutrition-App! (COMP4882 Capstone Team B)
 Nutrition-App is a mobile application developed in [React Native](https://github.com/facebook/react-native). The idea of this app is to help people to getting into the habit of eating health food. This is accomplished by providing people a platform to order meals that are both low-cost to order and time efficient to prepare.
 
 # Setup
