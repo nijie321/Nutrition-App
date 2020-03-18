@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useLayoutEffect} from 'react';
-import {Platform, InteractionManager} from 'react-native';
+import {Platform, InteractionManager,Text, View} from 'react-native';
 import { NavigationContainer, StackActions} from '@react-navigation/native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 
@@ -32,7 +32,6 @@ import * as Font from 'expo-font';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
-
 
 
 const _setTimeout = global.setTimeout;
@@ -85,7 +84,13 @@ const Stack = createStackNavigator();
 
 // Week
 function HomeTabNavigator({navigation,route}){
-  // const navigation = useNavigation();
+  
+  // shopping cart item badge number. use 0 as a placeholder for now.
+  const [items, setItems] = useState(1)
+  
+  // edit profile information. used for setting badge mark on profile icon.
+  const [profileCompleted, setProfileCompleted] = useState(false)
+
   var user = firebase.auth().currentUser;
 
   function getHeaderTitle(route) {
@@ -121,7 +126,7 @@ function HomeTabNavigator({navigation,route}){
             // </TouchableOpacity>
             <SimpleLineIcons.Button
               name="logout"
-              backgroundColor="#3b5998"
+              backgroundColor="#a1c559" //"#3b5998"
               onPress={() => {navigation.dispatch(StackActions.replace("Welcome"))}}
             >
               Log out
@@ -145,16 +150,25 @@ function HomeTabNavigator({navigation,route}){
         <Tab.Screen name="Main" component={MainScreen1} 
         options={{
           tabBarLabel: 'Home',
-          tabBarIcon: ({ color, size }) => (
-            <AntDesign name="home" color={color} size={20} />
+          tabBarIcon: ({ color }) => (
+            <AntDesign name="home" color={color} size={20}/>
           ),
         }}
         />
         <Tab.Screen name="Edit Profile" component={EditProfile}
         options={{
           tabBarLabel: 'Profile',
-          tabBarIcon: ({color,size}) => (  
-              <AntDesign name="profile" color={color} size={20} />
+          tabBarIcon: ({color}) => (
+              <View>
+                <AntDesign name="profile" color={color} size={20} />
+                {
+                  profileCompleted?
+                  null : 
+                  <View style={{ position: 'absolute', left: 12, bottom: 12, backgroundColor: 'red', borderRadius: 9, width: 15, height: 15, justifyContent: 'center', alignItems: 'center' }}>
+                    <Text style={{color:"white"}}>!</Text>
+                  </View>
+                }
+              </View>
           ),
           title:"Edit Profile"
         }}
@@ -164,15 +178,24 @@ function HomeTabNavigator({navigation,route}){
         <Tab.Screen name="Shopping Cart" component={MainScreen1}
         options={{
           tabBarLabel: 'Shopping Cart',
-          tabBarIcon: ({color,size}) => (
+          tabBarIcon: ({color}) => (
+            <View>
             <AntDesign name="shoppingcart" color={color} size={20} />
+              {
+                items === 0 ?
+                null : 
+                <View style={{ position: 'absolute', left: 12, bottom: 12, backgroundColor: 'red', borderRadius: 9, width: 15, height: 15, justifyContent: 'center', alignItems: 'center' }}>
+                  <Text style={{color: 'white'}}>{items}</Text>
+                </View>
+              }
+            </View>
           )  
         }} />
 
         <Tab.Screen name="History" component={MainScreen1}
         options={{
           tabBarLabel: 'History',
-          tabBarIcon: ({color,size}) => (
+          tabBarIcon: ({color}) => (
             <FontAwesome5 name="history" color={color} size={20} />
           )  
         }} />

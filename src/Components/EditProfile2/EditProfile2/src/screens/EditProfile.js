@@ -10,13 +10,13 @@ import {
 import IoniconsIcon from "react-native-vector-icons/Ionicons";
 import EntypoIcon from "react-native-vector-icons/Entypo";
 
-// import firebase from "../../../../../../FireBase";
-// const db = firebase.firestore();
+import firebase from "../../../../../../FireBase";
+const db = firebase.firestore();
 
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 function EditProfile() {
-  // var user = firebase.auth().currentUser;
+  var user = firebase.auth().currentUser;
   
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -24,9 +24,14 @@ function EditProfile() {
   const [address, setAddress] = useState("");
   
 
-  // function onUpdate(){
-  //   db.collection("users").doc()
-  // }
+  function onUpdate(){
+    db.collection("users").doc(user.uid).update({
+      firstName,
+      lastName,
+      phoneNumber,
+      address
+    })
+  }
 
 
   return (
@@ -114,6 +119,7 @@ function EditProfile() {
         paddingRight: 16,
         paddingLeft: 16,
         borderRadius: 5, marginTop:30, width:wp("20%"), height:hp("5%")}]}
+        onPress={onUpdate}
       >
         <Text style={{color: "rgba(118,118,118,1)",
     fontSize: 17,

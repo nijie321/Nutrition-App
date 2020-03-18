@@ -18,6 +18,8 @@ import {useRoute, useNavigation} from "@react-navigation/native";
 import firebase from '../../../../../../FireBase';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Feather from 'react-native-vector-icons/Feather';
+
 
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 const db = firebase.firestore();
@@ -184,8 +186,9 @@ function DetailMeal(props) {
             {/* Hummus and Pearl{"\n"}Barley Bowls */}
             {mealInfo.name}
           </Text>
-          <Icon name="like" style={styles.icon}></Icon>
-          
+          {/* <Icon name="like" style={styles.icon}></Icon> */}
+          <Feather.Button name="thumbs-up" size={3} borderRadius={3} />
+          <Feather.Button name="thumbs-down" />
         </View>
 
         <View style={{flexDirection:"column"}}>
