@@ -18,6 +18,7 @@ import {ForgotPassword} from './src/Components/ForgotPassword/index';
 import MainScreen1 from './src/Screens/MainScreen';
 import {DetailMeal} from './src/Components/DetailedMeal/DetailedMeal/index';
 import {EditProfile} from './src/Components/EditProfile2/EditProfile2/index';
+import Favorite from './src/Screens/Favorite';
 
 import firebase from './FireBase';
 
@@ -32,6 +33,7 @@ import * as Font from 'expo-font';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 
 const _setTimeout = global.setTimeout;
@@ -113,6 +115,8 @@ function HomeTabNavigator({navigation,route}){
         return 'Shopping Cart';
       case 'History':
         return 'History';
+      case 'Favorite':
+          return 'Favorite';
     }
   }
   
@@ -197,6 +201,14 @@ function HomeTabNavigator({navigation,route}){
           tabBarLabel: 'History',
           tabBarIcon: ({color}) => (
             <FontAwesome5 name="history" color={color} size={20} />
+          )  
+        }} />
+
+      <Tab.Screen name="Favorite" component={Favorite}
+        options={{
+          tabBarLabel: 'Favorite',
+          tabBarIcon: ({color}) => (
+            <MaterialIcons name="favorite" color={color} size={20} />
           )  
         }} />
         
