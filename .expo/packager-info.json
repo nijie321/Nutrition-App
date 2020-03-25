@@ -3,8 +3,8 @@
   "expoServerPort": null,
   "packagerPort": null,
   "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
+  "expoServerNgrokUrl": "https://32-3ci.anonymous.nutrition-app.exp.direct",
+  "packagerNgrokUrl": "https://packager.32-3ci.anonymous.nutrition-app.exp.direct",
+  "ngrokPid": 2752,
   "webpackServerPort": null
 }
