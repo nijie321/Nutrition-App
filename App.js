@@ -253,6 +253,7 @@ export default function App() {
         <Stack.Screen
           name="Create Profile"
           component={CreateProfile}
+          options={{title: 'Create an Account'}}
         />
 
         <Stack.Screen
