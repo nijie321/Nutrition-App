@@ -49,6 +49,7 @@
     "react-native-safe-area-context": "0.6.0",
     "react-native-screens": "2.0.0-alpha.12",
     "react-native-svg": "9.13.3",
+    "react-native-swipeout": "^2.3.6",
     "react-native-tab-view": "^2.13.0",
     "react-native-tcp": "^3.3.2",
     "react-native-udp": "^2.7.0",

@@ -5,15 +5,18 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 export default function Favorite() {
 
-    const [meals, seMeals] = useState([
-        { name: 'Hummus and Pearl Barley Bowls', price: '2.86', id: '1' },
-        { name: 'Chickpea Salad', price: '1.85', id: '2' },
-        { name: 'Vegan Couscous Salad', price: '2.73', id: '4' },
-        { name: 'Creamy Coconut Lentil Curry', price: '1.23', id: '5' },
-        { name: 'One Pot Tandoori Quinoa', price: '2.94', id: '6' }
+    const [meals, setMeals] = useState([
+        { image: require("../../assets/meals/meal1.jpg"), name: 'Hummus and Pearl Barley Bowls', price: '2.86', id: '1' },
+        { image: require("../../assets/meals/meal2.jpg"), name: 'Chickpea Salad', price: '1.85', id: '2' },
+        { image: require("../../assets/meals/meal3.jpg"), name: 'Vegan Couscous Salad', price: '2.73', id: '4' },
+        { image: require("../../assets/meals/meal4.jpg"), name: 'Creamy Coconut Lentil Curry', price: '1.23', id: '5' },
+        { image: require("../../assets/meals/meal5.jpg"), name: 'One Pot Tandoori Quinoa', price: '2.94', id: '6' }
 
     ])
 
+
+    
+    
     return (
         <View style={styles.container}>
 
@@ -27,11 +30,31 @@ export default function Favorite() {
                     //     <Text style={styles.price}>Price: $5</Text>
                     //     <Image style={styles.image} source={require("../../assets/meals/meal1.jpg")} />
                     // </View>
+
+                    // render() {
+                    //     return (
+                    //         <View style={addItemStyles.wrapper}>
+                    //             <View>
+                    //                 <Text>Item to give cash credit for:</Text>
+                    //                 <View style={{flexDirection:"row"}}>
+                    //                     <View style={{flex:1}}>
+                    //                         <TextInput placeholder="Test" style={{justifyContent: 'flex-start',}} />
+                    //                     </View>
+                    //                     <View style={{flex:1}}>
+                    //                         <TextInput placeholder="Test" style={{justifyContent: 'flex-end',}} />
+                    //                     </View>
+                    //                 </View>
+                    //             </View>
+                    
+                    //         </View>
+                    //     );
+                    // }
+
                     <View style={styles.item} >
 
                         <View style={{ flexDirection: "column" }}>
 
-                            <TouchableOpacity>
+                            <TouchableOpacity >
                                 <Text style={{ flexWrap: 'wrap', fontSize: 23, fontFamily: "roboto-regular", flex: 6 }} >{item.name}</Text>
                             </TouchableOpacity>
 
@@ -39,16 +62,16 @@ export default function Favorite() {
 
                             {/* <TouchableOpacity style={styles.button12}>
                             <Text style={styles.text}>DELETE</Text>
-                    </TouchableOpacity> */}
+                            </TouchableOpacity> */}
 
                             <TouchableOpacity style={{ height: 117, width: 130 }}>
                                 {/* <Image style={{ flexDirection: "column", width: 129, height: 112}} source={require("../../assets/meals/meal2.jpg")} /> */}
-                                <Image style={styles.image} source={require("../../assets/meals/meal2.jpg")} />
+                                <Image style={styles.image}  source={item.image} />
                             </TouchableOpacity>
 
                             <TouchableOpacity >
                                 <View style={{ flexDirection: "row" }}>
-                                    <MaterialIcons name='delete' size={18} color='#333' />
+                                    <MaterialIcons name='delete' size={22} color='#333' />
                                 </View>
                             </TouchableOpacity>
 
@@ -66,30 +89,32 @@ export default function Favorite() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop: 40,
-        paddingHorizontal: 20,
+        paddingTop: 10,
+        paddingHorizontal: 50,
         backgroundColor: '#fff',
     },
     item: {
         flex: 1,
-        marginHorizontal: 10,
+        //marginHorizontal: 10,
         marginTop: 24,
-        padding: 10,
+        padding: 20,
         //backgroundColor: '#a3de83',
         backgroundColor: '#defbc2',
         fontSize: 24,
         //borderWidth: 1,
         //borderStyle: 'dashed',
-        borderRadius: 10,
+        borderRadius: 20,
 
     },
 
     name: {
+        //flex: 1,
         width: 210,
         height: 54,
         color: "rgba(0,0,0,1)",
         fontSize: 23,
-        fontFamily: "roboto-regular"
+        fontFamily: "roboto-regular",
+        //justifyContent: 'flex-start'
 
 
     },
@@ -100,10 +125,12 @@ const styles = StyleSheet.create({
         //marginLeft: 1
     },
     image: {
-
+        //flex: 1,
         flexDirection: "row",
-        width: 129,
-        height: 112
+        width: 160,
+        height: 112,
+        borderRadius: 10,
+        //justifyContent: 'flex-end',
 
     },
     // text: {
