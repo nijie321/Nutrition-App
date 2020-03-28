@@ -246,7 +246,7 @@ function M({navigation, route}){
     }else{
         return(null)
     }
-}
+} //end function M
 
 const Tab = createMaterialTopTabNavigator();
 

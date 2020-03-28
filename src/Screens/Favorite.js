@@ -1,9 +1,18 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, TouchableOpacity, Text, Image, FlatList } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Text, Image, FlatList, Button } from 'react-native';
 //import Icon from "react-native-vector-icons/Entypo";
 import { MaterialIcons } from '@expo/vector-icons';
+import {useNavigation, StackActions} from '@react-navigation/native';
+
+
+
+
 
 export default function Favorite() {
+
+    const navigation = useNavigation();
+
+
 
     const [meals, setMeals] = useState([
         { image: require("../../assets/meals/meal1.jpg"), name: 'Hummus and Pearl Barley Bowls', price: '2.86', id: '1' },
@@ -13,50 +22,27 @@ export default function Favorite() {
         { image: require("../../assets/meals/meal5.jpg"), name: 'One Pot Tandoori Quinoa', price: '2.94', id: '6' }
 
     ])
-
-
+      
     
-    
+
     return (
         <View style={styles.container}>
+            
 
             <FlatList
                 numColumns={1}
                 keyExtractor={(item) => item.id}
                 data={meals}
-                renderItem={({ item }) => (
-                    // <View style={styles.item} >
-                    //     <Text style={styles.item}>{item.title}</Text>
-                    //     <Text style={styles.price}>Price: $5</Text>
-                    //     <Image style={styles.image} source={require("../../assets/meals/meal1.jpg")} />
-                    // </View>
-
-                    // render() {
-                    //     return (
-                    //         <View style={addItemStyles.wrapper}>
-                    //             <View>
-                    //                 <Text>Item to give cash credit for:</Text>
-                    //                 <View style={{flexDirection:"row"}}>
-                    //                     <View style={{flex:1}}>
-                    //                         <TextInput placeholder="Test" style={{justifyContent: 'flex-start',}} />
-                    //                     </View>
-                    //                     <View style={{flex:1}}>
-                    //                         <TextInput placeholder="Test" style={{justifyContent: 'flex-end',}} />
-                    //                     </View>
-                    //                 </View>
-                    //             </View>
+                renderItem={({ item, index}) => (
                     
-                    //         </View>
-                    //     );
-                    // }
-
-                    <View style={styles.item} >
+                    <TouchableOpacity onPress={() => {navigation.navigate("Detail Meal", {meal_info:"Meal 2"})}}>
+                    <View style={styles.item}>
 
                         <View style={{ flexDirection: "column" }}>
 
-                            <TouchableOpacity >
+                           
                                 <Text style={{ flexWrap: 'wrap', fontSize: 23, fontFamily: "roboto-regular", flex: 6 }} >{item.name}</Text>
-                            </TouchableOpacity>
+                                <Text>{index}</Text>
 
                             <Text style={{ fontFamily: "impact-regular", margin: 5, fontSize: 15, fontWeight: "bold", color: "#fda856" }}>Price: ${item.price}</Text>
 
@@ -66,8 +52,9 @@ export default function Favorite() {
 
                             <TouchableOpacity style={{ height: 117, width: 130 }}>
                                 {/* <Image style={{ flexDirection: "column", width: 129, height: 112}} source={require("../../assets/meals/meal2.jpg")} /> */}
-                                <Image style={styles.image}  source={item.image} />
+                                <Image style={styles.image} source={item.image} />
                             </TouchableOpacity>
+
 
                             <TouchableOpacity >
                                 <View style={{ flexDirection: "row" }}>
@@ -78,13 +65,14 @@ export default function Favorite() {
                         </View>
 
                     </View>
-
+                    </TouchableOpacity>
                 )}
             />
 
         </View>
     );
 }
+
 
 const styles = StyleSheet.create({
     container: {

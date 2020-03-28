@@ -37,7 +37,7 @@ var flatListData = [
     },
     {
         "key": "598a67c478fee204ee51cd2d",
-        "name": "Spicy ground turkey and green bean stir fry",  
+        "name": "Spicy Ground Turkey and Green Bean Stir Fry",  
         "imageUrl": "https://imgur.com/2TLqefl.jpg",      
         "price": "2.18"
     },

@@ -18,10 +18,10 @@ import {ForgotPassword} from './src/Components/ForgotPassword/index';
 import MainScreen1 from './src/Screens/MainScreen';
 import {DetailMeal} from './src/Components/DetailedMeal/DetailedMeal/index';
 import {EditProfile} from './src/Components/EditProfile2/EditProfile2/index';
+
 import FavList from './src/Screens/FavList';
-//import FavoriteList from './src/Screens/FavoriteList';
-//import Favorite2 from './src/Screens/Favorite2';
-//import Favorite from './src/Screens/Favorite';
+// import Favorite2 from './src/Screens/Favorite2';
+// import Favorite from './src/Screens/Favorite';
 import firebase from './FireBase';
 
 
@@ -36,7 +36,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import BasicFlatList from './src/Screens/FavList';
+
 
 
 const _setTimeout = global.setTimeout;
@@ -207,7 +207,10 @@ function HomeTabNavigator({navigation,route}){
           )  
         }} />
 
-      <Tab.Screen name="Favorite" component={BasicFlatList}
+     
+      <Tab.Screen name="Favorite" component={FavList}
+        // <Tab.Screen name="Favorite" component={Favorite2}
+        //  {/* <Tab.Screen name="Favorite" component={Favorite} */}
         options={{
           tabBarLabel: 'Favorite',
           tabBarIcon: ({color}) => (
