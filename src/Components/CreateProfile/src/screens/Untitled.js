@@ -73,87 +73,87 @@ function CreateProfile(props) {
 }
 
   return (
-    // <KeyboardAvoidingView style={styles.container} behavior="padding">
-    //   <ScrollView  showsVerticalScrollIndicator={false}>
-    //   {/* <Text style={styles.personalInfo}>Personal info</Text>
-    //   <View style={styles.firstNameStack}>
-    //     <Text style={styles.firstName}>First name</Text>
-    //     <MaterialDisabledTextbox
-    //       style={styles.materialDisabledTextbox}
-    //       firstName={firstName}
-    //       placeholder="Enter Your First Name"
-    //       onFristNameChange={setFirstName}
-    //     ></MaterialDisabledTextbox>
-    //   </View>
-    //   <Text style={styles.lastName}>Last name</Text>
-    //   <MaterialDisabledTextbox
-    //     style={styles.materialDisabledTextbox2}
-    //     lastName={lastName}
-    //     placeholder="Enter Your Last Name"
-    //     onLastNameChange={setLastName}
-    //   ></MaterialDisabledTextbox>
-    //   <Text style={styles.phoneNumber}>Phone number</Text>
-    //   <MaterialDisabledTextbox
-    //     style={[styles.materialDisabledTextbox3]}
-    //     phoneNumber={phoneNumber}
-    //     placeholder="Enter Your Phone Number"
-    //     onPhoneNumberChange={setPhoneNumber}
-    //   ></MaterialDisabledTextbox> */}
-    // {/* ignore the address field*/}
-    //   {/* <Text style={styles.phoneNumber}>Address</Text>
-    //   <MaterialDisabledTextbox
-    //     style={[styles.materialDisabledTextbox3]}
-    //     address={address}
-    //     placeholder="Enter Your Address"
-    //     onAddressChange={setAddress}
-    //   ></MaterialDisabledTextbox> */}
-    //   {/* <Text style={styles.security}>Security</Text> */}
-    //   <MaterialDisabledTextbox
-    //     style={styles.materialDisabledTextbox4}
-    //     email={email}
-    //     onEmailChange={setEmail}
-    //   ></MaterialDisabledTextbox>
-    //   <Text style={styles.email}>Email</Text>
-    //   <View style={styles.materialDisabledTextbox5Stack}>
-    //     <MaterialDisabledTextbox
-    //       style={styles.materialDisabledTextbox5}
-    //       password={password}
-    //       onPasswordChange={setPassword}
-    //     ></MaterialDisabledTextbox>
-    //     <Text style={styles.password}>Password</Text>
-    //   </View>
-    //   <View style={styles.materialDisabledTextbox5Stack}>
-    //     <MaterialDisabledTextbox
-    //       style={styles.materialDisabledTextbox5}
-    //       passwordConfirm={passwordConfirm}
-    //       onPasswordConfirmChange={setPasswordConfirm}
-    //     ></MaterialDisabledTextbox>
-    //     <Text style={styles.password}>Confirm Password</Text>
-    //   </View>
-    //   {/* <Text style={styles.loremIpsum}>Allergies and Restrictions</Text>
-    //   <View style={styles.rect2}></View>
-    //   <Text style={styles.preferencesTerms}>Preferences &amp; Terms</Text>
-    //   <View style={styles.materialCheckbox1Row}>
-    //     <MaterialCheckbox1 style={styles.materialCheckbox1}></MaterialCheckbox1>
-    //     <Text style={styles.loremIpsum2}>
-    //       I would like to receive email and text notifications
-    //     </Text>
-    //   </View>
-    //   <View style={styles.materialCheckbox12Stack}>
-    //     <MaterialCheckbox1
-    //       style={styles.materialCheckbox12}
-    //     ></MaterialCheckbox1>
-    //     <Text style={styles.loremIpsum3}>I accept the terms of agreement</Text>
-    //   </View> */}
-    //   <MaterialButtonViolet
-    //     style={styles.materialButtonViolet}
-    //     onButtonPress={onSignupPress}
-    //   ></MaterialButtonViolet>
-    //   <View>
-    //   <Text>{firstName}</Text>
-    //   </View>
-    //   </ScrollView> 
-    // </KeyboardAvoidingView>
+    <KeyboardAvoidingView style={styles.container} behavior="padding">
+      <ScrollView  showsVerticalScrollIndicator={false}>
+      {/* <Text style={styles.personalInfo}>Personal info</Text>
+      <View style={styles.firstNameStack}>
+        <Text style={styles.firstName}>First name</Text>
+        <MaterialDisabledTextbox
+          style={styles.materialDisabledTextbox}
+          firstName={firstName}
+          placeholder="Enter Your First Name"
+          onFristNameChange={setFirstName}
+        ></MaterialDisabledTextbox>
+      </View>
+      <Text style={styles.lastName}>Last name</Text>
+      <MaterialDisabledTextbox
+        style={styles.materialDisabledTextbox2}
+        lastName={lastName}
+        placeholder="Enter Your Last Name"
+        onLastNameChange={setLastName}
+      ></MaterialDisabledTextbox>
+      <Text style={styles.phoneNumber}>Phone number</Text>
+      <MaterialDisabledTextbox
+        style={[styles.materialDisabledTextbox3]}
+        phoneNumber={phoneNumber}
+        placeholder="Enter Your Phone Number"
+        onPhoneNumberChange={setPhoneNumber}
+      ></MaterialDisabledTextbox> */}
+    {/* ignore the address field*/}
+      {/* <Text style={styles.phoneNumber}>Address</Text>
+      <MaterialDisabledTextbox
+        style={[styles.materialDisabledTextbox3]}
+        address={address}
+        placeholder="Enter Your Address"
+        onAddressChange={setAddress}
+      ></MaterialDisabledTextbox> */}
+      {/* <Text style={styles.security}>Security</Text> */}
+      <MaterialDisabledTextbox
+        style={styles.materialDisabledTextbox4}
+        email={email}
+        onEmailChange={setEmail}
+      ></MaterialDisabledTextbox>
+      <Text style={styles.email}>Email</Text>
+      <View style={styles.materialDisabledTextbox5Stack}>
+        <MaterialDisabledTextbox
+          style={styles.materialDisabledTextbox5}
+          password={password}
+          onPasswordChange={setPassword}
+        ></MaterialDisabledTextbox>
+        <Text style={styles.password}>Password</Text>
+      </View>
+      <View style={styles.materialDisabledTextbox5Stack}>
+        <MaterialDisabledTextbox
+          style={styles.materialDisabledTextbox5}
+          passwordConfirm={passwordConfirm}
+          onPasswordConfirmChange={setPasswordConfirm}
+        ></MaterialDisabledTextbox>
+        <Text style={styles.password}>Confirm Password</Text>
+      </View>
+      {/* <Text style={styles.loremIpsum}>Allergies and Restrictions</Text>
+      <View style={styles.rect2}></View>
+      <Text style={styles.preferencesTerms}>Preferences &amp; Terms</Text>
+      <View style={styles.materialCheckbox1Row}>
+        <MaterialCheckbox1 style={styles.materialCheckbox1}></MaterialCheckbox1>
+        <Text style={styles.loremIpsum2}>
+          I would like to receive email and text notifications
+        </Text>
+      </View>
+      <View style={styles.materialCheckbox12Stack}>
+        <MaterialCheckbox1
+          style={styles.materialCheckbox12}
+        ></MaterialCheckbox1>
+        <Text style={styles.loremIpsum3}>I accept the terms of agreement</Text>
+      </View> */}
+      <MaterialButtonViolet
+        style={styles.materialButtonViolet}
+        onButtonPress={onSignupPress}
+      ></MaterialButtonViolet>
+      <View>
+      <Text>{firstName}</Text>
+      </View>
+      </ScrollView> 
+    </KeyboardAvoidingView>
 
     // <View>
     //   <View style={{paddingLeft:wp("7%")}}>
@@ -174,12 +174,12 @@ function CreateProfile(props) {
 
     // </View>
 
-    <Container>
-      <Header />
-      <Content>
-        <Button light><Text> Light </Text></Button>
-      </Content>
-    </Container>
+    // <Container>
+    //   <Header />
+    //   <Content>
+    //     <Button light><Text> Light </Text></Button>
+    //   </Content>
+    // </Container>
     
   );
 
