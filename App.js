@@ -191,7 +191,7 @@ function HomeTabNavigator({navigation,route}){
               }
             </View>
           )  
-        }} initialParams={{id:1}}/>
+        }} initialParams={{id:["Meal 1","Meal 2","Meal 3"]}}/>
 
         <Tab.Screen name="History" component={MainScreen1}
         options={{

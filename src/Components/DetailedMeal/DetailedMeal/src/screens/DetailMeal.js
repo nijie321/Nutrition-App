@@ -237,7 +237,6 @@ function DetailMeal(props) {
               <Text style={{color:"white"}}>
                 Go to Shopping Cart <Feather name="shopping-cart" color="white" />
               </Text>
-              {/* <Feather name="shopping-cart" color="white" /> */}
           </TouchableOpacity>
         </View>
         
