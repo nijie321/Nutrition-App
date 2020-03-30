@@ -1,15 +1,15 @@
 
 import React, { Component } from 'react';
-import { FlatList, StyleSheet, Text, View, Image, Alert, TouchableOpacity } from 'react-native';
+import { FlatList, StyleSheet, Text, View, Image, Alert, TouchableOpacity , Button} from 'react-native';
 import flatListData from '../data/flatListData';
 import Swipeout from 'react-native-swipeout';
-import {useNavigation, StackActions} from '@react-navigation/native';
+//import { createStackNavigator, createAppContainer } from 'react-navigation';
 
-// import { NavigationContainer } from '@react-navigation/native';
-// import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-// import { createStackNavigator } from '@react-navigation/stack';
-// import {useRoute, useNavigation} from "@react-navigation/native";
-// import {useNavigation, StackActions} from '@react-navigation/native';
+//import { NavigationContainer } from '@react-navigation/native';
+//import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
+import {useRoute, useNavigation} from "@react-navigation/native";
+import {useNavigation, StackActions} from '@react-navigation/native';
 
 //import {DetailMeal} from './src/Components/DetailedMeal/src/component/DetailedMeal';
 //const navigation = useNavigation();
@@ -17,10 +17,10 @@ class FlatListItem extends Component {
     
     constructor(props) {
         super(props);
-        // const navigation = useNavigation();
+
+        //const {navigate} = this.props.navigation;
         
-        // // need to bind `this` to access props in handler
-        // this.onPressButton = this.onPressButton.bind(this);
+
 
         this.state = {
             activeRowKey: null
@@ -28,7 +28,9 @@ class FlatListItem extends Component {
     }
     render() {
 
-        //const { navigate } = this.props.navigation;
+       
+
+       
         const swipeSettings = {
             autoClose: true,
             onClose: (secId, rowId, direction) => {
@@ -93,8 +95,23 @@ class FlatListItem extends Component {
                                 <Text style={styles.flatListItem}>{this.props.item.price}</Text> */}
                                 <Text style={{ flexWrap: 'wrap', fontSize: 18, fontFamily: "roboto-regular", marginTop: 8 }} >{this.props.item.name}</Text>
                                 <Text style={{ fontFamily: "impact-regular", margin: 5, fontSize: 15, fontWeight: "bold", color: "#fda856" }}>Price: ${this.props.item.price}</Text>
+                                <Button
+                                    title="View me!"
+                                    // onPress={() => navigation.navigate('Detail Meal', { id: item.name })}
+                                    onPress={() => navigation.navigate('Detail Meal', { id: this.props.index })}
+                                    />
+
 
                             </View>
+
+                            {/* <Button
+                                    title="View me!"
+                                    onPress={() => navigation.navigate('Detail Meal', { id: item.name })}
+                                    //need to bind `this` to access props in handler
+  
+                                onPress={() => navigation.navigate('Detail Meal', { name: 'Hummus and Pearl Barley Bowls' })}
+                                /> */}
+
                         </View>
                         <View style={{
                             height: 1,
@@ -103,10 +120,10 @@ class FlatListItem extends Component {
 
                         </View>
                     </View>
-                    
+
                 </TouchableOpacity>
             </Swipeout>
-           
+
 
         ); //end return
 
@@ -137,12 +154,6 @@ const styles = StyleSheet.create({
 
 
     },
-    // price: {
-    //     color: "#fda856",
-    //     fontSize: 18,
-    //     fontFamily: "impact-regular",
-    //     //marginLeft: 1
-    // },
 
     // imageUrl: {
     //     //flex: 1,
@@ -153,15 +164,28 @@ const styles = StyleSheet.create({
     //     //justifyContent: 'flex-end',
     // }
 
+    title: {
+
+        flex: 1,
+        flexDirection: "column",
+        fontSize: 13,
+        fontFamily: "roboto-regular",
+        color: "black"
+
+    },
+
+    Button: {
+        color: "black"
+    }
+
 });
 
-// export default class BasicFlatList extends Component {
-    export default class FavList extends Component {
-        
+
+export default class FavList extends Component {
+
     constructor(props) {
         super(props);
-        //const navigation = useNavigation();
-        //navigation = useNavigation();
+
         this.state = ({
             deletedRowKey: null,
         });
@@ -175,20 +199,7 @@ const styles = StyleSheet.create({
     }
     render() {
         const { navigate } = this.props.navigation;
-        // onPressButton() {
-        //     const { navigate } = this.props.navigation;
-        
-        //     var options = {
-        //       title: strings.app_name,
-        //       content: strings.create_message,
-        //       positiveText: strings.OK,
-        //       onPositive: () => navigate("DashboardScreen")
-        //     };
-        //     var dialog = new DialogAndroid();
-        //     dialog.set(options);
-        //     dialog.show();
-        //   }
-          
+
         return (
             <View style={{ flex: 1, marginTop: 2, padding: 20, }}>
                 <Text>{navigate}</Text>
@@ -199,20 +210,22 @@ const styles = StyleSheet.create({
                         //console.log(`Item = ${JSON.stringify(item)}, index = ${index}`);
                         return (
                             <FlatListItem item={item} index={index} parentFlatList={this}>
-                                 <TouchableOpacity onPress= {() => this.props.navigate ('Detail Meal', {meal_info:"Meal 3"})}>
+                                {/* <TouchableOpacity onPress={() => this.props.navigate('Detail Meal', { meal_info: "Meal 3" })}>
 
-                                </TouchableOpacity>
+                                    </TouchableOpacity> */}
                                 
-                            </FlatListItem> 
-                            
+                            </FlatListItem>
+
                         );
 
 
-                    }} 
-                /> 
+                    }}
+                />
 
-                
+
             </View>
         );
     }
+
+
 }

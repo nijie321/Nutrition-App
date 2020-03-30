@@ -19,8 +19,8 @@ import MainScreen1 from './src/Screens/MainScreen';
 import {DetailMeal} from './src/Components/DetailedMeal/DetailedMeal/index';
 import {EditProfile} from './src/Components/EditProfile2/EditProfile2/index';
 
-import FavList from './src/Screens/FavList';
-// import Favorite2 from './src/Screens/Favorite2';
+//import FavList from './src/Screens/FavList';
+import Favorite2 from './src/Screens/Favorite2';
 // import Favorite from './src/Screens/Favorite';
 import firebase from './FireBase';
 
@@ -208,8 +208,8 @@ function HomeTabNavigator({navigation,route}){
         }} />
 
      
-      <Tab.Screen name="Favorite" component={FavList}
-        // <Tab.Screen name="Favorite" component={Favorite2}
+      {/* <Tab.Screen name="Favorite" component={FavList} */}
+         <Tab.Screen name="Favorite" component={Favorite2}
         //  {/* <Tab.Screen name="Favorite" component={Favorite} */}
         options={{
           tabBarLabel: 'Favorite',

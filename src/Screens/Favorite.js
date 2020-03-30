@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, TouchableOpacity, Text, Image, FlatList, Button } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Text, Image, FlatList, Button, TouchableHighlight } from 'react-native';
 //import Icon from "react-native-vector-icons/Entypo";
 import { MaterialIcons } from '@expo/vector-icons';
 import {useNavigation, StackActions} from '@react-navigation/native';
-
+import Swipeable from 'react-native-swipeable-row';
 
 
 
@@ -12,6 +12,19 @@ export default function Favorite() {
 
     const navigation = useNavigation();
 
+    const leftContent = <Text>Pull to activate</Text>;
+    const rightButtons = [
+        <TouchableHighlight><Text>DELETE</Text></TouchableHighlight>,
+        // <TouchableHighlight><Text>Button 2</Text></TouchableHighlight>
+      ];
+
+
+    //   function MyListItem() {
+    //     return (
+    //       <Swipeable leftContent={leftContent} rightButtons={rightButtons}>
+    //         <Text>My swipeable content</Text>
+    //       </Swipeable>
+    //     );
 
 
     const [meals, setMeals] = useState([
@@ -28,46 +41,48 @@ export default function Favorite() {
     return (
         <View style={styles.container}>
             
-
+            {/* <Swipeable leftContent={leftContent} rightButtons={rightButtons}> */}
+                
             <FlatList
                 numColumns={1}
                 keyExtractor={(item) => item.id}
                 data={meals}
-                renderItem={({ item, index}) => (
-                    
-                    <TouchableOpacity onPress={() => {navigation.navigate("Detail Meal", {meal_info:"Meal 2"})}}>
-                    <View style={styles.item}>
+                renderItem={({ item, index }) => (
 
-                        <View style={{ flexDirection: "column" }}>
+                    <TouchableOpacity >
+                        <View style={styles.item}>
 
-                           
+                            <View style={{ flexDirection: "column" }}>
+
+                                
                                 <Text style={{ flexWrap: 'wrap', fontSize: 23, fontFamily: "roboto-regular", flex: 6 }} >{item.name}</Text>
-                                <Text>{index}</Text>
 
-                            <Text style={{ fontFamily: "impact-regular", margin: 5, fontSize: 15, fontWeight: "bold", color: "#fda856" }}>Price: ${item.price}</Text>
+                                <Text style={{ fontFamily: "impact-regular", margin: 5, fontSize: 15, fontWeight: "bold", color: "#fda856" }}>Price: ${item.price}</Text>
 
-                            {/* <TouchableOpacity style={styles.button12}>
+                                {/* <TouchableOpacity style={styles.button12}>
                             <Text style={styles.text}>DELETE</Text>
                             </TouchableOpacity> */}
 
-                            <TouchableOpacity style={{ height: 117, width: 130 }}>
-                                {/* <Image style={{ flexDirection: "column", width: 129, height: 112}} source={require("../../assets/meals/meal2.jpg")} /> */}
-                                <Image style={styles.image} source={item.image} />
-                            </TouchableOpacity>
+                                <TouchableOpacity onPress={() => { navigation.navigate("Detail Meal", { meal_info: "Meal 2" }) }}>
+                                <View style={{ height: 117, width: 130 }}>
+                                    {/* <Image style={{ flexDirection: "column", width: 129, height: 112}} source={require("../../assets/meals/meal2.jpg")} /> */}
+                                    <Image style={styles.image} source={item.image} />
+                                </View>
+                                </TouchableOpacity>
 
-
-                            <TouchableOpacity >
+                                {/* <TouchableOpacity >
                                 <View style={{ flexDirection: "row" }}>
                                     <MaterialIcons name='delete' size={22} color='#333' />
                                 </View>
-                            </TouchableOpacity>
+                            </TouchableOpacity> */}
+
+                            </View>
 
                         </View>
-
-                    </View>
                     </TouchableOpacity>
                 )}
             />
+            {/* </Swipeable> */}
 
         </View>
     );
@@ -91,7 +106,7 @@ const styles = StyleSheet.create({
         fontSize: 24,
         //borderWidth: 1,
         //borderStyle: 'dashed',
-        borderRadius: 20,
+        //borderRadius: 20,
 
     },
 
@@ -117,7 +132,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         width: 160,
         height: 112,
-        borderRadius: 10,
+        borderRadius: 5,
         //justifyContent: 'flex-end',
 
     },
@@ -130,3 +145,4 @@ const styles = StyleSheet.create({
 
     // }
 });
+
