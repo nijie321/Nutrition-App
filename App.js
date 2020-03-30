@@ -17,11 +17,13 @@ import {CreateProfile} from './src/Components/CreateProfile/index';
 import {ForgotPassword} from './src/Components/ForgotPassword/index';
 import MainScreen1 from './src/Screens/MainScreen';
 import {DetailMeal} from './src/Components/DetailedMeal/DetailedMeal/index';
+
+//import DetailMeal from './src/Screens/DetailMeal';
 import {EditProfile} from './src/Components/EditProfile2/EditProfile2/index';
 
 //import FavList from './src/Screens/FavList';
 import Favorite2 from './src/Screens/Favorite2';
-// import Favorite from './src/Screens/Favorite';
+//import Favorite from './src/Screens/Favorite';
 import firebase from './FireBase';
 
 

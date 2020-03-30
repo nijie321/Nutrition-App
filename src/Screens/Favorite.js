@@ -1,148 +1,206 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, TouchableOpacity, Text, Image, FlatList, Button, TouchableHighlight } from 'react-native';
-//import Icon from "react-native-vector-icons/Entypo";
-import { MaterialIcons } from '@expo/vector-icons';
-import {useNavigation, StackActions} from '@react-navigation/native';
-import Swipeable from 'react-native-swipeable-row';
+import React, { useState, useEffect, useRef} from 'react';
+import { Container, Content ,Text, Button, Icon } from 'native-base';
+import {StyleSheet, View, Image, TextInput} from 'react-native';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
+import firebase from '../../FireBase';
+const db = firebase.firestore();
+import { parse } from 'url';
+// import { useNavigation, useFocusEffect } from '@react-navigation/native';
+// import { preventAutoHide } from 'expo/build/launch/SplashScreen';
+//const db = firebase.firestore();
 
+function Favorite({route}){
+    //const[qty, setQty] = useState({});
+    const[meal, setMeal] = useState([]);
+    const [hasData, setHasData] = useState(false);
+    // const[subtotal, setSubtotal] = useState(0.0);
+    //const subtotal = useRef(0.0);
+    const user = firebase.auth().currentUser;
+    
+    function usePrevious(value) {
+        const ref = useRef();
+        useEffect(() => {
+          ref.current = value;
+        });
+        return ref.current;
+    }
+    // useEffect(() => {
+    //     subtotal.current = 0;
+    //     const getData = async ()=> {
+            
+    //         await db.collection('shopping_cart').doc(user.uid).get()
+    //         .then(function(doc){
+    //             return doc.data();
+    //             // setMetaData(doc.data());
+    //         })
+    //         .then(async function(data){
+    //             for(const d in data){
+    //                 // setQty(parseInt(data[d]));
+    //                 await db.collection('meals').doc(d).get()
+    //                 .then(function(doc){
+    //                     const temp = doc.data();
+    //                     const name = temp.name;
+    //                     const price = temp.price;
+    //                     const quantity = parseInt(data[d]);
+    //                     const meal_id = d;
+    //                     setMeal(prevState => {
+    //                         console.log(prevState);
+    //                         return {...prevState, ...{[d]:{meal_id,name,price}} } })
+    //                     setQty(prevState => {
+    //                         return {...prevState, ...{[d]:{quantity}}}
+    //                     })
+    //                     // calculate initial subtotal
+    //                     subtotal.current += (parseFloat(price.substr(1)) * quantity);
+    //                     // subtotal.current.toFixed(2);
+    //                 })
+    //             }
+    //         })
+    //     }
 
-export default function Favorite() {
-
-    const navigation = useNavigation();
-
-    const leftContent = <Text>Pull to activate</Text>;
-    const rightButtons = [
-        <TouchableHighlight><Text>DELETE</Text></TouchableHighlight>,
-        // <TouchableHighlight><Text>Button 2</Text></TouchableHighlight>
-      ];
-
-
-    //   function MyListItem() {
-    //     return (
-    //       <Swipeable leftContent={leftContent} rightButtons={rightButtons}>
-    //         <Text>My swipeable content</Text>
-    //       </Swipeable>
-    //     );
-
-
-    const [meals, setMeals] = useState([
-        { image: require("../../assets/meals/meal1.jpg"), name: 'Hummus and Pearl Barley Bowls', price: '2.86', id: '1' },
-        { image: require("../../assets/meals/meal2.jpg"), name: 'Chickpea Salad', price: '1.85', id: '2' },
-        { image: require("../../assets/meals/meal3.jpg"), name: 'Vegan Couscous Salad', price: '2.73', id: '4' },
-        { image: require("../../assets/meals/meal4.jpg"), name: 'Creamy Coconut Lentil Curry', price: '1.23', id: '5' },
-        { image: require("../../assets/meals/meal5.jpg"), name: 'One Pot Tandoori Quinoa', price: '2.94', id: '6' }
-
-    ])
-      
+    //    getData().then(() => {setHasData(true);})
+    // },[route.params.id]);
     
 
-    return (
-        <View style={styles.container}>
-            
-            {/* <Swipeable leftContent={leftContent} rightButtons={rightButtons}> */}
+    function displayMealInfo(){
+        console.log("-----------------------------------");
+        console.log(subtotal);
+        // console.log(qty);
+        // console.log(meal);
+        
+    }
+
+    async function updateQty(field_id, new_val){
+        await db.collection("favorite").doc(user.uid).update({
+            [field_id]: new_val.toString()
+        }).then(function(){
+            console.log("update favorite successfully.");
+        }).catch(function(error){
+            console.log("error");
+        })
+    }
+
+  
+
+   
+    
+    
+
+    function determineImg(meal_id){
+        switch(meal_id){
+          case "Meal 1": return require("../../assets/meals/meal1.jpg"); break;
+          case "Meal 2": return require("../../assets/meals/meal2.jpg"); break;
+          case "Meal 3": return require("../../assets/meals/meal3.jpg"); break;
+          case "Meal 4": return require("../../assets/meals/meal4.jpg"); break;
+          case "Meal 5": return require("../../assets/meals/meal5.jpg"); break;
+          case "Meal 6": return require("../../assets/meals/meal6.jpg"); break;
+          case "Meal 7": return require("../../assets/meals/meal7.jpg"); break;
+          case "Meal 8": return require("../../assets/meals/meal8.jpg"); break;
+        }
+      }
+    
+    function MealInfoContainer({meal}){
+        return(
+            <View style={styles.meal_info_container}>
+                <Image style={styles.img} resizeMode="cover" source={determineImg(meal.meal_id)}/>
+                <Text>{meal.name}</Text> 
                 
-            <FlatList
-                numColumns={1}
-                keyExtractor={(item) => item.id}
-                data={meals}
-                renderItem={({ item, index }) => (
+            </View>
+        )
+        
+    }
+    
+    // function Price({price}){
+    //     return(
+    //         <View>
+    //             <Text style={{fontSize:wp("3%"), fontWeight:"bold", alignSelf:"center"}}>
+    //                 Price: ${price}
+    //             </Text>
+    //         </View>
+    //     )
+        
+    // }
 
-                    <TouchableOpacity >
-                        <View style={styles.item}>
+    // function Total(){
+    //     // const subtotal = 
+    //     return(
+    //         <View>
+    //             <Text>Subtotal: ${subtotal.current}</Text>
+    //         </View>
+    //     )
+    // }
+    // function Payment(){
+    //     return(
+    //         <View>
+    //             <MaterialIcons.Button name="payment" color="#007AFF" backgroundColor="transparent" underlayColor="green" size={wp("20%")}
+    //                 onPress={()=>{console.log("pressed");}}
+    //             />
+    //         </View>
+    //     )
+    // }
+    
+    // // if(hasData){
+    // const createMealInfoContainer = () => {
+    //     let container = [];
 
-                            <View style={{ flexDirection: "column" }}>
-
-                                
-                                <Text style={{ flexWrap: 'wrap', fontSize: 23, fontFamily: "roboto-regular", flex: 6 }} >{item.name}</Text>
-
-                                <Text style={{ fontFamily: "impact-regular", margin: 5, fontSize: 15, fontWeight: "bold", color: "#fda856" }}>Price: ${item.price}</Text>
-
-                                {/* <TouchableOpacity style={styles.button12}>
-                            <Text style={styles.text}>DELETE</Text>
-                            </TouchableOpacity> */}
-
-                                <TouchableOpacity onPress={() => { navigation.navigate("Detail Meal", { meal_info: "Meal 2" }) }}>
-                                <View style={{ height: 117, width: 130 }}>
-                                    {/* <Image style={{ flexDirection: "column", width: 129, height: 112}} source={require("../../assets/meals/meal2.jpg")} /> */}
-                                    <Image style={styles.image} source={item.image} />
-                                </View>
-                                </TouchableOpacity>
-
-                                {/* <TouchableOpacity >
-                                <View style={{ flexDirection: "row" }}>
-                                    <MaterialIcons name='delete' size={22} color='#333' />
-                                </View>
-                            </TouchableOpacity> */}
-
-                            </View>
-
-                        </View>
-                    </TouchableOpacity>
-                )}
-            />
-            {/* </Swipeable> */}
-
-        </View>
-    );
+    //     for(const m in meal){
+    //         container.push(<MealInfoContainer meal={meal[m]} key={m}/>)
+    //     }
+    //     return container;
+    // }
+    // return(
+    //     <View style={styles.container}>
+    //         <Button rounded success 
+    //                 style={styles.checkout_btn}
+    //                 onPress={displayMealInfo}
+    //                 >
+    //                 <Text>Check Out!</Text>
+    //         </Button>
+                
+    //             {hasData?createMealInfoContainer():null}
+    //         <View style={{alignItems:"center",flexDirection:"row", position:"absolute", bottom:hp("1%")}}>
+    //             <Total />
+    //             <Payment />
+    //         </View>
+    //     </View>
+    // )
+    // // }else{return null};
 }
 
-
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        paddingTop: 10,
-        paddingHorizontal: 50,
-        backgroundColor: '#fff',
+    container:{
+        flex:1,
     },
-    item: {
-        flex: 1,
-        //marginHorizontal: 10,
-        marginTop: 24,
-        padding: 20,
-        //backgroundColor: '#a3de83',
-        backgroundColor: '#defbc2',
-        fontSize: 24,
-        //borderWidth: 1,
-        //borderStyle: 'dashed',
-        //borderRadius: 20,
-
+    checkout_btn:{
+        marginTop:20,
+        width:wp('50%'),
     },
-
-    name: {
-        //flex: 1,
-        width: 210,
-        height: 54,
-        color: "rgba(0,0,0,1)",
-        fontSize: 23,
-        fontFamily: "roboto-regular",
-        //justifyContent: 'flex-start'
-
-
+    quantity_input:{
+        width:wp("5%"),
+        height:hp("5%"),
+        fontSize:wp("2%"),
+        borderWidth:1
     },
-    price: {
-        color: "#fda856",
-        fontSize: 18,
-        fontFamily: "impact-regular",
-        //marginLeft: 1
+    remove_btn:{
+        color:"red",
     },
-    image: {
-        //flex: 1,
-        flexDirection: "row",
-        width: 160,
-        height: 112,
-        borderRadius: 5,
-        //justifyContent: 'flex-end',
-
+    add_btn:{
+        color:"#2f71e9"
     },
-    // text: {
-    //     color: '#067242',
-    //     fontSize: 15,
-    //     fontFamily: "roboto-900",
-    //     margin: 5
-    //     //left: 10,
-
-    // }
-});
-
+    quantity_btn_container:{
+        flexDirection:"row",
+    },
+    meal_info_container:{
+        flexDirection:"row",
+        marginLeft:wp("5%"),
+        borderColor:"red",
+        borderWidth:1,
+    },
+    img:{
+        height:hp("12%"),
+        width:wp("30%"),
+    }
+})
+export default Favorite

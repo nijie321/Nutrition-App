@@ -17,7 +17,10 @@ export default function Favorite2({ navigation }) {
     { image: require("../../assets/meals/meal2.jpg"), name: 'Chickpea Salad', price: '1.85', id: '2' },
     { image: require("../../assets/meals/meal3.jpg"), name: 'Vegan Couscous Salad', price: '2.73', id: '4' },
     { image: require("../../assets/meals/meal4.jpg"), name: 'Creamy Coconut Lentil Curry', price: '1.23', id: '5' },
-    { image: require("../../assets/meals/meal5.jpg"), name: 'One Pot Tandoori Quinoa', price: '2.94', id: '6' }
+    { image: require("../../assets/meals/meal5.jpg"), name: 'One Pot Tandoori Quinoa', price: '2.94', id: '6' },
+    { image: require("../../assets/meals/meal6.jpg"), name: 'Broccoli Cashew Stir fry', price: '2.53', id: '7' },
+    { image: require("../../assets/meals/meal7.jpg"), name: 'Spicy Ground Turkey and Green Bean Stir Fry', price: '2.18', id: '8' },
+    { image: require("../../assets/meals/meal8.jpg"), name: 'Asado Chicken and Zucchini', price: '4.43', id: '9' }
 
   ]);
 
@@ -71,12 +74,7 @@ export default function Favorite2({ navigation }) {
                     color="#8cba51"
                     onPress={() => navigation.navigate('Detail Meal', { id: item.name })}
                     />
-
-
-                  
-
-                  
-                  
+ 
                 </View>
               </View>
 
