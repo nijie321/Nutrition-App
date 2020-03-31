@@ -47,8 +47,14 @@ function Welcome(props) {
   return (
       <View style={{flex:1, borderColor:"red"}}>
         <View style={{alignItems:"center", marginTop:hp("10%")}}>
-          <Text style={styles.welcomeText}>Welcome to Nutrition App</Text>
+          <Text style={styles.welcomeText}>Welcome to Memphis EATS</Text>
         </View>
+
+        {/* <View style={{height:145, width:130, marginLeft:10}}>
+
+        <Image source={require("../../assets/meals/MemphisEATS_logo.jpg")} />
+        </View> */}
+        
 
         <View style={{ alignSelf:"center"}}>
           <Text style={styles.email}>Email:</Text>
@@ -117,7 +123,7 @@ const styles = StyleSheet.create({
     height: hp("5%"),
     color: "rgba(127,202,23,1)",
     fontSize: 16,
-    fontFamily: "courier-regular",
+    fontFamily: "roboto-500",
     lineHeight: 40//hp("3%")//40
   },
   buttonFiller: {
@@ -172,8 +178,8 @@ const styles = StyleSheet.create({
     // width: 277,
     // height: 81,
     color: "rgba(106,164,27,1)",
-    fontSize: wp("10%"),
-    fontFamily: "courier-regular",
+    fontSize: wp("7%"),
+    fontFamily: "impact-regular",
     // lineHeight: 40,
     textAlign: "center",
     // marginTop: -638,
@@ -193,7 +199,7 @@ const styles = StyleSheet.create({
     height: hp("3%"),
     color: "rgba(122,179,52,1)",
     fontSize: 17,
-    fontFamily: "courier-regular"
+    fontFamily: "roboto-500"
   },
   textInput6: {
     width:wp("70%"),
@@ -218,7 +224,7 @@ const styles = StyleSheet.create({
     height: hp("3%"),
     color: "rgba(122,179,52,1)",
     fontSize: 17,
-    fontFamily: "courier-regular"
+    fontFamily: "roboto-500"
   },
   textInput7: {
     width: 331,
@@ -227,9 +233,9 @@ const styles = StyleSheet.create({
     color: "rgba(255,255,255,1)",
     elevation: 9,
     fontSize: 17,
-    fontFamily: "arial-regular",
+    fontFamily: "roboto-500",
     alignSelf: "flex-end"
   }
-});
+}); 
 
 export default Welcome;

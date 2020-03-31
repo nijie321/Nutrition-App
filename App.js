@@ -12,6 +12,8 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 
 import {Welcome} from './src/Components/Welcome/Welcome/index';
+//import {Welcome2} from './src/Components/Welcome/Welcome/index';
+
 
 import {CreateProfile} from './src/Components/CreateProfile/index';
 import {ForgotPassword} from './src/Components/ForgotPassword/index';

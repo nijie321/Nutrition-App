@@ -241,26 +241,21 @@ function DetailMeal(props) {
           </Text>
         </View>
 
-        <View style={{ flexDirection: "row", marginHorizontal:60}}>
-          <TouchableOpacity onPress={addToFavorite2}>
-            <View>
+         
+        <View style={{ flexDirection: "row", flex: 3, }}>
+          <View style={{ marginHorizontal: 60 }}>
+            <TouchableOpacity onPress={addToFavorite2}>
               {/* <AntDesign name='like1' size={30} color='#ed2728'/> */}
-              <AntDesign name='like1' size={30} color='#ed2728'/>
-            </View>
-          </TouchableOpacity>
-        </View>
+              <Ionicons name='ios-heart' size={30} color='#ed2728' />
+            </TouchableOpacity>
+          </View>
 
-        <View style={{ flexDirection: "row", marginHorizontal:60}}>
           <TouchableOpacity onPress={removeToFavorite2}>
-            <View>
-              {/* <SimpleLineIcons name='dislike' size={28} color='#77787d'/> */}
-
-              <Ionicons name='ios-heart-dislike' size={28} color='#77787d' />
-            </View>
+            {/* <SimpleLineIcons name='dislike' size={28} color='#77787d'/> */}
+            <Ionicons name='ios-heart-dislike' size={28} color='#77787d' />
           </TouchableOpacity>
         </View>
-
-
+        
         <View style={{ flexDirection: "row", marginVertical: 20 }}>
           <Text style={{ fontWeight: "bold", fontSize: 20, alignSelf: "center", paddingLeft: wp("5%") }}>
             Serving Size:
@@ -334,23 +329,23 @@ function DetailMeal(props) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: "column",
-    flex: 1
-  },
+  // container: {
+  //   flexDirection: "column",
+  //   flex: 1
+  // },
   // submitButton: {
   //   alignSelf: "flex-end",
   //   position: 'absolute',
   //   bottom: 30,
   //   // left: 200, 
   // },
-  infoContainer: {
-    // alignContent:"center",
-    // alignSelf:"center",
-    // alignItems:"center",
-    textAlign: "center",
-    marginLeft: 23
-  },
+  // infoContainer: {
+  //   // alignContent:"center",
+  //   // alignSelf:"center",
+  //   // alignItems:"center",
+  //   textAlign: "center",
+  //   marginLeft: 23
+  // },
   image: {
     alignSelf:"center",
     width: width,
