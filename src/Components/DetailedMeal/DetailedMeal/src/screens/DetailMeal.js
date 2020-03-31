@@ -2,17 +2,15 @@ import React, { useState, useEffect} from "react";
 import {
   StyleSheet,
   View,
-  StatusBar,
   Image,
   Text,
   TouchableOpacity,
-  Dimensions,
   ScrollView,
   TextInput,
-  KeyboardAvoidingView
+  Alert,
 } from "react-native";
-import Icon from "react-native-vector-icons/EvilIcons";
-import MaterialButtonDanger from "../components/MaterialButtonDanger";
+// import Icon from "react-native-vector-icons/EvilIcons";
+// import MaterialButtonDanger from "../components/MaterialButtonDanger";
 
 import {useRoute, useNavigation} from "@react-navigation/native";
 
@@ -20,7 +18,7 @@ import firebase from '../../../../../../FireBase';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Feather from 'react-native-vector-icons/Feather';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+// import AntDesign from 'react-native-vector-icons/AntDesign';
 
 
 
@@ -141,30 +139,27 @@ function DetailMeal(props) {
   }
   
   function addToCart(){
-    const user = firebase.auth().currentUser;
-    var docData = {
-      [route.params.meal_info]: qty
-    }
-    console.log("docData:", docData);
-    db.collection("shopping_cart").doc(user.uid).update(docData)
-    .then(function(){
-      console.log("update to shopping cart successfully.");
-    })
-    .catch(function(error){
-      db.collection("shopping_cart").doc(user.uid).set(docData)
+    if(qty > 0){
+      const user = firebase.auth().currentUser;
+      var docData = {
+        [route.params.meal_info]: qty
+      }
+      console.log("docData:", docData);
+      db.collection("shopping_cart").doc(user.uid).update(docData)
       .then(function(){
-        console.log("add to shopping cart successfully.");
+        console.log("update to shopping cart successfully.");
       })
-      // console.log(error);
-      // console.log("failed adding meal to cart.");
-    })
-    // console.log(qty);
-    // console.log(route.params.meal_info)
+      .catch(function(error){
+        db.collection("shopping_cart").doc(user.uid).set(docData)
+        .then(function(){
+          console.log("add to shopping cart successfully.");
+        })
+      })  
+    }else{
+      Alert.alert("The quantity must be greater than 0");
+    }
   }
 
-  function directToCart(){
-
-  }
 
   useEffect(() => {
     determineImg();
