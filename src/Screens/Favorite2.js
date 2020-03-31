@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, TouchableOpacity, Text, Image, FlatList, Button} from 'react-native';
 //import Icon from "react-native-vector-icons/Entypo";
+import DeleteButton from '../data/DeleteButton';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation, StackActions } from '@react-navigation/native';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 
 
@@ -53,12 +55,13 @@ export default function Favorite2({ navigation }) {
                   flexDirection: 'row',
                   backgroundColor: index % 2 == 0 ? '#defbc2' : '#e1f4f3'
                 }}>
-                  <TouchableOpacity onPress={() => pressHandler(item.id)}>
+                  {/* <TouchableOpacity onPress={() => pressHandler(item.id)}> */}
+                  
                   <Image
                     source={item.image}
-                    style={{ width: 120, height: 120, margin: 10, borderRadius: 5 }}
+                    style={{ width: 120, height: 120, margin: 10, borderRadius: 5,}}
                   />
-                </TouchableOpacity>
+               
                 
                   <View style={{
                     flex: 1,
@@ -67,13 +70,38 @@ export default function Favorite2({ navigation }) {
                     //width: "auto",
                   }}>
                     <Text style={{ flexWrap: 'wrap', fontSize: 18, fontFamily: "roboto-regular", marginTop: 8 }} >{item.name}</Text>
-                    <Text style={{ fontFamily: "impact-regular", margin: 5, fontSize: 15, fontWeight: "bold", color: "#fda856" }}>${item.price}</Text>
+                    <Text style={{ fontFamily: "impact-regular", margin: 5, fontSize: 20, fontWeight: "bold", color: "#fda856" }}>${item.price}</Text>
 
-                  <Button
+                  {/* <Button
                     title="VIEW DETAILS"
                     color="#8cba51"
                     onPress={() => navigation.navigate('Detail Meal', { id: item.name })}
-                    />
+                    /> */}
+
+                    <View style={{color:"#000", fontSize: 15, fontFamily: "roboto-regular",  marginTop: 8 ,
+                                  backgroundColor:"frgba(106,164,27,1)6",
+                                  //flexDirection: "row",
+                                  // alignItems: "left",
+                                  // justifyContent: "left",
+                                  //paddingRight: 2,
+                                  paddingLeft: 2,
+                                  elevation: 2,
+                                  minWidth: 5,
+                                  borderRadius: 2,
+                                  shadowColor: "#000",
+                                  shadowOpacity: 0.35,
+                                  shadowRadius: 2
+                                 }}>
+                      <TouchableOpacity onPress={() => navigation.navigate('Detail Meal', { id: item.name })}>
+                        <Text>VIEW DETAILS</Text>
+                      </TouchableOpacity>
+                    </View>
+
+                  <View style={{ marginTop: 8 }}>
+                  <TouchableOpacity onPress={() => pressHandler(item.id)}>
+                    <AntDesign name='delete' size={18} color='#333'></AntDesign>
+                    </TouchableOpacity>
+                  </View>
  
                 </View>
               </View>
@@ -97,7 +125,7 @@ export default function Favorite2({ navigation }) {
 
 const styles = StyleSheet.create({
 
- 
+    
    
 
   // button: {

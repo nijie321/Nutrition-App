@@ -21,6 +21,8 @@ import firebase from '../../../../../../FireBase';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
 
@@ -179,6 +181,28 @@ function DetailMeal(props) {
    
   }
 
+  //remove to favorite
+
+  function removeToFavorite2() {
+    const user = firebase.auth().currentUser;
+    var docData = {
+      [route.params.meal_info]: qty
+    }
+    console.log("docData:", docData);
+    db.collection("favorite").doc(user.uid).update(docData)
+      .then(function () {
+        console.log("remove to favorite successfully.");
+      })
+      .catch(function (error) {
+        db.collection("favorite").doc(user.uid).set(docData)
+          .then(function () {
+            console.log("remove to favorite successfully.");
+          })
+        
+      })
+   
+  }
+
   function directToFavorite2() {
 
   }
@@ -220,8 +244,18 @@ function DetailMeal(props) {
         <View style={{ flexDirection: "row", marginHorizontal:60}}>
           <TouchableOpacity onPress={addToFavorite2}>
             <View>
-              <MaterialIcons name='favorite' size={30} color='#ed2728'
-              />
+              {/* <AntDesign name='like1' size={30} color='#ed2728'/> */}
+              <AntDesign name='like1' size={30} color='#ed2728'/>
+            </View>
+          </TouchableOpacity>
+        </View>
+
+        <View style={{ flexDirection: "row", marginHorizontal:60}}>
+          <TouchableOpacity onPress={removeToFavorite2}>
+            <View>
+              {/* <SimpleLineIcons name='dislike' size={28} color='#77787d'/> */}
+
+              <Ionicons name='ios-heart-dislike' size={28} color='#77787d' />
             </View>
           </TouchableOpacity>
         </View>
