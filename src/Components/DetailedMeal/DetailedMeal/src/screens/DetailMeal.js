@@ -2,16 +2,15 @@ import React, { useState, useEffect} from "react";
 import {
   StyleSheet,
   View,
-  StatusBar,
   Image,
   Text,
   TouchableOpacity,
-  Dimensions,
   ScrollView,
-  TextInput
+  TextInput,
+  Alert,
 } from "react-native";
-import Icon from "react-native-vector-icons/EvilIcons";
-import MaterialButtonDanger from "../components/MaterialButtonDanger";
+// import Icon from "react-native-vector-icons/EvilIcons";
+// import MaterialButtonDanger from "../components/MaterialButtonDanger";
 
 import {useRoute, useNavigation} from "@react-navigation/native";
 
@@ -19,14 +18,14 @@ import firebase from '../../../../../../FireBase';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Feather from 'react-native-vector-icons/Feather';
+// import AntDesign from 'react-native-vector-icons/AntDesign';
+
 
 
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 const db = firebase.firestore();
 
 
-const width = Dimensions.get("window").width;
-const height = Dimensions.get("window").height;
 
 
 function DetailMeal(props) {
@@ -36,8 +35,8 @@ function DetailMeal(props) {
   const [display, setDisplay] = useState({toDisplay: ""});
   const [nutritionText, setNutritionText] = useState("");
   const [imgSrc, setImgSrc] = useState();
-  const [mealInfo, setMealInfo] = useState({})
-  
+  const [mealInfo, setMealInfo] = useState({});
+  const [qty, setQty] = useState(0);
   const [tabSelected, setTabSelected] = useState({
     nutrition: false,
     ingredients: false,
@@ -125,27 +124,6 @@ function DetailMeal(props) {
     })
   }
 
-  // async function setBackButton(){
-  //   navigation.setOptions({
-  //     headerLeft: () => (
-  //     // <Button 
-  //     //   onPress={() => {
-  //     //     navigation.goBack()
-  //     //   }}
-  //     //   title="Go Back"
-  //     //   color="#00cc00"
-  //     // />
-  //     <TouchableOpacity>
-  //       <Text>Hello</Text>
-  //       <AntDesign name="left" color={"red"} size={20} />
-  //         {/* <Text>hello</Text>  
-  //       <AntDesign/> */}
-  //     </TouchableOpacity>
-  //   ),
-  //   //  tabBarLabel: 'Left', tabBarIcon: ({color, size}) => (<AntDesign name="left" color={color} size={20} />)},
-  //   )}
-  //   }
-
   function setBackButton(){
     navigation.setOptions({
       headerLeft: () => (
@@ -159,6 +137,29 @@ function DetailMeal(props) {
       )
     })
   }
+  
+  function addToCart(){
+    if(qty > 0){
+      const user = firebase.auth().currentUser;
+      var docData = {
+        [route.params.meal_info]: qty
+      }
+      console.log("docData:", docData);
+      db.collection("shopping_cart").doc(user.uid).update(docData)
+      .then(function(){
+        console.log("update to shopping cart successfully.");
+      })
+      .catch(function(error){
+        db.collection("shopping_cart").doc(user.uid).set(docData)
+        .then(function(){
+          console.log("add to shopping cart successfully.");
+        })
+      })  
+    }else{
+      Alert.alert("The quantity must be greater than 0");
+    }
+  }
+
 
   useEffect(() => {
     determineImg();
@@ -169,48 +170,74 @@ function DetailMeal(props) {
   // getMealInfo();
 
   return (
-    <View style={styles.container}>
-      <StatusBar></StatusBar>
+          
+    <ScrollView style={styles.container}>
       <View style={styles.group}>
         <Image
           source={imgSrc}
-          resizeMode="cover"
+          resizeMode="contain"
           style={styles.image}
         ></Image>
       </View>
 
-
-      <View style={styles.loremIpsumColumnRow}>
-        <View style={styles.loremIpsumColumn}>
-          <Text style={styles.loremIpsum}>
-            {/* Hummus and Pearl{"\n"}Barley Bowls */}
+      <View>
+        <View style={{flexDirection:"row"}}>
+          <Text style={{fontWeight:"bold", fontSize:40, marginLeft:wp("10%")}}>
             {mealInfo.name}
           </Text>
-          {/* <Icon name="like" style={styles.icon}></Icon> */}
-          <Feather.Button name="thumbs-up" size={3} borderRadius={3} />
-          <Feather.Button name="thumbs-down" />
+          <Text style={{fontWeight:"bold", fontSize:40, color:"rgba(106,164,27,1)", paddingLeft:wp("5%")}}>
+            {mealInfo.price}
+          </Text>
+        </View>
+        
+        <View style={{flexDirection:"row", marginVertical:20}}>
+          <Text style={{fontWeight:"bold", fontSize:20, alignSelf:"center", paddingLeft:wp("5%")}}>
+            Serving Size:
+          </Text>
+          <TextInput style={{borderWidth:1 ,marginTop:5, width:34, height:30, marginLeft:wp("1%"), alignSelf:"center"}} keyboardType="numeric" placeholder="qty"
+                      onChangeText={text => setQty(text)}
+                      />
+          
+          {/* <Text style={{fontWeight:"bold", fontSize:20, alignSelf:"center", paddingLeft:wp("5%")}}>
+            Pick-up Location:
+          </Text>
+          <TextInput style={{borderWidth:1 ,marginTop:5, width:wp("30%"), height:hp("4%"), marginLeft:wp("1%"), alignSelf:"center"}}/> */}
+          
+          {/* <TouchableOpacity style={{backgroundColor:"rgba(106,164,27,1)", width:wp("1%"), alignItems:"center", marginLeft:wp("5%") , padding:10, borderRadius:10}}
+                onPress={() => {navigation.navigate("Shopping Cart")}}
+          >
+              <Text style={{color:"white"}}>
+                Go to Shopping Cart
+              </Text>
+          </TouchableOpacity> */}
+
+          <TouchableOpacity style={{backgroundColor:"rgba(106,164,27,1)", width:wp("20%"), alignItems:"center", padding:10, borderRadius:10, position:"absolute", alignSelf:"center", right:wp("1%")}}
+                onPress={addToCart}
+          >
+              <Text style={{color:"white"}}>
+                Add to Shopping Cart
+              </Text>
+          </TouchableOpacity>
         </View>
 
-        <View style={{flexDirection:"column"}}>
-          <Text style={styles.loremIpsum3}>{mealInfo.price}</Text>
-          <View style={{flexDirection:"row"}}>
-            <Text style={{paddingRight:10, alignSelf:"center"}}>Serving Size:</Text>
-          <TextInput style={{borderWidth:1, marginTop:5, width:34, height:30}}/>
-          {/* <Button title="click" color="red"/> */}
-          </View>
-          <MaterialButtonDanger style={{marginTop:10}}/>
-          
+        <View style={{flexDirection:"row", marginBottom:hp("2%")}}>
+          <Text style={{fontWeight:"bold", fontSize:20, paddingLeft:wp("5%")}}>
+            Pick-up Location:
+          </Text>
+          <TextInput style={{borderWidth:1 ,marginTop:5, width:wp("30%"), height:hp("3%"), marginLeft:wp("1%")}}/> 
+
+           <TouchableOpacity style={{backgroundColor:"rgba(106,164,27,1)", width:wp("20%"), alignItems:"center", marginLeft:wp("5%") , padding:10, borderRadius:10, position:"absolute",right:wp("1%")}}
+                onPress={() => {navigation.navigate("Shopping Cart")}}
+          >
+              <Text style={{color:"white"}}>
+                Go to Shopping Cart <Feather name="shopping-cart" color="white" />
+              </Text>
+          </TouchableOpacity>
         </View>
-        {/* <View style={styles.loremIpsumColumnFiller}></View> */}
-        {/* <View style={styles.loremIpsum3Column}>
-        <Text style={styles.loremIpsum3}>{mealInfo.price}</Text>
-          <MaterialButtonDanger
-            style={styles.materialButtonDanger}
-          ></MaterialButtonDanger>
-        </View>
-         */}
         
-        </View>
+      </View>
+
+
 
 
     <View style={{padding:30, paddingTop:20, paddingBottom:5}}>
@@ -275,12 +302,8 @@ function DetailMeal(props) {
 
     </ScrollView>
 
-
-    {/* <View style={{flexDirection:"column", flex:1}}>
-    <Button style={styles.submitButton} title="Button" /> 
-    </View>     */}
-
-    </View>
+    </ScrollView>
+    
   );
 }
 
@@ -311,13 +334,8 @@ const styles = StyleSheet.create({
   },
   image: {
     alignSelf:"center",
-    // width: 320,
-    width: width,
-    // height: 300,
-    height: wp("60%"),
-    // width: 250,
-    // height:250,
-    marginTop: 0
+    width: wp("100%"),
+    height: hp("25%")
   },
   loremIpsum: {
     color: "#121212",

@@ -19,6 +19,7 @@ import MainScreen1 from './src/Screens/MainScreen';
 import {DetailMeal} from './src/Components/DetailedMeal/DetailedMeal/index';
 import {EditProfile} from './src/Components/EditProfile2/EditProfile2/index';
 
+import {default as ShoppingCart} from './src/Components/ShoppingCart/src/screens/ShoppingCart';
 import firebase from './FireBase';
 
 
@@ -175,7 +176,7 @@ function HomeTabNavigator({navigation,route}){
         // tabPress={() => {}}
         />
 
-        <Tab.Screen name="Shopping Cart" component={MainScreen1}
+        <Tab.Screen name="Shopping Cart" component={ShoppingCart}
         options={{
           tabBarLabel: 'Shopping Cart',
           tabBarIcon: ({color}) => (
@@ -190,7 +191,7 @@ function HomeTabNavigator({navigation,route}){
               }
             </View>
           )  
-        }} />
+        }} initialParams={{id:["Meal 1","Meal 2","Meal 3"]}}/>
 
         <Tab.Screen name="History" component={MainScreen1}
         options={{
@@ -228,13 +229,16 @@ export default function App() {
   if(fontLoaded){
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Welcome"
+      <Stack.Navigator initialRouteName="Welcome" //#"Welcome"
         // screenOptions={{
         //   headerShown: false
         // }}
         // screenOptions={{headerTitleAlign:"center"}}
       >
-
+        {/* <Stack.Screen
+          name="Shopping Cart"
+          component={ShoppingCart}
+        /> */}
         <Stack.Screen
           name="Edit Profile"
           component={EditProfile}
