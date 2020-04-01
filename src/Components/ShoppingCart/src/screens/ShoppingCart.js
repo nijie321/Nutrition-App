@@ -15,17 +15,9 @@ function ShoppingCart({route}){
     const[qty, setQty] = useState({});
     const[meal, setMeal] = useState([]);
     const [hasData, setHasData] = useState(false);
-    // const[subtotal, setSubtotal] = useState(0.0);
     const subtotal = useRef(0.0);
     const user = firebase.auth().currentUser;
-    
-    function usePrevious(value) {
-        const ref = useRef();
-        useEffect(() => {
-          ref.current = value;
-        });
-        return ref.current;
-    }
+ 
     useEffect(() => {
         subtotal.current = 0;
         const getData = async ()=> {
@@ -167,9 +159,13 @@ function ShoppingCart({route}){
 
     function Total(){
         // const subtotal = 
+        // subtotal.current = 10.0;
         return(
-            <View>
-                <Text>Subtotal: ${subtotal.current}</Text>
+            <View style={{flexDirection:"column", justifyContent:"space-between"}}>
+                <Text style={styles.price}>Subtotal: {"\t$"+`${subtotal.current.toFixed(2)}`}</Text> 
+                {/* ${subtotal.current.toFixed(2) */}
+                <Text style={styles.price}>Tax: {"\t\t$"+`${(subtotal.current * .15).toFixed(2)}`}</Text>
+                <Text style={styles.price}>Total: {"\t\t$" + `${(subtotal.current * 1.15).toFixed(2)}`}</Text>
             </View>
         )
     }
@@ -194,17 +190,21 @@ function ShoppingCart({route}){
     }
     return(
         <View style={styles.container}>
-            <Button rounded success 
+            {/* <Button rounded success 
                     style={styles.checkout_btn}
                     onPress={displayMealInfo}
                     >
                     <Text>Check Out!</Text>
-            </Button>
+            </Button> */}
                 
                 {hasData?createMealInfoContainer():null}
-            <View style={{alignItems:"center",flexDirection:"row", position:"absolute", bottom:hp("1%")}}>
-                <Total />
-                <Payment />
+            <View style={{alignItems:"center", position:"absolute", bottom:hp("1%"), right:wp("1%") }}>
+                <View style={{marginRight:wp("5%")}}>
+                    <Total />
+                </View>
+                <View>
+                    <Payment />
+                </View>
             </View>
         </View>
     )
@@ -236,13 +236,18 @@ const styles = StyleSheet.create({
     },
     meal_info_container:{
         flexDirection:"row",
-        marginLeft:wp("5%"),
-        borderColor:"red",
-        borderWidth:1,
+        marginHorizontal:wp("3%"),
+        // marginVertical: hp("2%"),
+        // borderColor:"red",
+        // borderWidth:1,
+        marginBottom:hp("1%")
     },
     img:{
         height:hp("12%"),
         width:wp("30%"),
+    },
+    price:{
+        marginBottom:hp("1%")
     }
 })
 export default ShoppingCart
