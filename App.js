@@ -12,7 +12,6 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 
 import {Welcome} from './src/Components/Welcome/Welcome/index';
-//import {Welcome2} from './src/Components/Welcome/Welcome/index';
 
 
 import {CreateProfile} from './src/Components/CreateProfile/index';
@@ -24,8 +23,8 @@ import {DetailMeal} from './src/Components/DetailedMeal/DetailedMeal/index';
 import {EditProfile} from './src/Components/EditProfile2/EditProfile2/index';
 
 //import FavList from './src/Screens/FavList';
-import Favorite2 from './src/Screens/Favorite2';
-//import Favorite from './src/Screens/Favorite';
+
+import Favorite from './src/Screens/Favorite';
 import firebase from './FireBase';
 
 
@@ -213,8 +212,8 @@ function HomeTabNavigator({navigation,route}){
 
      
       {/* <Tab.Screen name="Favorite" component={FavList} */}
-         <Tab.Screen name="Favorite" component={Favorite2}
-        //  {/* <Tab.Screen name="Favorite" component={Favorite} */}
+       
+        <Tab.Screen name="Favorite" component={Favorite}
         options={{
           tabBarLabel: 'Favorite',
           tabBarIcon: ({color}) => (
