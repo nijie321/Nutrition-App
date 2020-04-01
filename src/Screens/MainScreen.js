@@ -1,18 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {
-    StyleSheet,
-    View,
-    Text,
-    ScrollView,
-    TouchableOpacity,
-    Image,
-} from 'react-native';
+import {StyleSheet, View, Text, ScrollView, TouchableOpacity, Image} from 'react-native';
 
-
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-
-
 import firebase from '../../FireBase';
 const db = firebase.firestore();
 
@@ -42,16 +33,16 @@ function M({navigation, route}){
     
         <ScrollView>
             <View style={styles.container}>
-            <View style={{flexDirection:"row", padding:20,paddingLeft:5, paddingTop:10}}>
+            <View style={{flexDirection:"row", padding:5 ,paddingLeft:wp("1.2%"), paddingTop:hp("1.11%")}}>
                     <Text style={styles.text}>Monday</Text>
                     <ScrollView
                         horizontal={true}
                         showsHorizontalScrollIndicator={false}
-                        style={{marginLeft:10}}
+                        style={{marginLeft:wp("2.4%")}}
                     >
                         
-                       <View style={{height:145, width:130, marginLeft:10}}>
-                            <TouchableOpacity style={{height:117, width:130}}
+                       <View style={{height:hp("16.5%"), width:wp("31.4%"), marginLeft:wp("4%")}}>
+                            <TouchableOpacity style={{height:hp("13.05%"), width:wp("31.4%")}}
                                 onPress={() => {navigation.navigate("Detail Meal", {meal_info:"Meal 1"})}}
                             >
                                 <Image source={require("../../assets/meals/meal1.jpg")}
@@ -59,7 +50,7 @@ function M({navigation, route}){
                                         width: null,
                                         height: null,
                                         resizeMode: 'cover',
-                                        paddingLeft: 10,
+                                        paddingLeft: wp("2.4%"),
                                     }}
                                 /> 
                             </TouchableOpacity>
@@ -69,8 +60,8 @@ function M({navigation, route}){
                             </View>
                        </View>
                        
-                       <View style={{height:145, width:130, marginLeft:10}}>
-                            <TouchableOpacity style={{height:117, width:130}}
+                       <View style={{height:hp("16.18%"), width:wp("31.4%"), marginLeft:wp("2.4%")}}>
+                            <TouchableOpacity style={{height:hp("13.05%"), width:wp("31.4%")}}
                                 onPress={() => {navigation.navigate("Detail Meal", {meal_info:"Meal 2"})}}
                             >
                                 <Image source={require("../../assets/meals/meal2.jpg")}
@@ -78,7 +69,7 @@ function M({navigation, route}){
                                         width: null,
                                         height: null,
                                         resizeMode: 'cover',
-                                        paddingLeft: 10,
+                                        paddingLeft: wp("2.4%"),
                                     }}
                                 /> 
                             </TouchableOpacity>
@@ -90,16 +81,16 @@ function M({navigation, route}){
                     </ScrollView>
             </View>
 
-            <View style={{flexDirection:"row", padding:20,paddingLeft:5, paddingTop:10}}>
+            <View style={{flexDirection:"row", padding:5 ,paddingLeft:wp("1.2%"), paddingTop:hp("2.5%")}}>
                     <Text style={styles.text}>Tuesday</Text>
                     <ScrollView
                         horizontal={true}
                         showsHorizontalScrollIndicator={false}
-                        style={{marginLeft:10}}
+                        style={{marginLeft:wp("2.4%")}}
                     >
                         
-                       <View style={{height:145, width:130, marginLeft:10}}>
-                            <TouchableOpacity style={{height:117, width:130}}
+                       <View style={{height:hp("16.18%"), width:wp("31.4%"), marginLeft:wp("3.3%")}}>
+                            <TouchableOpacity style={{height:wp("20%"), width:wp("31.4%")}}
                                 onPress={() => {navigation.navigate("Detail Meal", {meal_info:"Meal 3"})}}
                             >
                                 <Image source={require("../../assets/meals/meal3.jpg")}
@@ -107,7 +98,7 @@ function M({navigation, route}){
                                         width: null,
                                         height: null,
                                         resizeMode: 'cover',
-                                        paddingLeft: 10,
+                                        paddingLeft: wp("2.4%"),
                                     }}
                                 /> 
                             </TouchableOpacity>
@@ -117,8 +108,8 @@ function M({navigation, route}){
                             </View>
                        </View>
                        
-                       <View style={{height:145, width:130, marginLeft:10}}>
-                            <TouchableOpacity style={{height:117, width:130}}
+                       <View style={{height:hp("16.18%"), width:wp("31.4%"), marginLeft:wp("2.4%")}}>
+                            <TouchableOpacity style={{height:wp("20%"), width:wp("31.4%")}}
                                 onPress={() => {navigation.navigate("Detail Meal", {meal_info:"Meal 4"})}}
                             >
                                 <Image source={require("../../assets/meals/meal4.jpg")}
@@ -126,7 +117,7 @@ function M({navigation, route}){
                                         width: null,
                                         height: null,
                                         resizeMode: 'cover',
-                                        paddingLeft: 10,
+                                        paddingLeft: wp("2.4%"),
                                     }}
                                 /> 
                             </TouchableOpacity>
@@ -138,21 +129,16 @@ function M({navigation, route}){
                     </ScrollView>
             </View>
 
-            <View style={{flexDirection:"row", padding:20,paddingLeft:5, paddingTop:10}}>
-                    <Text style={{
-                    color: "rgba(187,61,21,1)",
-                    fontSize:20,
-                    paddingHorizontal:5,
-                    paddingTop:50}}
-                    >Wednesday</Text>
+            <View style={{flexDirection:"row", padding:5, paddingLeft:wp("1.2%"), paddingTop:hp("0%")}}>
+                    <Text style={styles.text}>Wednesday</Text>
                     <ScrollView
                         horizontal={true}
                         showsHorizontalScrollIndicator={false}
                         style={{marginLeft:0}}
                     >
                         
-                       <View style={{height:145, width:130, marginLeft:10}}>
-                            <TouchableOpacity style={{height:117, width:130}}
+                       <View style={{height:hp("16.18%"), width:wp("31.4%"), marginLeft:wp("0%")}}>
+                            <TouchableOpacity style={{height:wp("20%"), width:wp("31.4%")}}
                             onPress={() => {navigation.navigate("Detail Meal", {meal_info:"Meal 5"})}}
                             >
                                 <Image source={require("../../assets/meals/meal5.jpg")}
@@ -160,7 +146,7 @@ function M({navigation, route}){
                                         width: null,
                                         height: null,
                                         resizeMode: 'cover',
-                                        paddingLeft: 10,
+                                        paddingLeft: wp("2.4%"),
                                     }}
                                 /> 
                             </TouchableOpacity>
@@ -170,8 +156,8 @@ function M({navigation, route}){
                             </View>
                        </View>
                        
-                       <View style={{height:145, width:130, marginLeft:10}}>
-                            <TouchableOpacity style={{height:117, width:130}}
+                       <View style={{height:hp("16.18%"), width:wp("31.4%"), marginLeft:wp("2.4%")}}>
+                            <TouchableOpacity style={{height:wp("20%"), width:wp("31.4%")}}
                             onPress={() => {navigation.navigate("Detail Meal", {meal_info:"Meal 6"})}}
                             >
                                 <Image source={require("../../assets/meals/meal6.jpg")}
@@ -179,7 +165,7 @@ function M({navigation, route}){
                                         width: null,
                                         height: null,
                                         resizeMode: 'cover',
-                                        paddingLeft: 10,
+                                        paddingLeft: wp("2.4%"),
                                     }}
                                 /> 
                             </TouchableOpacity>
@@ -193,7 +179,7 @@ function M({navigation, route}){
 
 
 
-                <View style={{flexDirection:"row", padding:20,paddingLeft:5, paddingTop:10}}>
+                <View style={{flexDirection:"row", padding:5,paddingLeft:wp("1.2%"), paddingTop:hp("1.11%")}}>
                     <Text style={styles.text}>Thursday</Text>
                     <ScrollView
                         horizontal={true}
@@ -201,8 +187,8 @@ function M({navigation, route}){
                         style={{paddingLeft:0}}
                     >
                         
-                       <View style={{height:145, width:130, marginLeft:10}}>
-                            <TouchableOpacity style={{height:117, width:130}}
+                       <View style={{height:hp("16.18%"), width:wp("31.4%"), marginLeft:wp("4%")}}>
+                            <TouchableOpacity style={{height:wp("20%"), width:wp("31.4%")}}
                             onPress={() => {navigation.navigate("Detail Meal", {meal_info:"Meal 7"})}}
                             >
                                 <Image source={require("../../assets/meals/meal7.jpg")}
@@ -210,7 +196,7 @@ function M({navigation, route}){
                                         width: null,
                                         height: null,
                                         resizeMode: 'cover',
-                                        paddingLeft: 10,
+                                        paddingLeft: wp("2.4%"),
                                     }}
                                 /> 
                             </TouchableOpacity>
@@ -220,8 +206,8 @@ function M({navigation, route}){
                             </View>
                        </View>
                        
-                       <View style={{height:145, width:130, marginLeft:10}}>
-                            <TouchableOpacity style={{height:117, width:130}}
+                       <View style={{height:hp("16.18%"), width:wp("31.4%"), marginLeft:wp("2.4%")}}>
+                            <TouchableOpacity style={{height:wp("20%"), width:wp("31.4%")}}
                             onPress={() => {navigation.navigate("Detail Meal", {meal_info:"Meal 8"})}}
                             >
                                 <Image source={require("../../assets/meals/meal8.jpg")}
@@ -229,7 +215,7 @@ function M({navigation, route}){
                                         width: null,
                                         height: null,
                                         resizeMode: 'cover',
-                                        paddingLeft: 10,
+                                        paddingLeft: wp("2.4%"),
                                     }}
                                 /> 
                             </TouchableOpacity>
@@ -270,17 +256,17 @@ const styles = StyleSheet.create({
     },
     subcontainer:{
         flexDirection:"row",
-        padding:20,
+        padding:16.18,
         paddingTop: 10,
-        paddingLeft:5
-        //padding:20,paddingLeft:5, paddingTop:10
+        paddingLeft:wp("1.2%")
+        //padding:16.18,paddingLeft:wp("1.2"), paddingTop:hp("1.11")
         // top:60
     }, 
     text:{
         color: "rgba(187,61,21,1)",
-        fontSize:20,
-        paddingHorizontal:15,
-        paddingTop:50
+        fontSize:15,
+        paddingHorizontal:13.05,
+        paddingTop:hp("5.58%")
     },
 })
 
