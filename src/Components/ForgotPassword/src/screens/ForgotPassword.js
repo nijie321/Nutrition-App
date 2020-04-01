@@ -1,8 +1,8 @@
 import React from "react";
-import { StyleSheet, View, TextInput, Alert } from "react-native";
+import { StyleSheet, View, TextInput, Alert, Text} from "react-native";
 import CupertinoHeaderWithLargeTitle1 from "../components/CupertinoHeaderWithLargeTitle1";
 import CupertinoButtonWarning from "../components/CupertinoButtonWarning";
-
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import firebase from '../../../../../FireBase';
 
 
@@ -21,9 +21,11 @@ function ForgotPassword(props) {
   return (
     <View style={styles.container}>
       <View style={styles.group}>
-        <CupertinoHeaderWithLargeTitle1
-          style={styles.cupertinoHeaderWithLargeTitle1}
-        ></CupertinoHeaderWithLargeTitle1>
+
+        <View style={{alignItems:"center", marginTop:hp("10%")}}>
+          <Text style={styles.heading}>Forget your password?</Text>
+        </View>
+
         <TextInput
           placeholder="Type your email"
           style={styles.textInput}
@@ -40,33 +42,33 @@ function ForgotPassword(props) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "rgba(106,164,27,1)"
-  },
-  group: {
-    width: 375,
-    height: 439,
-    marginTop: 43
-  },
-  cupertinoHeaderWithLargeTitle1: {
-    width: 375,
-    height: 96
+    flex: 1
   },
   textInput: {
-    width: 288,
-    height: 48,
+    width: wp("90%"),
+    height: hp("6.5%"),
     backgroundColor: "rgba(255,255,255,1)",
     color: "rgba(0,0,0,1)",
     fontSize: 17,
     fontFamily: "roboto-700",
-    marginTop: 179,
-    marginLeft: 44
+    marginTop: hp("8%"),
+    marginLeft: wp("5%")
   },
   cupertinoButtonWarning: {
-    width: 100,
-    height: 44,
-    marginTop: 72,
-    marginLeft: 138
+    width: wp("40%"),
+    height: hp("6%"),
+    marginTop: hp("10%"),
+    marginLeft: wp("31%")
+  },
+  heading: {
+    width: wp("60%"),
+    height: hp("20%"),
+    color: "rgba(106,164,27,1)",
+    fontSize: wp("10%"),
+    fontFamily: "courier-regular",
+    textAlign: "center",
+    marginTop: hp("5%")
+
   }
 });
 
