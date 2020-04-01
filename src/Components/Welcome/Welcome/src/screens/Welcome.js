@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  Text,
-  TextInput,
-  Alert
-} from "react-native";
+import {StyleSheet, View, TouchableOpacity, Text, TextInput, Alert} from "react-native";
 import MaterialButtonSuccess1 from "../components/MaterialButtonSuccess1";
 import MaterialButtonSuccess from "../components/MaterialButtonSuccess";
 
@@ -25,9 +18,6 @@ function Welcome(props) {
 
   function onLoginPress(){
     firebase.auth().signInWithEmailAndPassword(email,password)
-        // .then(function() {
-        //     Alert.alert("Signed in successfully");
-        // })
         .then(() => {
           navigation.dispatch(
             StackActions.replace("Home")
@@ -52,8 +42,7 @@ function Welcome(props) {
 
         <View style={{ alignSelf:"center"}}>
           <Text style={styles.email}>Email:</Text>
-          <TextInput 
-            placeholder="Enter Your Email"
+          <TextInput
             placeholderTextColor="rgba(230,230,230,1)"
             keyboardType="email-address"
             autoCapitalize="none"
@@ -62,9 +51,8 @@ function Welcome(props) {
             style={styles.textInput6}
           />
 
-          <Text style={[styles.password, {marginTop:hp("3%")}]}>Password:</Text>
-          <TextInput 
-            placeholder="enter Your Password"
+          <Text style={[styles.email, {marginTop:hp("3%")}]}>Password:</Text>
+          <TextInput
             placeholderTextColor="rgba(230, 230, 230,1)"
             onChangeText={(text)=>{setPassword(text)}}
             secureTextEntry={true}
@@ -78,18 +66,17 @@ function Welcome(props) {
         <View style={{marginTop:hp("6%"), marginLeft:wp("15%"), flexDirection:"row"}}>
           <TouchableOpacity
             onPress={() => {navigation.navigate("Forget Password")}}
-            // style={styles.forgotThePassword}
           >
-          <Text style={styles.forgotThePassword}>Forget Passwod?</Text>
+          <Text style={styles.forgotThePassword}>Forget Password?</Text>
           </TouchableOpacity>
-          <MaterialButtonSuccess1 style={[styles.MaterialButtonSuccess1, {marginRight:5}]}
+          <MaterialButtonSuccess1 style={{marginRight:5}}
             onButtonClick={onLoginPress}
           />
         </View>
 
 
         <View style={{marginTop:hp("10%"), flexDirection:"column", alignItems:"center" }}>
-          <Text style={styles.dontHaveAnAcc}>Don't have an account?</Text>
+          <Text style={styles.forgotThePassword}>Don't have an account?</Text>
           <MaterialButtonSuccess 
             style={styles.materialButtonSuccess2}
             onButtonClick={onJoinNowPress}
@@ -105,91 +92,29 @@ const styles = StyleSheet.create({
     alignItems:"center",
     // alignContent:"center"
   },
-  button: {
-    
-    // width: 211,
-    // height: 40
-  },
   forgotThePassword: {
-    // width: 211,
-    // height: 40,
     width: wp("49%"),
     height: hp("5%"),
     color: "rgba(127,202,23,1)",
     fontSize: 16,
     fontFamily: "courier-regular",
-    lineHeight: 40//hp("3%")//40
-  },
-  buttonFiller: {
-    flex: 1,
-    flexDirection: "row"
-  },
-  materialButtonSuccess1: {
-    width: 117,
-    height: 42,
-    marginTop: 4
-  },
-  buttonRow: {
-    // height: 46,
-    height: hp("50"),
-    flexDirection: "row",
-    // marginTop: 435,
-    // marginLeft: 39,
-    // marginRight: 44
-    // alignContent:"center"
-  },
-  group5: {
-    width: 228,
-    height: 91,
-    marginTop: 183,
-    marginLeft: 93
-  },
-  dontHaveAnAcc: {
-    // width: 228,
-    // height: 37,
-    width: wp("100%"),
-    height: hp("5%"),
-    color: "rgba(127,202,23,1)",
-    fontSize: 17,
-    fontFamily: "courier-regular",
-    lineHeight: 40,
-    textAlign:"center"
+    lineHeight: 40
   },
   materialButtonSuccess2: {
-    // width: 120,
-    // height: 43,
-
     width: wp("25%"),
     height: hp("5%"),
-    marginTop: 11,
-    // alignSelf:"center"
-    // marginLeft: 54
+    marginTop: hp("1.5%"),
   },
   welcomeText: {
-    // borderWidth:5,
     width: wp("60%"),
     height: hp("20%"),
-    // width: 277,
-    // height: 81,
     color: "rgba(106,164,27,1)",
     fontSize: wp("10%"),
     fontFamily: "courier-regular",
-    // lineHeight: 40,
     textAlign: "center",
-    // marginTop: -638,
-    // marginLeft: 69
-  },
-  group7: {
-    width: 331,
-    height: 65,
-    marginTop: 57,
-    marginLeft: 40
   },
   email: {
-
-    // width: 111,
-    // height: 19,
-    width: wp("20%"),
+    width: wp("25%"),
     height: hp("3%"),
     color: "rgba(122,179,52,1)",
     fontSize: 17,
@@ -204,31 +129,6 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontFamily: "arial-regular",
     marginTop: 7
-  },
-  group6: {
-    width: 332,
-    height: 64,
-    marginTop: 26,
-    marginLeft: 39
-  },
-  password: {
-    // width: 111,
-    // height: 23,
-    width: wp("20%"),
-    height: hp("3%"),
-    color: "rgba(122,179,52,1)",
-    fontSize: 17,
-    fontFamily: "courier-regular"
-  },
-  textInput7: {
-    width: 331,
-    height: 41,
-    backgroundColor: "rgba(122,179,52,1)",
-    color: "rgba(255,255,255,1)",
-    elevation: 9,
-    fontSize: 17,
-    fontFamily: "arial-regular",
-    alignSelf: "flex-end"
   }
 });
 
