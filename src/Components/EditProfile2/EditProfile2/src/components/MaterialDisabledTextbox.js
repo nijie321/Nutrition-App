@@ -68,7 +68,6 @@ function MaterialDisabledTextbox(props) {
   return (
     <View style={[styles.container, props.style]}>
       {rendering()}
-      <Icon name="information-outline" style={styles.iconStyle}></Icon>
     </View>
   );
 
@@ -92,13 +91,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: "roboto-regular",
     lineHeight: 16
-  },
-  iconStyle: {
-    color: "#000000",
-    fontFamily: "Roboto",
-    fontSize: 24,
-    paddingRight: 8,
-    opacity: 0.7
   }
 });
 

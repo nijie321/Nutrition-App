@@ -3,8 +3,12 @@ import { StyleSheet, View, TextInput, ScrollView, Alert, KeyboardAvoidingView} f
 import { Container, Header, Content, Button, Text } from 'native-base';
 
 import MaterialDisabledTextbox from "../components/MaterialDisabledTextbox";
+import MaterialDisabledTextbox1 from "../components/MaterialDisabledTextbox1";
 import MaterialCheckbox1 from "../components/MaterialCheckbox1";
 import MaterialButtonViolet from "../components/MaterialButtonViolet";
+
+import { render } from 'react-dom';
+import Select from 'react-select';
 
 import {useNavigation, CommonActions} from '@react-navigation/native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
@@ -15,7 +19,10 @@ const db = firebase.firestore();
 
 // import { TextInput } from "react-native-paper";
 
-
+const options = [
+    { value: 'a', label: 'a' },
+    { value: 'b', label: 'b' },
+];
 
 function CreateProfile(props) {
   const navigation = useNavigation();
@@ -24,9 +31,20 @@ function CreateProfile(props) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [address, setAddress] = useState("");
+  const [workAddress, setWorkAddress] = useState("");
+  const [weight, setWeight] = useState("");
   const [email, setEmail] = useState("");
   const [password,setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
+
+  state = {
+    selectedOptions: [],
+  }
+  handleChange = (selectedOptions) => {
+    this.setState({ selectedOptions });
+  }
+  const { selectedOption } = this.state;
 
 
   function onSignupPress(){
@@ -43,7 +61,10 @@ function CreateProfile(props) {
               firstName: firstName,
               lastName: lastName,
               phoneNumber: phoneNumber,
-              email: email
+              email: email,
+              address: address,
+              workAddress: workAddress,
+              weight: weight
               };
             db.collection("users").doc(uid).set(docData).then(function() {
                 console.log("Document successfully written!");
@@ -68,36 +89,64 @@ function CreateProfile(props) {
 }
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="padding">
+    <View style={styles.container} behavior="padding">
       <ScrollView  showsVerticalScrollIndicator={false}>
 
       <Text style={styles.heading}>Personal info</Text>
 
-      <Text style={styles.text}>First name</Text>
+      <Text style={styles.text}>First Name</Text>
       <MaterialDisabledTextbox
         style={styles.materialDisabledTextbox}
         firstName={firstName}
-        placeholder="Enter Your First Name"
         onFirstNameChange={setFirstName}
       ></MaterialDisabledTextbox>
 
-      <Text style={styles.text}>Last name</Text>
+      <Text style={styles.text}>Last Name</Text>
       <MaterialDisabledTextbox
         style={styles.materialDisabledTextbox}
         lastName={lastName}
-        placeholder="Enter Your Last Name"
         onLastNameChange={setLastName}
       ></MaterialDisabledTextbox>
 
-      <Text style={styles.text}>Phone number</Text>
+      <Text style={styles.text}>Phone Number</Text>
       <MaterialDisabledTextbox
         style={[styles.materialDisabledTextbox]}
         phoneNumber={phoneNumber}
-        placeholder="Enter Your Phone Number"
         onPhoneNumberChange={setPhoneNumber}
       ></MaterialDisabledTextbox>
 
+      <Text style={styles.text}>Address</Text>
+      <MaterialDisabledTextbox1
+        style={[styles.materialDisabledTextbox]}
+        address={address}
+        onAddressChange={setAddress}
+      ></MaterialDisabledTextbox1>
+
+      <Text style={styles.text}>Work Address</Text>
+      <MaterialDisabledTextbox1
+        style={[styles.materialDisabledTextbox]}
+        workAddress={workAddress}
+        onWorkAddressChange={setWorkAddress}
+      ></MaterialDisabledTextbox1>
+
+      <Text style={styles.text}>Weight (lbs)</Text>
+      <MaterialDisabledTextbox1
+        style={[styles.materialDisabledTextbox]}
+        weight={weight}
+        onWeightChange={setWeight}
+      ></MaterialDisabledTextbox1>
+
       <Text style={styles.text}>Allergies and Restrictions</Text>
+
+      <React.Fragment>
+      <Select
+        isMulti
+        value={selectedOption}
+        onChange={this.handleChange}
+        options={options}
+      />
+      {this.state.selectedOptions.map(o => <p>{o.value}</p>)}
+      </React.Fragment>
 
 
       <Text style={styles.heading}>Security</Text>
@@ -146,12 +195,8 @@ function CreateProfile(props) {
         onButtonPress={onSignupPress}
       ></MaterialButtonViolet>
 
-      <View>
-      <Text>{firstName}</Text>
-      </View>
-
       </ScrollView>
-    </KeyboardAvoidingView>
+    </View>
   );
 
 }
@@ -159,8 +204,6 @@ function CreateProfile(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    borderColor:"red",
-    borderWidth:1,
     paddingTop:hp('2%'),
   },
   heading: {
