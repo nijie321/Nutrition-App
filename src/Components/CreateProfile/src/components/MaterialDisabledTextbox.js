@@ -11,7 +11,7 @@ function MaterialDisabledTextbox(props) {
     if("lastName" in props){
       props.onLastNameChange(text);
     }else if("firstName" in props){
-      props.onFristNameChange(text);
+      props.onFirstNameChange(text);
     }else if("phoneNumber" in props){
       props.onPhoneNumberChange(text);
     }else if("address" in props){
