@@ -11,7 +11,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import firebase from '../../FireBase';
 const db = firebase.firestore();
 
-export default function Favorite2({ navigation }) {
+export default function Favorite({ navigation }) {
 
 
   const [meal, setMeal] = useState([

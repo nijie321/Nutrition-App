@@ -1,10 +1,10 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 1462,
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
   "expoServerNgrokUrl": "https://dq-zcb.anonymous.nutrition-app.exp.direct",
   "packagerNgrokUrl": "https://packager.dq-zcb.anonymous.nutrition-app.exp.direct",
-  "ngrokPid": 1472,
+  "ngrokPid": 6644,
   "webpackServerPort": null
 }
