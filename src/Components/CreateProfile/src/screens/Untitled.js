@@ -1,15 +1,14 @@
-import React, { Component,useState, useEffect } from "react";
+import React, { useState } from "react";
 import { StyleSheet, View, TextInput, ScrollView, Alert, KeyboardAvoidingView} from "react-native";
 import { Container, Header, Content, Button, Text } from 'native-base';
 
 import MaterialDisabledTextbox from "../components/MaterialDisabledTextbox";
-import MaterialCheckbox1 from "../components/MaterialCheckbox1";
+// import MaterialCheckbox1 from "../components/MaterialCheckbox1";
 import MaterialButtonViolet from "../components/MaterialButtonViolet";
 
 import {useNavigation, CommonActions} from '@react-navigation/native';
 
 // import * as firebase from 'firebase';
-
 import firebase from '../../../../../FireBase';
 const db = firebase.firestore();
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';

@@ -3,12 +3,13 @@ import { Container, Content ,Text,Input,Item,Button, Icon } from 'native-base';
 import {StyleSheet, View, Image, TextInput, ScrollView} from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp, widthPercentageToDP} from 'react-native-responsive-screen';
 
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+// import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
-import { useTheme } from '@react-navigation/native';
+// import { useTheme } from '@react-navigation/native';
 
+import firebase from '../../../../FireBase';
 
-function Payment(){
+function Payment({route, navigation}){
     const[boxOnFocus, setBoxOnFocus] = useState(false);
 
     const INITIALBOXESFOCUS = {
@@ -19,7 +20,31 @@ function Payment(){
         "card-cvv":false,
     }
     const[boxesOnFocus, setBoxesOnFocus] = useState(INITIALBOXESFOCUS);
+    console.log("route=",route);
+    console.log("route params data=",route.params.data);
+    console.log("navigation=",navigation)
+    
+    const user = firebase.auth().currentUser;
+    const db = firebase.firestore();
 
+    function SubmitOrder(){
+        // const docData = {
+        //     "order_date": new Date(),
+        //     "meal":Object.keys(route.params.data),
+        //     "status":"processing",
+        //     "can_cancel":true,
+        // }
+        // db.collection("order").doc(user.uid).update(docData)
+        // .then(() => {
+        //     console.log("update to order successfully.");
+        // })
+        // .catch((err) => {
+        //     console.log(err);
+        //     db.collection("order").doc(user.uid).set(docData)
+        //     .then(()=> {console.log("add to order successfully");})
+        // })
+        console.log("submit order");
+    }
     return(
         <ScrollView>
         <Container>
@@ -66,7 +91,7 @@ function Payment(){
                 </View>
             </View>
 
-            <Button success style={{width:wp("10%"), position:"absolute", bottom:hp("20%"), right:wp("10%"), justifyContent:"center"}}>
+            <Button success onPress={SubmitOrder} style={{width:wp("10%"), position:"absolute", bottom:hp("20%"), right:wp("10%"), justifyContent:"center"}}>
                 <Text style={{textAlign:"center"}}> Pay </Text>
             </Button>
             

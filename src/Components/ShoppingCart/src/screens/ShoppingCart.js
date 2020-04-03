@@ -5,6 +5,9 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
+import {useNavigation} from '@react-navigation/native';
+
+import uuid from 'react-native-uuid';
 import firebase from '../../../../../FireBase';
 import { parse } from 'url';
 // import { useNavigation, useFocusEffect } from '@react-navigation/native';
@@ -17,7 +20,9 @@ function ShoppingCart({route}){
     const [hasData, setHasData] = useState(false);
     const subtotal = useRef(0.0);
     const user = firebase.auth().currentUser;
- 
+    
+    const navigation = useNavigation();
+
     useEffect(() => {
         subtotal.current = 0;
         const getData = async ()=> {
@@ -37,6 +42,7 @@ function ShoppingCart({route}){
                         const price = temp.price;
                         const quantity = parseInt(data[d]);
                         const meal_id = d;
+
                         setMeal(prevState => {
                             console.log(prevState);
                             return {...prevState, ...{[d]:{meal_id,name,price}} } })
@@ -51,13 +57,58 @@ function ShoppingCart({route}){
             })
         }
 
-       getData().then(() => {setHasData(true);})
-    },[route.params.id]);
+       getData().then(() => {setHasData(true); setUpdateCart(false);})
+    },[]);
     
 
+    // async 
     function displayMealInfo(){
-        console.log("-----------------------------------");
-        console.log(subtotal);
+        console.log(uuid.v1()); 
+        // await db.collection('shopping_cart').doc(user.uid).get()
+        // .then(function(doc){
+        //     console.log("called first");
+        //     setHasData(false);
+        //     return doc.data();
+        // })
+        // .then(async function(data){
+        //     console.log("called second");
+        //     for(const d in data){
+        //         await db.collection('meals').doc(d).get()
+        //         .then(async function(doc){
+        //             const temp = doc.data();
+        //             console.log(temp);
+        //                 const name = temp.name;
+        //                 const price = temp.price;
+        //                 const quantity = parseInt(data[d]);
+        //                 const meal_id = d;
+
+        //                 await setMeal(prevState => {
+        //                     if(Object.keys(prevState).length == Object.keys(data).length){
+        //                         console.log(prevState);
+        //                         return {...prevState, ...{[d]:{meal_id,name,price}} } 
+        //                     }else{
+        //                         return({[d]:{meal_id,name,price}})
+        //                     }            
+                            
+        //                     }
+        //                 )
+
+        //                 await setQty(prevState => {
+                            
+        //                     if(Object.keys(prevState).length == Object.keys(data).length){
+        //                         return;    
+        //                     }else{
+        //                         return({[d]:{quantity}})
+        //                     }
+        //                 }
+        //                 )
+        //         })
+        //         .then(() => {setHasData(true);})
+        //     }
+        // })
+        // setUpdateCart(true);
+        // console.log("-----------------------------------");
+        // console.log(subtotal);
         // console.log(qty);
         // console.log(meal);
         
@@ -173,14 +224,14 @@ function ShoppingCart({route}){
         return(
             <View>
                 <MaterialIcons.Button name="payment" color="#007AFF" backgroundColor="transparent" underlayColor="green" size={wp("20%")}
-                    onPress={()=>{console.log("pressed");}}
+                    onPress={()=>{ navigation.navigate("Payment", {data:meal})}}
                 />
             </View>
         )
     }
-    
-    // if(hasData){
+
     const createMealInfoContainer = () => {
+
         let container = [];
 
         for(const m in meal){
