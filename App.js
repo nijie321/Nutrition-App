@@ -22,6 +22,8 @@ import {DetailMeal} from './src/Components/DetailedMeal/DetailedMeal/index';
 //import DetailMeal from './src/Screens/DetailMeal';
 import {EditProfile} from './src/Components/EditProfile2/EditProfile2/index';
 
+import {default as PaymentHistory} from './src/Components/PaymentHistory/screens/PaymentHistory';
+import {default as Payment} from './src/Components/Payment/screens/Payment';
 import {default as ShoppingCart} from './src/Components/ShoppingCart/src/screens/ShoppingCart';
 //import FavList from './src/Screens/FavList';
 
@@ -256,10 +258,17 @@ export default function App() {
         // }}
         // screenOptions={{headerTitleAlign:"center"}}
       >
-        {/* <Stack.Screen
-          name="Shopping Cart"
+        
+        <Stack.Screen
+          name="Payment History"
           component={ShoppingCart}
-        /> */}
+        />
+
+        <Stack.Screen
+          name="Payment"
+          component={Payment}
+        />
+
         <Stack.Screen
           name="Edit Profile"
           component={EditProfile}

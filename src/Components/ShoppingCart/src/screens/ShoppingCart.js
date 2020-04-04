@@ -5,6 +5,8 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
+import {useNavigation} from '@react-navigation/native';
+
 import firebase from '../../../../../FireBase';
 import { parse } from 'url';
 // import { useNavigation, useFocusEffect } from '@react-navigation/native';
@@ -15,57 +17,98 @@ function ShoppingCart({route}){
     const[qty, setQty] = useState({});
     const[meal, setMeal] = useState([]);
     const [hasData, setHasData] = useState(false);
-    // const[subtotal, setSubtotal] = useState(0.0);
     const subtotal = useRef(0.0);
     const user = firebase.auth().currentUser;
     
-    function usePrevious(value) {
-        const ref = useRef();
-        useEffect(() => {
-          ref.current = value;
-        });
-        return ref.current;
-    }
-    useEffect(() => {
-        subtotal.current = 0;
-        const getData = async ()=> {
-            
-            await db.collection('shopping_cart').doc(user.uid).get()
-            .then(function(doc){
-                return doc.data();
-                // setMetaData(doc.data());
-            })
-            .then(async function(data){
-                for(const d in data){
-                    // setQty(parseInt(data[d]));
-                    await db.collection('meals').doc(d).get()
-                    .then(function(doc){
-                        const temp = doc.data();
-                        const name = temp.name;
-                        const price = temp.price;
-                        const quantity = parseInt(data[d]);
-                        const meal_id = d;
-                        setMeal(prevState => {
-                            console.log(prevState);
-                            return {...prevState, ...{[d]:{meal_id,name,price}} } })
-                        setQty(prevState => {
-                            return {...prevState, ...{[d]:{quantity}}}
-                        })
-                        // calculate initial subtotal
-                        subtotal.current += (parseFloat(price.substr(1)) * quantity);
-                        // subtotal.current.toFixed(2);
-                    })
-                }
-            })
-        }
+    const navigation = useNavigation();
 
-       getData().then(() => {setHasData(true);})
-    },[route.params.id]);
+    // useEffect(() => {
+    //     subtotal.current = 0;
+    //     const getData = async ()=> {
+            
+    //         await db.collection('shopping_cart').doc(user.uid).get()
+    //         .then(function(doc){
+    //             return doc.data();
+    //             // setMetaData(doc.data());
+    //         })
+    //         .then(async function(data){
+    //             for(const d in data){
+    //                 // setQty(parseInt(data[d]));
+    //                 await db.collection('meals').doc(d).get()
+    //                 .then(function(doc){
+    //                     const temp = doc.data();
+    //                     const name = temp.name;
+    //                     const price = temp.price;
+    //                     const quantity = parseInt(data[d]);
+    //                     const meal_id = d;
+
+    //                     setMeal(prevState => {
+    //                         console.log(prevState);
+    //                         return {...prevState, ...{[d]:{meal_id,name,price}} } })
+    //                     setQty(prevState => {
+    //                         return {...prevState, ...{[d]:{quantity}}}
+    //                     })
+    //                     // calculate initial subtotal
+    //                     subtotal.current += (parseFloat(price.substr(1)) * quantity);
+    //                     // subtotal.current.toFixed(2);
+    //                 })
+    //             }
+    //         })
+    //     }
+
+    //    getData().then(() => {setHasData(true); setUpdateCart(false);})
+    // },[]);
     
 
+    // async 
     function displayMealInfo(){
-        console.log("-----------------------------------");
-        console.log(subtotal);
+        console.log("hello");
+        // console.log(uuid.v1()); 
+        // await db.collection('shopping_cart').doc(user.uid).get()
+        // .then(function(doc){
+        //     console.log("called first");
+        //     setHasData(false);
+        //     return doc.data();
+        // })
+        // .then(async function(data){
+        //     console.log("called second");
+        //     for(const d in data){
+        //         await db.collection('meals').doc(d).get()
+        //         .then(async function(doc){
+        //             const temp = doc.data();
+        //             console.log(temp);
+        //                 const name = temp.name;
+        //                 const price = temp.price;
+        //                 const quantity = parseInt(data[d]);
+        //                 const meal_id = d;
+
+        //                 await setMeal(prevState => {
+        //                     if(Object.keys(prevState).length == Object.keys(data).length){
+        //                         console.log(prevState);
+        //                         return {...prevState, ...{[d]:{meal_id,name,price}} } 
+        //                     }else{
+        //                         return({[d]:{meal_id,name,price}})
+        //                     }            
+                            
+        //                     }
+        //                 )
+
+        //                 await setQty(prevState => {
+                            
+        //                     if(Object.keys(prevState).length == Object.keys(data).length){
+        //                         return;    
+        //                     }else{
+        //                         return({[d]:{quantity}})
+        //                     }
+        //                 }
+        //                 )
+        //         })
+        //         .then(() => {setHasData(true);})
+        //     }
+        // })
+        // setUpdateCart(true);
+        // console.log("-----------------------------------");
+        // console.log(subtotal);
         // console.log(qty);
         // console.log(meal);
         
@@ -167,9 +210,13 @@ function ShoppingCart({route}){
 
     function Total(){
         // const subtotal = 
+        // subtotal.current = 10.0;
         return(
-            <View>
-                <Text>Subtotal: ${subtotal.current}</Text>
+            <View style={{flexDirection:"column", justifyContent:"space-between"}}>
+                <Text style={styles.price}>Subtotal: {"\t$"+`${subtotal.current.toFixed(2)}`}</Text> 
+                {/* ${subtotal.current.toFixed(2) */}
+                <Text style={styles.price}>Tax: {"\t\t$"+`${(subtotal.current * .15).toFixed(2)}`}</Text>
+                <Text style={styles.price}>Total: {"\t\t$" + `${(subtotal.current * 1.15).toFixed(2)}`}</Text>
             </View>
         )
     }
@@ -177,14 +224,14 @@ function ShoppingCart({route}){
         return(
             <View>
                 <MaterialIcons.Button name="payment" color="#007AFF" backgroundColor="transparent" underlayColor="green" size={wp("20%")}
-                    onPress={()=>{console.log("pressed");}}
+                    onPress={()=>{ navigation.navigate("Payment", {data:meal})}}
                 />
             </View>
         )
     }
-    
-    // if(hasData){
+
     const createMealInfoContainer = () => {
+
         let container = [];
 
         for(const m in meal){
@@ -194,17 +241,21 @@ function ShoppingCart({route}){
     }
     return(
         <View style={styles.container}>
-            <Button rounded success 
+            {/* <Button rounded success 
                     style={styles.checkout_btn}
                     onPress={displayMealInfo}
                     >
                     <Text>Check Out!</Text>
-            </Button>
+            </Button> */}
                 
-                {hasData?createMealInfoContainer():null}
-            <View style={{alignItems:"center",flexDirection:"row", position:"absolute", bottom:hp("1%")}}>
-                <Total />
-                <Payment />
+                {/* {hasData?createMealInfoContainer():null} */}
+            <View style={{alignItems:"center", position:"absolute", bottom:hp("1%"), right:wp("1%") }}>
+                <View style={{marginRight:wp("5%")}}>
+                    <Total />
+                </View>
+                <View>
+                    <Payment />
+                </View>
             </View>
         </View>
     )
@@ -236,13 +287,18 @@ const styles = StyleSheet.create({
     },
     meal_info_container:{
         flexDirection:"row",
-        marginLeft:wp("5%"),
-        borderColor:"red",
-        borderWidth:1,
+        marginHorizontal:wp("3%"),
+        // marginVertical: hp("2%"),
+        // borderColor:"red",
+        // borderWidth:1,
+        marginBottom:hp("1%")
     },
     img:{
         height:hp("12%"),
         width:wp("30%"),
+    },
+    price:{
+        marginBottom:hp("1%")
     }
 })
 export default ShoppingCart
