@@ -7,7 +7,6 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import {useNavigation} from '@react-navigation/native';
 
-import uuid from 'react-native-uuid';
 import firebase from '../../../../../FireBase';
 import { parse } from 'url';
 // import { useNavigation, useFocusEffect } from '@react-navigation/native';
@@ -23,47 +22,48 @@ function ShoppingCart({route}){
     
     const navigation = useNavigation();
 
-    useEffect(() => {
-        subtotal.current = 0;
-        const getData = async ()=> {
+    // useEffect(() => {
+    //     subtotal.current = 0;
+    //     const getData = async ()=> {
             
-            await db.collection('shopping_cart').doc(user.uid).get()
-            .then(function(doc){
-                return doc.data();
-                // setMetaData(doc.data());
-            })
-            .then(async function(data){
-                for(const d in data){
-                    // setQty(parseInt(data[d]));
-                    await db.collection('meals').doc(d).get()
-                    .then(function(doc){
-                        const temp = doc.data();
-                        const name = temp.name;
-                        const price = temp.price;
-                        const quantity = parseInt(data[d]);
-                        const meal_id = d;
+    //         await db.collection('shopping_cart').doc(user.uid).get()
+    //         .then(function(doc){
+    //             return doc.data();
+    //             // setMetaData(doc.data());
+    //         })
+    //         .then(async function(data){
+    //             for(const d in data){
+    //                 // setQty(parseInt(data[d]));
+    //                 await db.collection('meals').doc(d).get()
+    //                 .then(function(doc){
+    //                     const temp = doc.data();
+    //                     const name = temp.name;
+    //                     const price = temp.price;
+    //                     const quantity = parseInt(data[d]);
+    //                     const meal_id = d;
 
-                        setMeal(prevState => {
-                            console.log(prevState);
-                            return {...prevState, ...{[d]:{meal_id,name,price}} } })
-                        setQty(prevState => {
-                            return {...prevState, ...{[d]:{quantity}}}
-                        })
-                        // calculate initial subtotal
-                        subtotal.current += (parseFloat(price.substr(1)) * quantity);
-                        // subtotal.current.toFixed(2);
-                    })
-                }
-            })
-        }
+    //                     setMeal(prevState => {
+    //                         console.log(prevState);
+    //                         return {...prevState, ...{[d]:{meal_id,name,price}} } })
+    //                     setQty(prevState => {
+    //                         return {...prevState, ...{[d]:{quantity}}}
+    //                     })
+    //                     // calculate initial subtotal
+    //                     subtotal.current += (parseFloat(price.substr(1)) * quantity);
+    //                     // subtotal.current.toFixed(2);
+    //                 })
+    //             }
+    //         })
+    //     }
 
-       getData().then(() => {setHasData(true); setUpdateCart(false);})
-    },[]);
+    //    getData().then(() => {setHasData(true); setUpdateCart(false);})
+    // },[]);
     
 
     // async 
     function displayMealInfo(){
-        console.log(uuid.v1()); 
+        console.log("hello");
+        // console.log(uuid.v1()); 
         // await db.collection('shopping_cart').doc(user.uid).get()
         // .then(function(doc){
         //     console.log("called first");
@@ -248,7 +248,7 @@ function ShoppingCart({route}){
                     <Text>Check Out!</Text>
             </Button> */}
                 
-                {hasData?createMealInfoContainer():null}
+                {/* {hasData?createMealInfoContainer():null} */}
             <View style={{alignItems:"center", position:"absolute", bottom:hp("1%"), right:wp("1%") }}>
                 <View style={{marginRight:wp("5%")}}>
                     <Total />

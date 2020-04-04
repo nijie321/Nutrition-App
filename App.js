@@ -231,7 +231,7 @@ export default function App() {
   if(fontLoaded){
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Payment History" //#"Welcome"
+      <Stack.Navigator initialRouteName="Welcome" //#"Welcome"
         // screenOptions={{
         //   headerShown: false
         // }}
