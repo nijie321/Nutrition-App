@@ -10,12 +10,12 @@ import {useNavigation} from '@react-navigation/native';
 
 // import uuid from 'react-native-uuid';
 import firebase from '../../../../../FireBase';
-import { parse } from 'url';
+// import { parse } from 'url';
 // import { useNavigation, useFocusEffect } from '@react-navigation/native';
 // import { preventAutoHide } from 'expo/build/launch/SplashScreen';
 const db = firebase.firestore();
 
-function ShoppingCart({route}){
+function ShoppingCart(){
     const[qty, setQty] = useState({});
     const[meal, setMeal] = useState([]);
     const [hasData, setHasData] = useState(false);
@@ -23,43 +23,44 @@ function ShoppingCart({route}){
     const user = firebase.auth().currentUser;
     
     const navigation = useNavigation();
-
-    // useEffect(() => {
-    //     subtotal.current = 0;
-    //     const getData = async ()=> {
+    // console.log(route.params.update);
+    useEffect(() => {
+        subtotal.current = 0;
+        const getData = async ()=> {
             
-    //         await db.collection('shopping_cart').doc(user.uid).get()
-    //         .then(function(doc){
-    //             return doc.data();
-    //             // setMetaData(doc.data());
-    //         })
-    //         .then(async function(data){
-    //             for(const d in data){
-    //                 // setQty(parseInt(data[d]));
-    //                 await db.collection('meals').doc(d).get()
-    //                 .then(function(doc){
-    //                     const temp = doc.data();
-    //                     const name = temp.name;
-    //                     const price = temp.price;
-    //                     const quantity = parseInt(data[d]);
-    //                     const meal_id = d;
+            await db.collection('shopping_cart').doc(user.uid).get()
+            .then(function(doc){
+                return doc.data();
+                // setMetaData(doc.data());
+            })
+            .then(async function(data){
+                for(const d in data){
+                    // setQty(parseInt(data[d]));
+                    await db.collection('meals').doc(d).get()
+                    .then(function(doc){
+                        const temp = doc.data();
+                        const name = temp.name;
+                        const price = temp.price;
+                        const quantity = parseInt(data[d]);
+                        const meal_id = d;
 
-    //                     setMeal(prevState => {
-    //                         console.log(prevState);
-    //                         return {...prevState, ...{[d]:{meal_id,name,price}} } })
-    //                     setQty(prevState => {
-    //                         return {...prevState, ...{[d]:{quantity}}}
-    //                     })
-    //                     // calculate initial subtotal
-    //                     subtotal.current += (parseFloat(price.substr(1)) * quantity);
-    //                     // subtotal.current.toFixed(2);
-    //                 })
-    //             }
-    //         })
-    //     }
+                        setMeal(prevState => {
+                            console.log(prevState);
+                            return {...prevState, ...{[d]:{meal_id,name,price,quantity}} } })
 
-    //    getData().then(() => {setHasData(true);})
-    // },[]);
+                        // setQty(prevState => {
+                        //     return {...prevState, ...{[d]:{quantity}}}
+                        // })
+                        // calculate initial subtotal
+                        subtotal.current += (parseFloat(price.substr(1)) * quantity);
+                        // subtotal.current.toFixed(2);
+                    })
+                }
+            })
+        }
+
+       getData().then(() => {setHasData(true);})
+    },[]);
     
 
     // async 
@@ -78,7 +79,7 @@ function ShoppingCart({route}){
             console.log("inside second then----------------------");
             subtotal.current = 0.0;
             setMeal([]);
-            setQty({});
+            // setQty({});
 
             
             for(const d in data) {
@@ -125,10 +126,14 @@ function ShoppingCart({route}){
 
     function onMinusPress(meal){
 
-        const quantity = qty[meal.meal_id].quantity;
+        // const quantity = qty[meal.meal_id].quantity;
+        // const new_quantity = quantity - 1;
+        
+        const quantity = meal.quantity;
         const new_quantity = quantity - 1;
         if(quantity >= 1){
-            setQty(prevState => {return {...prevState, ...{[meal.meal_id]: {quantity: new_quantity}}}})
+            setMeal(prevState => {return {...prevState, ...{[meal.meal_id]:{quantity:new_quantity}}}})
+            // setQty(prevState => {return {...prevState, ...{[meal.meal_id]: {quantity: new_quantity}}}})
             updateQty(meal.meal_id, new_quantity);
             subtotal.current -= parseFloat(meal.price.substr(1));
         }else{
@@ -139,9 +144,12 @@ function ShoppingCart({route}){
     
 
     function onPlusPress(meal){
-        const quantity = qty[meal.meal_id].quantity;
+        // const quantity = qty[meal.meal_id].quantity;
+        // const new_quantity = quantity + 1;
+        const quantity = meal.quantity;
         const new_quantity = quantity + 1;
-        setQty(prevState => {return {...prevState, ...{[meal.meal_id]: {quantity:new_quantity}}} });
+        setMeal(prevState => {return {...prevState, ...{[meal.meal_id]:{quantity:new_quantity}}}})
+        // setQty(prevState => {return {...prevState, ...{[meal.meal_id]: {quantity:new_quantity}}} });
         updateQty(meal.meal_id,new_quantity);
         subtotal.current += parseFloat(meal.price.substr(1));
         // console.log(qty);
@@ -157,7 +165,7 @@ function ShoppingCart({route}){
                     >
                 <Icon type="AntDesign" name="minuscircle" style={styles.remove_btn} />
                 </Button>
-                <Text style={{fontSize:wp("3%"), alignSelf:"center", paddingHorizontal:5, fontWeight:"bold" }}>Quantity: { qty[meal.meal_id].quantity }</Text>
+                <Text style={{fontSize:wp("3%"), alignSelf:"center", paddingHorizontal:5, fontWeight:"bold" }}>Quantity: { meal.quantity }</Text>
                 {/* add quantity */}
                 <Button transparent rounded
                     style={styles.remove_btn}
@@ -189,7 +197,7 @@ function ShoppingCart({route}){
                 <Text>{meal.name}</Text> 
                 <View style={{position:"absolute", right:wp("7%"), marginTop:hp("2%")}}>
                     <AddRemoveBTNs meal={meal}/>
-                    <Price price={parseFloat( meal.price.substr(1) * qty[meal.meal_id].quantity ).toFixed(2)} />
+                    <Price price={parseFloat( meal.price.substr(1) * meal.quantity ).toFixed(2)} />
                 </View>
             </View>
         )
@@ -219,7 +227,7 @@ function ShoppingCart({route}){
     }
     function Payment(){
         return(
-            <View>
+            <View style={styles.payment}>
                 <MaterialIcons.Button name="payment" color="#007AFF" backgroundColor="transparent" underlayColor="green" size={wp("20%")}
                     onPress={()=>{ navigation.navigate("Payment", {data:meal})}}
                 />
@@ -243,12 +251,11 @@ function ShoppingCart({route}){
             {hasData?createMealInfoContainer():null} */}
             
             <View style={{alignItems:"center", position:"absolute", bottom:hp("1%"), right:wp("1%") }}>
-                <View style={{marginRight:wp("5%")}}>
-                    <Total />
-                </View>
-                <View>
-                    <Payment />
-                </View>
+                {/* <View style={{marginRight:wp("5%")}}>
+                    
+                </View> */}
+                <Total />
+                <Payment />
             </View>
         </View>
     )
