@@ -4,10 +4,11 @@ import {StyleSheet, View, Image, TextInput} from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import {useNavigation} from '@react-navigation/native';
 
-import uuid from 'react-native-uuid';
+// import uuid from 'react-native-uuid';
 import firebase from '../../../../../FireBase';
 import { parse } from 'url';
 // import { useNavigation, useFocusEffect } from '@react-navigation/native';
@@ -23,95 +24,93 @@ function ShoppingCart({route}){
     
     const navigation = useNavigation();
 
-    useEffect(() => {
-        subtotal.current = 0;
-        const getData = async ()=> {
+    // useEffect(() => {
+    //     subtotal.current = 0;
+    //     const getData = async ()=> {
             
-            await db.collection('shopping_cart').doc(user.uid).get()
-            .then(function(doc){
-                return doc.data();
-                // setMetaData(doc.data());
-            })
-            .then(async function(data){
-                for(const d in data){
-                    // setQty(parseInt(data[d]));
-                    await db.collection('meals').doc(d).get()
-                    .then(function(doc){
-                        const temp = doc.data();
-                        const name = temp.name;
-                        const price = temp.price;
-                        const quantity = parseInt(data[d]);
-                        const meal_id = d;
+    //         await db.collection('shopping_cart').doc(user.uid).get()
+    //         .then(function(doc){
+    //             return doc.data();
+    //             // setMetaData(doc.data());
+    //         })
+    //         .then(async function(data){
+    //             for(const d in data){
+    //                 // setQty(parseInt(data[d]));
+    //                 await db.collection('meals').doc(d).get()
+    //                 .then(function(doc){
+    //                     const temp = doc.data();
+    //                     const name = temp.name;
+    //                     const price = temp.price;
+    //                     const quantity = parseInt(data[d]);
+    //                     const meal_id = d;
 
-                        setMeal(prevState => {
-                            console.log(prevState);
-                            return {...prevState, ...{[d]:{meal_id,name,price}} } })
-                        setQty(prevState => {
-                            return {...prevState, ...{[d]:{quantity}}}
-                        })
-                        // calculate initial subtotal
-                        subtotal.current += (parseFloat(price.substr(1)) * quantity);
-                        // subtotal.current.toFixed(2);
-                    })
-                }
-            })
-        }
+    //                     setMeal(prevState => {
+    //                         console.log(prevState);
+    //                         return {...prevState, ...{[d]:{meal_id,name,price}} } })
+    //                     setQty(prevState => {
+    //                         return {...prevState, ...{[d]:{quantity}}}
+    //                     })
+    //                     // calculate initial subtotal
+    //                     subtotal.current += (parseFloat(price.substr(1)) * quantity);
+    //                     // subtotal.current.toFixed(2);
+    //                 })
+    //             }
+    //         })
+    //     }
 
-       getData().then(() => {setHasData(true); setUpdateCart(false);})
-    },[]);
+    //    getData().then(() => {setHasData(true);})
+    // },[]);
     
 
     // async 
+
+    async function updateMealInfo(){
+        subtotal.current = 0.0;
+        await db.collection('shopping_cart').doc(user.uid).get()
+        .then(function(doc){
+            console.log("inside first then----------------------");
+            // console.log("inside then 1");
+            // console.log(doc.data());
+            setHasData(false);
+            return doc.data();
+        })
+        .then(async function(data){
+            console.log("inside second then----------------------");
+            subtotal.current = 0.0;
+            setMeal([]);
+            setQty({});
+
+            
+            for(const d in data) {
+                await db.collection('meals').doc(d).get()
+                .then(function(doc){
+                    // console.log('0000000000000000000000');
+                    // console.log(doc.data());
+                    console.log("inside for loop then-------------------");
+                    const temp = doc.data();
+                    const name = temp.name;
+                    const price = temp.price;
+                    const quantity = parseInt(data[d]);
+                    const meal_id = d;
+
+                    
+                    setMeal(prevState => {
+                        console.log("previous state--------------------------");
+                        console.log(prevState);
+                        return {...prevState, ...{[d]:{meal_id,name,price}} } })
+                    setQty(prevState => {
+                        return {...prevState, ...{[d]:{quantity}}}
+                    })
+                    // calculate initial subtotal
+                    subtotal.current += (parseFloat(price.substr(1)) * quantity);
+                    
+                })
+            }
+
+        })
+    }
     function displayMealInfo(){
-        console.log(uuid.v1()); 
-        // await db.collection('shopping_cart').doc(user.uid).get()
-        // .then(function(doc){
-        //     console.log("called first");
-        //     setHasData(false);
-        //     return doc.data();
-        // })
-        // .then(async function(data){
-        //     console.log("called second");
-        //     for(const d in data){
-        //         await db.collection('meals').doc(d).get()
-        //         .then(async function(doc){
-        //             const temp = doc.data();
-        //             console.log(temp);
-        //                 const name = temp.name;
-        //                 const price = temp.price;
-        //                 const quantity = parseInt(data[d]);
-        //                 const meal_id = d;
-
-        //                 await setMeal(prevState => {
-        //                     if(Object.keys(prevState).length == Object.keys(data).length){
-        //                         console.log(prevState);
-        //                         return {...prevState, ...{[d]:{meal_id,name,price}} } 
-        //                     }else{
-        //                         return({[d]:{meal_id,name,price}})
-        //                     }            
-                            
-        //                     }
-        //                 )
-
-        //                 await setQty(prevState => {
-                            
-        //                     if(Object.keys(prevState).length == Object.keys(data).length){
-        //                         return;    
-        //                     }else{
-        //                         return({[d]:{quantity}})
-        //                     }
-        //                 }
-        //                 )
-        //         })
-        //         .then(() => {setHasData(true);})
-        //     }
-        // })
-        // setUpdateCart(true);
-        // console.log("-----------------------------------");
-        // console.log(subtotal);
-        // console.log(qty);
-        // console.log(meal);
-        
+        updateMealInfo().then(() => {setHasData(true)});
     }
 
     async function updateQty(field_id, new_val){
@@ -209,8 +208,6 @@ function ShoppingCart({route}){
     }
 
     function Total(){
-        // const subtotal = 
-        // subtotal.current = 10.0;
         return(
             <View style={{flexDirection:"column", justifyContent:"space-between"}}>
                 <Text style={styles.price}>Subtotal: {"\t$"+`${subtotal.current.toFixed(2)}`}</Text> 
@@ -241,14 +238,10 @@ function ShoppingCart({route}){
     }
     return(
         <View style={styles.container}>
-            {/* <Button rounded success 
-                    style={styles.checkout_btn}
-                    onPress={displayMealInfo}
-                    >
-                    <Text>Check Out!</Text>
-            </Button> */}
-                
-                {hasData?createMealInfoContainer():null}
+            {/* <FontAwesome.Button name="refresh" backgroundColor="green" size={wp("5%")} underlayColor="red" color="#007AFF" onPress={displayMealInfo}/>
+            
+            {hasData?createMealInfoContainer():null} */}
+            
             <View style={{alignItems:"center", position:"absolute", bottom:hp("1%"), right:wp("1%") }}>
                 <View style={{marginRight:wp("5%")}}>
                     <Total />
