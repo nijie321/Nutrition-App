@@ -123,4 +123,11 @@ dist/
 tmp/
 temp/
 
+# Config file
+config.js
+
 # End of https://www.gitignore.io/api/node,linux
+
+
+# expo file
+.expo/*
