@@ -98,7 +98,7 @@ function ShoppingCart(){
                     setMeal(prevState => {
                         console.log("previous state--------------------------");
                         console.log(prevState);
-                        return {...prevState, ...{[d]:{meal_id,name,price}} } })
+                        return {...prevState, ...{[d]:{meal_id,name,price, quantity}} } })
                     setQty(prevState => {
                         return {...prevState, ...{[d]:{quantity}}}
                     })
@@ -124,15 +124,31 @@ function ShoppingCart(){
         })
     }
 
+
+    function logInfo(){
+        console.log("meal=",meal);
+    }
+
     function onMinusPress(meal){
 
         // const quantity = qty[meal.meal_id].quantity;
         // const new_quantity = quantity - 1;
         
+        console.log("inside on minus press");
         const quantity = meal.quantity;
         const new_quantity = quantity - 1;
         if(quantity >= 1){
-            setMeal(prevState => {return {...prevState, ...{[meal.meal_id]:{quantity:new_quantity}}}})
+            console.log("inside if statement (if quantity >= 1)");
+            // setMeal({...previous, [meal.meal_id]:{...previous[meal.meal_id],quantity:new_quantity} })
+            setMeal(prevState => {
+                console.log("printing previous state...");
+                console.log(prevState);
+                return {...prevState, ...{[meal.meal_id]:{...prevState[meal.meal_id], quantity:new_quantity}}}}
+                )
+
+            logInfo();
+            // console.log("meal ====", meal);
+            // console.log("meal ===== ", meal);
             // setQty(prevState => {return {...prevState, ...{[meal.meal_id]: {quantity: new_quantity}}}})
             updateQty(meal.meal_id, new_quantity);
             subtotal.current -= parseFloat(meal.price.substr(1));
@@ -148,7 +164,7 @@ function ShoppingCart(){
         // const new_quantity = quantity + 1;
         const quantity = meal.quantity;
         const new_quantity = quantity + 1;
-        setMeal(prevState => {return {...prevState, ...{[meal.meal_id]:{quantity:new_quantity}}}})
+        setMeal(prevState => {return {...prevState, ...{[meal.meal_id]:{...prevState[meal.meal_id], quantity:new_quantity}}}})
         // setQty(prevState => {return {...prevState, ...{[meal.meal_id]: {quantity:new_quantity}}} });
         updateQty(meal.meal_id,new_quantity);
         subtotal.current += parseFloat(meal.price.substr(1));
@@ -161,7 +177,7 @@ function ShoppingCart(){
                 {/* remove quantity */}
                 <Button transparent rounded
                     style={styles.remove_btn}
-                    onPress={() => {onMinusPress(meal)}}
+                    onPress={async () => {await onMinusPress(meal)}}
                     >
                 <Icon type="AntDesign" name="minuscircle" style={styles.remove_btn} />
                 </Button>
@@ -191,6 +207,8 @@ function ShoppingCart(){
       }
     
     function MealInfoContainer({meal}){
+        console.log("inside meal info container");
+        console.log(meal);
         return(
             <View style={styles.meal_info_container}>
                 <Image style={styles.img} resizeMode="cover" source={determineImg(meal.meal_id)}/>
@@ -236,6 +254,7 @@ function ShoppingCart(){
     }
 
     const createMealInfoContainer = () => {
+        console.log("inside create meal coninters");
 
         let container = [];
 
@@ -246,9 +265,9 @@ function ShoppingCart(){
     }
     return(
         <View style={styles.container}>
-            {/* <FontAwesome.Button name="refresh" backgroundColor="green" size={wp("5%")} underlayColor="red" color="#007AFF" onPress={displayMealInfo}/>
+            <FontAwesome.Button name="refresh" backgroundColor="green" size={wp("5%")} underlayColor="red" color="#007AFF" onPress={displayMealInfo}/>
             
-            {hasData?createMealInfoContainer():null} */}
+            {hasData?createMealInfoContainer():null}
             
             <View style={{alignItems:"center", position:"absolute", bottom:hp("1%"), right:wp("1%") }}>
                 {/* <View style={{marginRight:wp("5%")}}>
