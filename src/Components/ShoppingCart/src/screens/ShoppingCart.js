@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef} from 'react';
 import { Container, Content ,Text, Button, Icon } from 'native-base';
-import {StyleSheet, View, Image, TextInput} from 'react-native';
+import {StyleSheet, View, Image, TextInput, ScrollView} from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -246,7 +246,7 @@ function ShoppingCart(){
     function Payment(){
         return(
             <View style={styles.payment}>
-                <MaterialIcons.Button name="payment" color="#007AFF" backgroundColor="transparent" underlayColor="green" size={wp("20%")}
+                <MaterialIcons.Button name="payment" color="#007AFF" backgroundColor="transparent" underlayColor="green" size={wp("10%")}
                     onPress={()=>{ navigation.navigate("Payment", {data:meal})}}
                 />
             </View>
@@ -263,12 +263,20 @@ function ShoppingCart(){
         }
         return container;
     }
+
+    function logData(){
+        for(const m in meal){
+
+        }
+        console.log(meal);
+    }
     return(
+        <ScrollView>
         <View style={styles.container}>
-            <FontAwesome.Button name="refresh" backgroundColor="green" size={wp("5%")} underlayColor="red" color="#007AFF" onPress={displayMealInfo}/>
-            
             {hasData?createMealInfoContainer():null}
-            
+            <View style={{width:wp("10%")}}>
+                <FontAwesome.Button name="refresh" backgroundColor="transparent" size={wp("5%")} underlayColor="red" color="#007AFF" onPress={displayMealInfo}/>
+            </View>
             <View style={{alignItems:"center", position:"absolute", bottom:hp("1%"), right:wp("1%") }}>
                 {/* <View style={{marginRight:wp("5%")}}>
                     
@@ -277,6 +285,7 @@ function ShoppingCart(){
                 <Payment />
             </View>
         </View>
+</ScrollView>
     )
     // }else{return null};
 }
