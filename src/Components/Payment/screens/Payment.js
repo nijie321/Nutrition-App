@@ -3,6 +3,8 @@ import { Container, Content ,Text,Input,Item,Button, Icon } from 'native-base';
 import {StyleSheet, View, ScrollView, Alert} from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp, widthPercentageToDP} from 'react-native-responsive-screen';
 
+
+import uuid from 'react-native-uuid';
 // import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 // import { useTheme } from '@react-navigation/native';
@@ -41,25 +43,40 @@ function Payment({route, navigation}){
         }
 
         const docData = {
+            [uuid.v1()]:{
             "order_date": new Date(),
-            "meal": mealData(),
+            "meals": mealData(),
             "status":"processing", // ["processing", "confirmed", "cancelled"]
             "can_cancel":true,
+            }
         }
 
-        db.collection("order").doc(user.uid).set(docData)
-        .then(() => {Alert.alert("Order Placed Successfully.");})
-        .then(() => {
-            navigation.dispatch(
-                CommonActions.reset({
-                  index:0,
-                  routes:[
-                    {name: "Home"}
-                  ]
-                })
-                )
+        db.collection("order").doc(user.uid).update(docData)
+        .then(()=>{
+            Alert.alert("New Order Placed Successfully.");
         })
-        .catch((err) => {console.log("something went wrong. error code:", err);})
+        .catch((err)=>{
+            console.log(err);
+            console.log("attemping to set a new documentation in the databse");
+            db.collection("order").doc(user.uid).set(docData)
+            .then(()=>{
+                console.log("Order Placed Successfully.");
+            })
+        })
+
+        // db.collection("order").doc(user.uid).set(docData)
+        // .then(() => {Alert.alert("Order Placed Successfully.");})
+        // .then(() => {
+        //     navigation.dispatch(
+        //         CommonActions.reset({
+        //           index:0,
+        //           routes:[
+        //             {name: "Home"}
+        //           ]
+        //         })
+        //         )
+        // })
+        // .catch((err) => {console.log("something went wrong. error code:", err);})
 
     }
     return(
