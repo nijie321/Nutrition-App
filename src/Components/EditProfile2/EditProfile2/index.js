@@ -1,0 +1,1 @@
+export { default as EditProfile } from "./src/screens/EditProfile.js";
