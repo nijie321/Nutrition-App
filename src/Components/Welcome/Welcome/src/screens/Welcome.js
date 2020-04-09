@@ -58,7 +58,6 @@ function Welcome(props) {
             keyboardType="email-address"
             autoCapitalize="none"
             autoCorrect={false}
-            defaultValue="nijie321@outlook.com"
             onChangeText={(text) => {setEmail(text)}}
             style={styles.textInput6}
           />
@@ -71,7 +70,6 @@ function Welcome(props) {
             secureTextEntry={true}
             autoCapitalize="none"
             autoCorrect={false}
-            defaultValue="abc123"
             style={styles.textInput6}
           />
         </View>

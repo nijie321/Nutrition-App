@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef} from 'react';
 import { Container, Content ,Text,Input,Item,Button, Icon } from 'native-base';
-import {StyleSheet, View, ScrollView, Alert} from 'react-native';
+import {StyleSheet, View, Image, TextInput, ScrollView} from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp, widthPercentageToDP} from 'react-native-responsive-screen';
 
 
@@ -8,14 +8,12 @@ import uuid from 'react-native-uuid';
 // import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 // import { useTheme } from '@react-navigation/native';
-import {CommonActions} from '@react-navigation/native';
 
 import firebase from '../../../../FireBase';
 
 function Payment({route, navigation}){
     const[boxOnFocus, setBoxOnFocus] = useState(false);
-    console.log("-----------meal");
-    console.log(route.params.data)
+
     const INITIALBOXESFOCUS = {
         "card-number":false,
         "card-month":false,
@@ -24,6 +22,9 @@ function Payment({route, navigation}){
         "card-cvv":false,
     }
     const[boxesOnFocus, setBoxesOnFocus] = useState(INITIALBOXESFOCUS);
+    console.log("route=",route);
+    console.log("route params data=",route.params.data);
+    console.log("navigation=",navigation)
     
     const user = firebase.auth().currentUser;
     const db = firebase.firestore();

@@ -1,4 +1,5 @@
-import React, { useState, useEffect} from "react";
+
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -7,32 +8,34 @@ import {
   TouchableOpacity,
   ScrollView,
   TextInput,
-  Alert,
+  KeyboardAvoidingView,
+  Dimensions
 } from "react-native";
-// import Icon from "react-native-vector-icons/EvilIcons";
-// import MaterialButtonDanger from "../components/MaterialButtonDanger";
+import { MaterialIcons } from '@expo/vector-icons';
 
-import {useRoute, useNavigation} from "@react-navigation/native";
+import { useRoute, useNavigation } from "@react-navigation/native";
 
 import firebase from '../../../../../../FireBase';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Feather from 'react-native-vector-icons/Feather';
-// import AntDesign from 'react-native-vector-icons/AntDesign';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
 
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 const db = firebase.firestore();
 
-
+// const width = Dimensions.get("window").width;
 
 
 function DetailMeal(props) {
 
 
   const route = useRoute();
-  const [display, setDisplay] = useState({toDisplay: ""});
+  const [display, setDisplay] = useState({ toDisplay: "" });
   const [nutritionText, setNutritionText] = useState("");
   const [imgSrc, setImgSrc] = useState();
   const [mealInfo, setMealInfo] = useState({});
@@ -43,69 +46,60 @@ function DetailMeal(props) {
     recipes: false,
     procedure: false
   });
-  
-  const navigation = useNavigation();
-  
-  // const [ingredientText, setIngredientText] = useState("");
-  // const [recipeText, setRecipeText] = useState("");
-  // const [procedureText, setProcedureText] = useState("");
-  // const [prepTime, setPrepTime] = useState("");
-  // const [name, setName] = useState("");
-  // const [vegan, setVegan] = useState(false);
-  // const [description, setDescription] = useState("");
 
-  
+  const navigation = useNavigation();
+
   const IngredientsList = () => {
     // setDisplay(mealInfo);
     setDisplay(
-      {toDisplay: "ingredients"}
+      { toDisplay: "ingredients" }
     );
-    setTabSelected({ingredients:true});
+    setTabSelected({ ingredients: true });
   }
-  
+
   const RecipesList = () => {
     // setDisplay({});
     setDisplay({
       toDisplay: "recipe"
     });
-    setTabSelected({recipes:true});
+    setTabSelected({ recipes: true });
   }
-  
+
   const ProcedureInfo = () => {
     // setDisplay({});
     setDisplay({
       toDisplay: "procedures"
     });
-    setTabSelected({procedure:true});
+    setTabSelected({ procedure: true });
   }
 
-  const NutritionInfo = () =>{
+  const NutritionInfo = () => {
     setDisplay({
       toDisplay: "nutrition"
     });
     setNutritionText(`calories_serving: ${mealInfo.calories_serving}, chol: ${mealInfo.chol}, dietary_fiber: ${mealInfo.dietary_fiber}, omega3: ${mealInfo.omega3}, omega6: ${mealInfo.omega6}, polyunsat: ${mealInfo.polyunsat}, protein: ${mealInfo.protein}, sat: ${mealInfo.sat}, sugar: ${mealInfo.sugar}, total_carb: ${mealInfo.total_carb}, total_fat: ${mealInfo.total_fat}, trans: ${mealInfo.trans}`)
-    setTabSelected({nutrition:true});
+    setTabSelected({ nutrition: true });
   }
 
-  function returnIngredientString(info, procedure=false){
-    if(procedure){
-      return info.split(". ").reduce((acc,cur) => {acc += cur + "\n"; return acc},"");
-    }else{
-      return info.split(", ").reduce((acc,cur) => {acc += cur + "\n"; return acc},"");
+  function returnIngredientString(info, procedure = false) {
+    if (procedure) {
+      return info.split(". ").reduce((acc, cur) => { acc += cur + "\n"; return acc }, "");
+    } else {
+      return info.split(", ").reduce((acc, cur) => { acc += cur + "\n"; return acc }, "");
     }
   }
 
-  function returnDisplayText(){
-    switch(display.toDisplay){
-      case "ingredients": return(<Text>{returnIngredientString(mealInfo.ingredients)}</Text>); break;
-    case "recipe": return(<Text>recipe....</Text>); break;
-      case "nutrition": return(<Text>{returnIngredientString(nutritionText)}</Text>); break;
-    case "procedures": return(<Text>{returnIngredientString(mealInfo.procedure, true)}</Text>); break;
+  function returnDisplayText() {
+    switch (display.toDisplay) {
+      case "ingredients": return (<Text>{returnIngredientString(mealInfo.ingredients)}</Text>); break;
+      case "recipe": return (<Text>recipe....</Text>); break;
+      case "nutrition": return (<Text>{returnIngredientString(nutritionText)}</Text>); break;
+      case "procedures": return (<Text>{returnIngredientString(mealInfo.procedure, true)}</Text>); break;
     }
   }
 
-  function determineImg(){
-    switch(route.params.meal_info){
+  function determineImg() {
+    switch (route.params.meal_info) {
       case "Meal 1": setImgSrc(require("../../../../../../assets/meals/meal1.jpg")); break;
       case "Meal 2": setImgSrc(require("../../../../../../assets/meals/meal2.jpg")); break;
       case "Meal 3": setImgSrc(require("../../../../../../assets/meals/meal3.jpg")); break;
@@ -117,9 +111,9 @@ function DetailMeal(props) {
     }
   }
 
-  
-  async function getMealInfo(){
-    db.collection("meals").doc(route.params.meal_info).get().then(function(doc){
+
+  async function getMealInfo() {
+    db.collection("meals").doc(route.params.meal_info).get().then(function (doc) {
       setMealInfo(doc.data());
     })
   }
@@ -127,9 +121,9 @@ function DetailMeal(props) {
   function setBackButton(){
     navigation.setOptions({
       headerLeft: () => (
-        <View style={{paddingLeft:10}}>
+        <View style={{ paddingLeft: 10 }}>
           <TouchableOpacity
-            onPress={() => {navigation.goBack()}}
+            onPress={() => { navigation.goBack() }}
           >
             <FontAwesome5 name="angle-left" color={"#00cc00"} size={30} />
           </TouchableOpacity>
@@ -161,11 +155,85 @@ function DetailMeal(props) {
   }
 
 
+  function addToCart() {
+    const user = firebase.auth().currentUser;
+    var docData = {
+      [route.params.meal_info]: qty
+    }
+    console.log("docData:", docData);
+    db.collection("shopping_cart").doc(user.uid).update(docData)
+      .then(function () {
+        console.log("update to shopping cart successfully.");
+      })
+      .catch(function (error) {
+        db.collection("shopping_cart").doc(user.uid).set(docData)
+          .then(function () {
+            console.log("add to shopping cart successfully.");
+          })
+        // console.log(error);
+        // console.log("failed adding meal to cart.");
+      })
+    // console.log(qty);
+    // console.log(route.params.meal_info)
+  }
+
+  function directToCart() {
+
+  }
+
+  //add to favorite
+
+  function addToFavorite2() {
+    const user = firebase.auth().currentUser;
+    var docData = {
+      [route.params.meal_info]: qty
+    }
+    console.log("docData:", docData);
+    db.collection("favorite").doc(user.uid).update(docData)
+      .then(function () {
+        console.log("update to favorite successfully.");
+      })
+      .catch(function (error) {
+        db.collection("favorite").doc(user.uid).set(docData)
+          .then(function () {
+            console.log("add to favorite successfully.");
+          })
+        
+      })
+   
+  }
+
+  //remove to favorite
+
+  function removeToFavorite2() {
+    const user = firebase.auth().currentUser;
+    var docData = {
+      [route.params.meal_info]: qty
+    }
+    console.log("docData:", docData);
+    db.collection("favorite").doc(user.uid).update(docData)
+      .then(function () {
+        console.log("remove to favorite successfully.");
+      })
+      .catch(function (error) {
+        db.collection("favorite").doc(user.uid).set(docData)
+          .then(function () {
+            console.log("remove to favorite successfully.");
+          })
+        
+      })
+   
+  }
+
+  function directToFavorite2() {
+
+  }
+
   useEffect(() => {
     determineImg();
     getMealInfo();
     setBackButton();
-  },[]);
+  }, []);
 
   // getMealInfo();
 
@@ -188,6 +256,20 @@ function DetailMeal(props) {
           <Text style={{fontWeight:"bold", fontSize:40, color:"rgba(106,164,27,1)", paddingLeft:wp("5%")}}>
             {mealInfo.price}
           </Text>
+        </View>
+
+        <View style={{ flexDirection: "row", flex: 3, }}>
+          <View style={{ marginHorizontal: 60 }}>
+            <TouchableOpacity onPress={addToFavorite2}>
+              <AntDesign name='like1' size={30} color='#ed2728'/>
+              {/* <Ionicons name='ios-heart' size={30} color='#ed2728' /> */}
+            </TouchableOpacity>
+          </View>
+
+          <TouchableOpacity onPress={removeToFavorite2}>
+          <AntDesign name='dislike1' size={30} color='#77787d'/>
+            {/* <Ionicons name='ios-heart-dislike' size={28} color='#77787d' /> */}
+          </TouchableOpacity>
         </View>
         
         <View style={{flexDirection:"row", marginVertical:20}}>
@@ -455,3 +537,4 @@ const styles = StyleSheet.create({
 });
 
 export default DetailMeal;
+

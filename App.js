@@ -13,15 +13,21 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import {Welcome} from './src/Components/Welcome/Welcome/index';
 
+
 import {CreateProfile} from './src/Components/CreateProfile/index';
 import {ForgotPassword} from './src/Components/ForgotPassword/index';
 import MainScreen1 from './src/Screens/MainScreen';
 import {DetailMeal} from './src/Components/DetailedMeal/DetailedMeal/index';
+
+//import DetailMeal from './src/Screens/DetailMeal';
 import {EditProfile} from './src/Components/EditProfile2/EditProfile2/index';
 
 import {default as PaymentHistory} from './src/Components/PaymentHistory/screens/PaymentHistory';
 import {default as Payment} from './src/Components/Payment/screens/Payment';
 import {default as ShoppingCart} from './src/Components/ShoppingCart/src/screens/ShoppingCart';
+//import FavList from './src/Screens/FavList';
+
+import Favorite from './src/Screens/Favorite';
 import firebase from './FireBase';
 
 
@@ -35,6 +41,8 @@ import * as Font from 'expo-font';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
 
 
 const _setTimeout = global.setTimeout;
@@ -116,6 +124,8 @@ function HomeTabNavigator({navigation,route}){
         return 'Shopping Cart';
       case 'History':
         return 'History';
+      case 'Favorite':
+          return 'Favorite';
     }
   }
   
@@ -195,11 +205,22 @@ function HomeTabNavigator({navigation,route}){
           )  
         }} initialParams={{id:["Meal 1","Meal 2","Meal 3"]}}/>
 
-        <Tab.Screen name="History" component={MainScreen1}
+        <Tab.Screen name="History" component={PaymentHistory}
         options={{
           tabBarLabel: 'History',
           tabBarIcon: ({color}) => (
             <FontAwesome5 name="history" color={color} size={20} />
+          )  
+        }} />
+
+     
+      {/* <Tab.Screen name="Favorite" component={FavList} */}
+       
+        <Tab.Screen name="Favorite" component={Favorite}
+        options={{
+          tabBarLabel: 'Favorite',
+          tabBarIcon: ({color}) => (
+            <MaterialIcons name="favorite" color={color} size={20} />
           )  
         }} />
         
@@ -231,18 +252,12 @@ export default function App() {
   if(fontLoaded){
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Payment History" //#"Welcome"
+      <Stack.Navigator initialRouteName="Welcome" //#"Welcome"
         // screenOptions={{
         //   headerShown: false
         // }}
         // screenOptions={{headerTitleAlign:"center"}}
       >
-        
-        <Stack.Screen
-          name="Payment History"
-          component={ShoppingCart}
-        />
-
         <Stack.Screen
           name="Payment"
           component={Payment}
