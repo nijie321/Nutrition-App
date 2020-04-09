@@ -104,9 +104,9 @@ function ShoppingCart(){
                         console.log("previous state--------------------------");
                         console.log(prevState);
                         return {...prevState, ...{[d]:{meal_id,name,price, quantity, pick_up_loc}} } })
-                    setQty(prevState => {
-                        return {...prevState, ...{[d]:{quantity}}}
-                    })
+                    // setQty(prevState => {
+                    //     return {...prevState, ...{[d]:{quantity}}}
+                    // })
                     // calculate initial subtotal
                     subtotal.current += (parseFloat(price.substr(1)) * quantity);
                     
@@ -120,8 +120,9 @@ function ShoppingCart(){
     }
 
     async function updateQty(field_id, new_val){
+        let id = field_id;
         await db.collection("shopping_cart").doc(user.uid).update({
-            [field_id]: new_val.toString()
+            [field_id + '.qty'] : new_val.toString()
         }).then(function(){
             console.log("update shopping cart successfully.");
         }).catch(function(error){
@@ -129,11 +130,34 @@ function ShoppingCart(){
         })
     }
 
-
-    function logInfo(){
-        console.log("meal=",meal);
+    function updateDB(doc_id, collection_name, field_id, action="update"){
+        
+        const REF = db.collection.collection(collection_name).doc(doc_id)
+        switch(action){
+            case "update":
+                // REF.update()
+                break;
+            case "get":
+                // REF.get()
+                break;
+            case "set":
+                // REF.set()
+                break;
+            case "delete":
+                REF.update({
+                    [field_id]: firebase.firestore.FieldValue.delete()
+                }).then(()=>{
+                    console.log("delete successfully");
+                }).catch((err)=>{
+                    console.log("error=", err);
+                })
+                break;
+            default:
+                console.log("unknown action.");
+        }
+        
+        
     }
-
     function onMinusPress(meal){
 
         // const quantity = qty[meal.meal_id].quantity;
@@ -143,6 +167,7 @@ function ShoppingCart(){
         const quantity = meal.quantity;
         const new_quantity = quantity - 1;
         if(quantity >= 1){
+
             console.log("inside if statement (if quantity >= 1)");
             // setMeal({...previous, [meal.meal_id]:{...previous[meal.meal_id],quantity:new_quantity} })
             setMeal(prevState => {
@@ -150,13 +175,19 @@ function ShoppingCart(){
                 console.log(prevState);
                 return {...prevState, ...{[meal.meal_id]:{...prevState[meal.meal_id], quantity:new_quantity}}}}
                 )
-
-            logInfo();
-            // console.log("meal ====", meal);
-            // console.log("meal ===== ", meal);
-            // setQty(prevState => {return {...prevState, ...{[meal.meal_id]: {quantity: new_quantity}}}})
+            // console.log("meal location = ", meal[meal.meal_id].pick_up_location);
             updateQty(meal.meal_id, new_quantity);
+
             subtotal.current -= parseFloat(meal.price.substr(1));
+            if(quantity == 1){
+                
+                const u = async () => {
+                    await db.collection('shopping_cart').doc(user.uid).update({
+                        [meal.meal_id]: firebase.firestore.FieldValue.delete()
+                    })
+                }
+                u().then(()=>{displayMealInfo()});
+            }
         }else{
             console.log("The quantity is already zero.");
         }
