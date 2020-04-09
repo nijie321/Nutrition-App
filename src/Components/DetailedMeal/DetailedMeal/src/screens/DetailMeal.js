@@ -11,6 +11,7 @@ import {
 } from "react-native";
 // import Icon from "react-native-vector-icons/EvilIcons";
 // import MaterialButtonDanger from "../components/MaterialButtonDanger";
+import {Picker,Icon} from 'native-base';
 
 import {useRoute, useNavigation} from "@react-navigation/native";
 
@@ -30,9 +31,10 @@ const db = firebase.firestore();
 
 function DetailMeal(props) {
 
-
+  
   const route = useRoute();
   const [display, setDisplay] = useState({toDisplay: ""});
+  const [pickUpLocation, setPickUpLocation] = useState("");
   const [nutritionText, setNutritionText] = useState("");
   const [imgSrc, setImgSrc] = useState();
   const [mealInfo, setMealInfo] = useState({});
@@ -62,15 +64,7 @@ function DetailMeal(props) {
     );
     setTabSelected({ingredients:true});
   }
-  
-  const RecipesList = () => {
-    // setDisplay({});
-    setDisplay({
-      toDisplay: "recipe"
-    });
-    setTabSelected({recipes:true});
-  }
-  
+
   const ProcedureInfo = () => {
     // setDisplay({});
     setDisplay({
@@ -142,7 +136,10 @@ function DetailMeal(props) {
     if(qty > 0){
       const user = firebase.auth().currentUser;
       var docData = {
-        [route.params.meal_info]: qty
+        [route.params.meal_info]: {
+          qty,
+          pick_up_location: pickUpLocation
+        }
       }
       console.log("docData:", docData);
       db.collection("shopping_cart").doc(user.uid).update(docData)
@@ -221,10 +218,29 @@ function DetailMeal(props) {
         </View>
 
         <View style={{flexDirection:"row", marginBottom:hp("2%")}}>
-          <Text style={{fontWeight:"bold", fontSize:20, paddingLeft:wp("5%")}}>
+          {/* <Text style={{fontWeight:"bold", fontSize:20, paddingLeft:wp("5%")}}>
             Pick-up Location:
-          </Text>
-          <TextInput style={{borderWidth:1 ,marginTop:5, width:wp("30%"), height:hp("3%"), marginLeft:wp("1%")}}/> 
+          </Text> */}
+
+            <View style={{width: wp("30%") ,marginLeft:wp("5%")}}>
+                    <Picker
+                    mode="dropdown"
+                    iosIcon={<Icon name="arrow-down" />}
+                    style={{ width: undefined }}
+                    placeholder="Select a Pick-up Location"
+                    placeholderStyle={{ color: "#bfc6ea" }}
+                    placeholderIconColor="#007aff"
+                    selectedValue={pickUpLocation}
+                    onValueChange={(value)=>{setPickUpLocation(value)}}
+                >
+                    <Picker.Item label="address 1" value="address 1" />
+                    <Picker.Item label="address 2" value="address 2" />
+                    <Picker.Item label="address 3" value="address 3" />
+                    <Picker.Item label="address 4" value="address 4" />
+                    <Picker.Item label="address 5" value="address 5" />
+                </Picker>
+            </View>
+          {/* <TextInput style={{borderWidth:1 ,marginTop:5, width:wp("30%"), height:hp("3%"), marginLeft:wp("1%")}}/>  */}
 
            <TouchableOpacity style={{backgroundColor:"rgba(106,164,27,1)", width:wp("20%"), alignItems:"center", marginLeft:wp("5%") , padding:10, borderRadius:10, position:"absolute",right:wp("1%")}}
                 onPress={() => {navigation.navigate("Shopping Cart")}}

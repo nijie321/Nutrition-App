@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef} from 'react';
 import { Container, Content ,Text, Button, Icon } from 'native-base';
 import {StyleSheet, View, Image, TextInput, ScrollView} from 'react-native';
@@ -41,17 +42,20 @@ function ShoppingCart(){
                         const temp = doc.data();
                         const name = temp.name;
                         const price = temp.price;
-                        const quantity = parseInt(data[d]);
+                        const quantity = parseInt(data[d].qty);
+                        const pick_up_loc = data[d].pick_up_location;
                         const meal_id = d;
 
                         setMeal(prevState => {
                             console.log(prevState);
-                            return {...prevState, ...{[d]:{meal_id,name,price,quantity}} } })
+                            return {...prevState, ...{[d]:{meal_id,name,price,quantity, pick_up_loc}} } })
 
                         // setQty(prevState => {
                         //     return {...prevState, ...{[d]:{quantity}}}
                         // })
                         // calculate initial subtotal
+                        console.log("quantity = ", quantity);
+                        console.log("price = ", price);
                         subtotal.current += (parseFloat(price.substr(1)) * quantity);
                         // subtotal.current.toFixed(2);
                     })
@@ -91,14 +95,15 @@ function ShoppingCart(){
                     const temp = doc.data();
                     const name = temp.name;
                     const price = temp.price;
-                    const quantity = parseInt(data[d]);
+                    const quantity = parseInt(data[d].qty);
+                    const pick_up_loc = data[d].pick_up_location;
                     const meal_id = d;
 
                     
                     setMeal(prevState => {
                         console.log("previous state--------------------------");
                         console.log(prevState);
-                        return {...prevState, ...{[d]:{meal_id,name,price, quantity}} } })
+                        return {...prevState, ...{[d]:{meal_id,name,price, quantity, pick_up_loc}} } })
                     setQty(prevState => {
                         return {...prevState, ...{[d]:{quantity}}}
                     })
@@ -245,7 +250,7 @@ function ShoppingCart(){
     }
     function Payment(){
         return(
-            <View style={styles.payment}>
+            <View>
                 <MaterialIcons.Button name="payment" color="#007AFF" backgroundColor="transparent" underlayColor="green" size={wp("10%")}
                     onPress={()=>{ navigation.navigate("Payment", {data:meal})}}
                 />
@@ -264,12 +269,6 @@ function ShoppingCart(){
         return container;
     }
 
-    function logData(){
-        for(const m in meal){
-
-        }
-        console.log(meal);
-    }
     return(
         <ScrollView>
         <View style={styles.container}>
@@ -277,7 +276,9 @@ function ShoppingCart(){
             <View style={{width:wp("10%")}}>
                 <FontAwesome.Button name="refresh" backgroundColor="transparent" size={wp("5%")} underlayColor="red" color="#007AFF" onPress={displayMealInfo}/>
             </View>
-            <View style={{alignItems:"center", position:"absolute", bottom:hp("1%"), right:wp("1%") }}>
+
+            <View style={{marginTop:hp("5%") }}>
+
                 {/* <View style={{marginRight:wp("5%")}}>
                     
                 </View> */}
@@ -327,6 +328,11 @@ const styles = StyleSheet.create({
     },
     price:{
         marginBottom:hp("1%")
+    },
+    payment:{
+        position:"absolute",
+        bottom:hp("5%"),
+        right:wp("5%")
     }
 })
 export default ShoppingCart

@@ -18,8 +18,8 @@ import * as firebase from 'firebase';
 
 function Welcome(props) {
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("nijie321@outlook.com");
+  const [password, setPassword] = useState("abc123");
   
   const navigation = useNavigation();
 

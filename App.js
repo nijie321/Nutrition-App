@@ -195,7 +195,7 @@ function HomeTabNavigator({navigation,route}){
           )  
         }} initialParams={{id:["Meal 1","Meal 2","Meal 3"]}}/>
 
-        <Tab.Screen name="History" component={MainScreen1}
+        <Tab.Screen name="History" component={PaymentHistory}
         options={{
           tabBarLabel: 'History',
           tabBarIcon: ({color}) => (
@@ -231,17 +231,13 @@ export default function App() {
   if(fontLoaded){
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Payment History" //#"Welcome"
+      <Stack.Navigator initialRouteName="Welcome" //#"Welcome"
         // screenOptions={{
         //   headerShown: false
         // }}
         // screenOptions={{headerTitleAlign:"center"}}
       >
         
-        <Stack.Screen
-          name="Payment History"
-          component={ShoppingCart}
-        />
 
         <Stack.Screen
           name="Payment"
