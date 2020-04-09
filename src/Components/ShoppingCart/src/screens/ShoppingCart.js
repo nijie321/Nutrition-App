@@ -42,17 +42,20 @@ function ShoppingCart(){
                         const temp = doc.data();
                         const name = temp.name;
                         const price = temp.price;
-                        const quantity = parseInt(data[d]);
+                        const quantity = parseInt(data[d].qty);
+                        const pick_up_loc = data[d].pick_up_location;
                         const meal_id = d;
 
                         setMeal(prevState => {
                             console.log(prevState);
-                            return {...prevState, ...{[d]:{meal_id,name,price,quantity}} } })
+                            return {...prevState, ...{[d]:{meal_id,name,price,quantity, pick_up_loc}} } })
 
                         // setQty(prevState => {
                         //     return {...prevState, ...{[d]:{quantity}}}
                         // })
                         // calculate initial subtotal
+                        console.log("quantity = ", quantity);
+                        console.log("price = ", price);
                         subtotal.current += (parseFloat(price.substr(1)) * quantity);
                         // subtotal.current.toFixed(2);
                     })
@@ -92,17 +95,18 @@ function ShoppingCart(){
                     const temp = doc.data();
                     const name = temp.name;
                     const price = temp.price;
-                    const quantity = parseInt(data[d]);
+                    const quantity = parseInt(data[d].qty);
+                    const pick_up_loc = data[d].pick_up_location;
                     const meal_id = d;
 
                     
                     setMeal(prevState => {
                         console.log("previous state--------------------------");
                         console.log(prevState);
-                        return {...prevState, ...{[d]:{meal_id,name,price, quantity}} } })
-                    setQty(prevState => {
-                        return {...prevState, ...{[d]:{quantity}}}
-                    })
+                        return {...prevState, ...{[d]:{meal_id,name,price, quantity, pick_up_loc}} } })
+                    // setQty(prevState => {
+                    //     return {...prevState, ...{[d]:{quantity}}}
+                    // })
                     // calculate initial subtotal
                     subtotal.current += (parseFloat(price.substr(1)) * quantity);
                     
@@ -116,8 +120,9 @@ function ShoppingCart(){
     }
 
     async function updateQty(field_id, new_val){
+        let id = field_id;
         await db.collection("shopping_cart").doc(user.uid).update({
-            [field_id]: new_val.toString()
+            [field_id + '.qty'] : new_val.toString()
         }).then(function(){
             console.log("update shopping cart successfully.");
         }).catch(function(error){
@@ -125,11 +130,34 @@ function ShoppingCart(){
         })
     }
 
-
-    function logInfo(){
-        console.log("meal=",meal);
+    function updateDB(doc_id, collection_name, field_id, action="update"){
+        
+        const REF = db.collection.collection(collection_name).doc(doc_id)
+        switch(action){
+            case "update":
+                // REF.update()
+                break;
+            case "get":
+                // REF.get()
+                break;
+            case "set":
+                // REF.set()
+                break;
+            case "delete":
+                REF.update({
+                    [field_id]: firebase.firestore.FieldValue.delete()
+                }).then(()=>{
+                    console.log("delete successfully");
+                }).catch((err)=>{
+                    console.log("error=", err);
+                })
+                break;
+            default:
+                console.log("unknown action.");
+        }
+        
+        
     }
-
     function onMinusPress(meal){
 
         // const quantity = qty[meal.meal_id].quantity;
@@ -139,6 +167,7 @@ function ShoppingCart(){
         const quantity = meal.quantity;
         const new_quantity = quantity - 1;
         if(quantity >= 1){
+
             console.log("inside if statement (if quantity >= 1)");
             // setMeal({...previous, [meal.meal_id]:{...previous[meal.meal_id],quantity:new_quantity} })
             setMeal(prevState => {
@@ -146,13 +175,19 @@ function ShoppingCart(){
                 console.log(prevState);
                 return {...prevState, ...{[meal.meal_id]:{...prevState[meal.meal_id], quantity:new_quantity}}}}
                 )
-
-            logInfo();
-            // console.log("meal ====", meal);
-            // console.log("meal ===== ", meal);
-            // setQty(prevState => {return {...prevState, ...{[meal.meal_id]: {quantity: new_quantity}}}})
+            // console.log("meal location = ", meal[meal.meal_id].pick_up_location);
             updateQty(meal.meal_id, new_quantity);
+
             subtotal.current -= parseFloat(meal.price.substr(1));
+            if(quantity == 1){
+                
+                const u = async () => {
+                    await db.collection('shopping_cart').doc(user.uid).update({
+                        [meal.meal_id]: firebase.firestore.FieldValue.delete()
+                    })
+                }
+                u().then(()=>{displayMealInfo()});
+            }
         }else{
             console.log("The quantity is already zero.");
         }
@@ -246,7 +281,7 @@ function ShoppingCart(){
     }
     function Payment(){
         return(
-            <View style={styles.payment}>
+            <View>
                 <MaterialIcons.Button name="payment" color="#007AFF" backgroundColor="transparent" underlayColor="green" size={wp("10%")}
                     onPress={()=>{ navigation.navigate("Payment", {data:meal})}}
                 />
@@ -265,12 +300,6 @@ function ShoppingCart(){
         return container;
     }
 
-    function logData(){
-        for(const m in meal){
-
-        }
-        console.log(meal);
-    }
     return(
         <ScrollView>
         <View style={styles.container}>
@@ -278,7 +307,9 @@ function ShoppingCart(){
             <View style={{width:wp("10%")}}>
                 <FontAwesome.Button name="refresh" backgroundColor="transparent" size={wp("5%")} underlayColor="red" color="#007AFF" onPress={displayMealInfo}/>
             </View>
-            <View style={{alignItems:"center", position:"absolute", bottom:hp("1%"), right:wp("1%") }}>
+
+            <View style={{marginTop:hp("5%") }}>
+
                 {/* <View style={{marginRight:wp("5%")}}>
                     
                 </View> */}
@@ -328,6 +359,11 @@ const styles = StyleSheet.create({
     },
     price:{
         marginBottom:hp("1%")
+    },
+    payment:{
+        position:"absolute",
+        bottom:hp("5%"),
+        right:wp("5%")
     }
 })
 export default ShoppingCart
