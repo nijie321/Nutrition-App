@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   caption: {
     color: "#fff",
     fontSize: 16,
-    fontFamily: "courier-regular"
+    fontFamily: "roboto-regular"
   }
 });
 

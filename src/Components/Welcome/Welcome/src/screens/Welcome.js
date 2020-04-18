@@ -57,13 +57,16 @@ function Welcome(props) {
           <Text style={styles.welcomeText}>Welcome to</Text>
         </View>
 
-        <View style={{alignItems:"center", }}>
+        <View style={{alignItems:"center", justifyContent: 'center', width: wp("100%"), height: hp("15%"),}}>
         <Image
-          source={require('../../../../../../assets/MemphisEATS_logo.png')} style={StyleSheet.logo}   
+          source={require('../../../../../../assets/MemphisEATS_logo.png')}
+          // style={StyleSheet.logo}   
+          style={{width: wp("50%"), height: hp("20%"), }}   
+          
         ></Image>
         </View>
 
-        <View style={{alignItems:"center", marginTop:hp("10%")}}></View>
+        {/* <View style={{alignItems:"center", marginTop:hp("10%")}}></View> */}
 
         <View style={{ alignSelf:"center"}}>
           <Text style={styles.email}>Email:</Text>
@@ -95,7 +98,7 @@ function Welcome(props) {
             onPress={() => {navigation.navigate("Forget Password")}}
             // style={styles.forgotThePassword}
           >
-          <Text style={styles.forgotThePassword}>Forget Passwod?</Text>
+          <Text style={styles.forgotThePassword}>Forget Password?</Text>
           </TouchableOpacity>
           <MaterialButtonSuccess1 style={[styles.MaterialButtonSuccess1, {marginRight:5}]}
             onButtonClick={onLoginPress}
@@ -103,7 +106,7 @@ function Welcome(props) {
         </View>
 
 
-        <View style={{marginTop:hp("10%"), flexDirection:"column", alignItems:"center" }}>
+        <View style={{marginTop:hp("5%"), flexDirection:"column", alignItems:"center" }}>
           <Text style={styles.dontHaveAnAcc}>Don't have an account?</Text>
           <MaterialButtonSuccess 
             style={styles.materialButtonSuccess2}
@@ -130,10 +133,10 @@ const styles = StyleSheet.create({
     // width: 211,
     // height: 40,
     width: wp("49%"),
-    height: hp("5%"),
+    height: hp("7%"),
     color: "rgba(127,202,23,1)",
     fontSize: 16,
-    fontFamily: "courier-regular",
+    fontFamily: "roboto-regular",
     lineHeight: 40//hp("3%")//40
   },
   buttonFiller: {
@@ -141,9 +144,9 @@ const styles = StyleSheet.create({
     flexDirection: "row"
   },
   materialButtonSuccess1: {
-    width: 117,
+    width: 100,
     height: 42,
-    marginTop: 4
+    marginTop: 7
   },
   buttonRow: {
     // height: 46,
@@ -167,7 +170,7 @@ const styles = StyleSheet.create({
     height: hp("5%"),
     color: "rgba(127,202,23,1)",
     fontSize: 17,
-    fontFamily: "courier-regular",
+    fontFamily: "roboto-regular",
     lineHeight: 40,
     textAlign:"center"
   },
@@ -177,9 +180,9 @@ const styles = StyleSheet.create({
 
     width: wp("25%"),
     height: hp("5%"),
-    marginTop: 11,
+    marginTop: 15,
     // alignSelf:"center"
-    // marginLeft: 54
+   // marginLeft: 54
   },
   welcomeText: {
     // borderWidth:5,
@@ -188,29 +191,29 @@ const styles = StyleSheet.create({
     // width: 277,
     // height: 81,
     color: "rgba(106,164,27,1)",
-    fontSize: wp("9%"),
-    fontFamily: "impact-regular",
+    fontSize: wp("8%"),
+    fontFamily: "roboto-regular",
     // lineHeight: 40,
     textAlign: "center",
     // marginTop: -638,
     // marginLeft: 69
   },
   logo: {
-    width: wp("10%"),
-    height: hp("5%"),
-    alignItems:"center",
-    justifyContent: 'center',
-    flexDirection: 'column' 
+   // width: wp("5%"),
+   // height: hp("5"),
+    //alignItems:"center",
+    //justifyContent: 'center',
+    //flexDirection: 'column' 
   },
   email: {
 
     // width: 111,
     // height: 19,
     width: wp("20%"),
-    height: hp("3%"),
+    height: hp("4%"),
     color: "rgba(122,179,52,1)",
     fontSize: 17,
-    fontFamily: "courier-regular"
+    fontFamily: "roboto-regular"
   },
   textInput6: {
     width:wp("70%"),
@@ -218,8 +221,8 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(122,179,52,1)",
     color: "rgba(255,255,255,1)",
     elevation: 9,
-    fontSize: 17,
-    fontFamily: "arial-regular",
+    fontSize: 15,
+    fontFamily: "roboto-regular",
     marginTop: 7
   },
   // group6: {
@@ -231,11 +234,11 @@ const styles = StyleSheet.create({
   password: {
     // width: 111,
     // height: 23,
-    width: wp("20%"),
-    height: hp("3%"),
+    width: wp("30%"),
+    height: hp("4%"),
     color: "rgba(122,179,52,1)",
     fontSize: 17,
-    fontFamily: "courier-regular"
+    fontFamily: "roboto-regular"
   },
   textInput7: {
     width: 331,
@@ -244,7 +247,7 @@ const styles = StyleSheet.create({
     color: "rgba(255,255,255,1)",
     elevation: 9,
     fontSize: 17,
-    fontFamily: "arial-regular",
+    fontFamily: "roboto-regular",
     alignSelf: "flex-end"
   },
   

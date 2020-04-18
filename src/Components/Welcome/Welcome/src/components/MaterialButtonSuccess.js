@@ -17,10 +17,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    paddingRight: 16,
-    paddingLeft: 16,
+    paddingRight: 5,
+    paddingLeft: 5,
     elevation: 2,
-    minWidth: 88,
+    minWidth: 100,
     borderRadius: 2,
     shadowOffset: {
       height: 1,
@@ -32,8 +32,8 @@ const styles = StyleSheet.create({
   },
   caption: {
     color: "#fff",
-    fontSize: 14,
-    fontFamily: "courier-regular"
+    fontSize: 16,
+    fontFamily: "roboto-regular"
   }
 });
 
