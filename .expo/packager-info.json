@@ -1,10 +1,10 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": null,
-  "packagerPort": null,
-  "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
+  "expoServerPort": 19000,
+  "packagerPort": 19001,
+  "packagerPid": 9126,
+  "expoServerNgrokUrl": "https://am-925.anonymous.nutrition-app.exp.direct",
+  "packagerNgrokUrl": "https://packager.am-925.anonymous.nutrition-app.exp.direct",
+  "ngrokPid": 9137,
   "webpackServerPort": null
 }

@@ -5,7 +5,9 @@ import {
   TouchableOpacity,
   Text,
   TextInput,
-  Alert
+  Alert,
+  Image,
+  ScrollView
 } from "react-native";
 import MaterialButtonSuccess1 from "../components/MaterialButtonSuccess1";
 import MaterialButtonSuccess from "../components/MaterialButtonSuccess";
@@ -45,10 +47,23 @@ function Welcome(props) {
   }
 
   return (
+    <ScrollView>
       <View style={{flex:1, borderColor:"red"}}>
-        <View style={{alignItems:"center", marginTop:hp("10%")}}>
+        {/* <View style={{alignItems:"center", marginTop:hp("10%")}}>
           <Text style={styles.welcomeText}>Welcome to Nutrition App</Text>
+        </View> */}
+
+        <View style={{alignItems:"center", marginTop:hp("10%"),}}>
+          <Text style={styles.welcomeText}>Welcome to</Text>
         </View>
+
+        <View style={{alignItems:"center", }}>
+        <Image
+          source={require('../../../../../../assets/MemphisEATS_logo.png')} style={StyleSheet.logo}   
+        ></Image>
+        </View>
+
+        <View style={{alignItems:"center", marginTop:hp("10%")}}></View>
 
         <View style={{ alignSelf:"center"}}>
           <Text style={styles.email}>Email:</Text>
@@ -64,7 +79,7 @@ function Welcome(props) {
 
           <Text style={[styles.password, {marginTop:hp("3%")}]}>Password:</Text>
           <TextInput 
-            placeholder="enter Your Password"
+            placeholder="Enter Your Password"
             placeholderTextColor="rgba(230, 230, 230,1)"
             onChangeText={(text)=>{setPassword(text)}}
             secureTextEntry={true}
@@ -96,6 +111,7 @@ function Welcome(props) {
           />
         </View>
       </View>
+      </ScrollView>
   );
 }
 
@@ -138,12 +154,12 @@ const styles = StyleSheet.create({
     // marginRight: 44
     // alignContent:"center"
   },
-  group5: {
-    width: 228,
-    height: 91,
-    marginTop: 183,
-    marginLeft: 93
-  },
+  // group5: {
+  //   width: 228,
+  //   height: 91,
+  //   marginTop: 183,
+  //   marginLeft: 93
+  // },
   dontHaveAnAcc: {
     // width: 228,
     // height: 37,
@@ -167,23 +183,24 @@ const styles = StyleSheet.create({
   },
   welcomeText: {
     // borderWidth:5,
-    width: wp("60%"),
-    height: hp("20%"),
+    width: wp("70%"),
+    height: hp("10%"),
     // width: 277,
     // height: 81,
     color: "rgba(106,164,27,1)",
-    fontSize: wp("10%"),
-    fontFamily: "courier-regular",
+    fontSize: wp("9%"),
+    fontFamily: "impact-regular",
     // lineHeight: 40,
     textAlign: "center",
     // marginTop: -638,
     // marginLeft: 69
   },
-  group7: {
-    width: 331,
-    height: 65,
-    marginTop: 57,
-    marginLeft: 40
+  logo: {
+    width: wp("10%"),
+    height: hp("5%"),
+    alignItems:"center",
+    justifyContent: 'center',
+    flexDirection: 'column' 
   },
   email: {
 
@@ -205,12 +222,12 @@ const styles = StyleSheet.create({
     fontFamily: "arial-regular",
     marginTop: 7
   },
-  group6: {
-    width: 332,
-    height: 64,
-    marginTop: 26,
-    marginLeft: 39
-  },
+  // group6: {
+  //   width: 332,
+  //   height: 64,
+  //   marginTop: 26,
+  //   marginLeft: 39
+  // },
   password: {
     // width: 111,
     // height: 23,
@@ -229,7 +246,8 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontFamily: "arial-regular",
     alignSelf: "flex-end"
-  }
+  },
+  
 });
 
 export default Welcome;

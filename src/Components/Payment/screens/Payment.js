@@ -4,7 +4,7 @@ import {StyleSheet, View, Image, TextInput, ScrollView} from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp, widthPercentageToDP} from 'react-native-responsive-screen';
 
 
-import uuid from 'react-native-uuid';
+//import uuid from 'react-native-uuid';
 // import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 // import { useTheme } from '@react-navigation/native';
