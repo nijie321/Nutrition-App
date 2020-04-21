@@ -247,11 +247,11 @@ function DetailMeal(props) {
       </View>
 
       <View>
-        <View style={{flexDirection:"row"}}>
-          <Text style={{fontWeight:"bold", fontSize:40, marginLeft:wp("10%")}}>
+        <View style={{flexDirection:"row",}}>
+          <Text style={{fontWeight:"bold", fontSize:30, marginLeft:wp("5%")}}>
             {mealInfo.name}
           </Text>
-          <Text style={{fontWeight:"bold", fontSize:40, color:"rgba(106,164,27,1)", paddingLeft:wp("5%")}}>
+          <Text style={{fontWeight:"bold", fontSize:30, color:"rgba(106,164,27,1)", paddingLeft:wp("5%"), }}>
             {mealInfo.price}
           </Text>
         </View>
@@ -260,13 +260,13 @@ function DetailMeal(props) {
           <View style={{ marginHorizontal: 60 }}>
             <TouchableOpacity onPress={addToFavorite2}>
               <AntDesign name='like1' size={30} color='#ed2728'/>
-              {/* <Ionicons name='ios-heart' size={30} color='#ed2728' /> */}
+              
             </TouchableOpacity>
           </View>
 
           <TouchableOpacity onPress={removeToFavorite2}>
           <AntDesign name='dislike1' size={30} color='#77787d'/>
-            {/* <Ionicons name='ios-heart-dislike' size={28} color='#77787d' /> */}
+           
           </TouchableOpacity>
         </View>
         
@@ -410,147 +410,147 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
-  submitButton: {
-    alignSelf:"flex-end",
-    position: 'absolute',
-    bottom:30,
-    // left: 200, 
-  },
+  // submitButton: {
+  //   alignSelf:"flex-end",
+  //   position: 'absolute',
+  //   bottom:30,
+  //   // left: 200, 
+  // },
   infoContainer:{
     // alignContent:"center",
     // alignSelf:"center",
     // alignItems:"center",
     textAlign:"center",
-    marginLeft: 23
+    marginLeft: 15
   },
-  group: {
-    // width: 364,
-    // height: 312,
+  // group: {
+  //   width: 364,
+  //   height: 312,
 
-    // alignSelf: "flex-end",
-    // marginTop: -13,
-    // marginRight: 25
-  },
+  //   alignSelf: "flex-end",
+  //   marginTop: -13,
+  //   marginRight: 25
+  // },
   image: {
     alignSelf:"center",
     width: wp("100%"),
-    height: hp("25%")
+    height: hp("50%")
   },
-  loremIpsum: {
-    color: "#121212",
-    fontSize: 27,
-    fontFamily: "roboto-500",
-    marginLeft: 1
-  },
-  icon: {
-    color: "rgba(106,164,27,1)",
-    fontSize: 35
-  },
-  loremIpsumColumn: {
-    width: 239,
-    marginBottom: 1
-  },
-  loremIpsumColumnFiller: {
-    flex: 1,
-    flexDirection: "row"
-  },
-  loremIpsum3: {
-    // alignItems:"flex-start",
-    // alignSelf:"flex-end",
-    // alignContent:"flex-end",
-    paddingLeft: 30,
-    color: "rgba(106,164,27,1)",
-    fontSize: 30,
-    fontFamily: "impact-regular"
-  },
-  materialButtonDanger: {
-    width: 100,
-    height: 36,
-    marginTop: 19,
-    marginRight: 2
-  },
-  loremIpsum3Column: {
-    width: 102,
-    alignItems: "flex-end",
-    marginTop: 3
-  },
-  loremIpsumColumnRow: {
-    height: 90, //88
-    flexDirection: "row",
-    marginTop: 3,
-    marginLeft: 22,
-    marginRight: 24
-  },
-  group2: {
-    width: 364,
-    height: 18,
-    flexDirection: "row",
-    marginTop: 70, //87
-    marginLeft: 23
-  },
-  button2: {
-    width: 72,
-    height: 18
-  },
-  nutrition: {
-    color: "rgba(106,164,27,1)",
-    fontSize: 18,
-    fontFamily: "roboto-900"
-  },
-  button52: {
-    width: 93,
-    height: 18,
-    marginLeft: 14
-  },
-  button522: {
-    width: 93,
-    height: 18
-  },
-  ingredients: {
-    color: "rgba(106,164,27,1)",
-    fontSize: 18,
-    fontFamily: "roboto-900",
-  },
-  button53: {
-    width: 65,
-    height: 18,
-    marginLeft: 18
-  },
-  recipes: {
-    color: "rgba(106,164,27,1)",
-    fontSize: 18,
-    fontFamily: "roboto-900"
-  },
-  button54: {
-    width: 89,
-    height: 18,
-    flexDirection: "row",
-    marginLeft: 13
-  },
-  procedureFiller: {
-    flex: 1,
-    flexDirection: "row"
-  },
-  procedure: {
-    color: "rgba(106,164,27,1)",
-    fontSize: 18,
-    fontFamily: "roboto-900",
-    width: 89
-  },
-  button2Row: {
-    height: 18, //18
-    flexDirection: "row",
-    flex: 1
-  },
-  loremIpsum4: {
-    width: 364,
-    height: 71, //71
-    color: "rgba(0,0,0,1)",
-    fontSize: 19,
-    fontFamily: "roboto-300",
-    marginTop: -90, //-90
-    marginLeft: 23
-  }
+  // loremIpsum: {
+  //   color: "#121212",
+  //   fontSize: 27,
+  //   fontFamily: "roboto-500",
+  //   marginLeft: 1
+  // },
+  // icon: {
+  //   color: "rgba(106,164,27,1)",
+  //   fontSize: 35
+  // },
+  // loremIpsumColumn: {
+  //   width: 239,
+  //   marginBottom: 1
+  // },
+  // loremIpsumColumnFiller: {
+  //   flex: 1,
+  //   flexDirection: "row"
+  // },
+  // loremIpsum3: {
+  //   // alignItems:"flex-start",
+  //   // alignSelf:"flex-end",
+  //   // alignContent:"flex-end",
+  //   paddingLeft: 30,
+  //   color: "rgba(106,164,27,1)",
+  //   fontSize: 30,
+  //   fontFamily: "impact-regular"
+  // },
+  // materialButtonDanger: {
+  //   width: 100,
+  //   height: 36,
+  //   marginTop: 19,
+  //   marginRight: 2
+  // },
+  // loremIpsum3Column: {
+  //   width: 102,
+  //   alignItems: "flex-end",
+  //   marginTop: 3
+  // },
+  // loremIpsumColumnRow: {
+  //   height: 90, //88
+  //   flexDirection: "row",
+  //   marginTop: 3,
+  //   marginLeft: 22,
+  //   marginRight: 24
+  // },
+  // group2: {
+  //   width: 364,
+  //   height: 18,
+  //   flexDirection: "row",
+  //   marginTop: 70, //87
+  //   marginLeft: 23
+  // },
+  // button2: {
+  //   width: 72,
+  //   height: 18
+  // },
+  // nutrition: {
+  //   color: "rgba(106,164,27,1)",
+  //   fontSize: 18,
+  //   fontFamily: "roboto-900"
+  // },
+  // button52: {
+  //   width: 93,
+  //   height: 18,
+  //   marginLeft: 14
+  // },
+  // button522: {
+  //   width: 93,
+  //   height: 18
+  // },
+  // ingredients: {
+  //   color: "rgba(106,164,27,1)",
+  //   fontSize: 18,
+  //   fontFamily: "roboto-900",
+  // },
+  // button53: {
+  //   width: 65,
+  //   height: 18,
+  //   marginLeft: 18
+  // },
+  // recipes: {
+  //   color: "rgba(106,164,27,1)",
+  //   fontSize: 12,
+  //   fontFamily: "roboto-900"
+  // },
+  // button54: {
+  //   width: 89,
+  //   height: 18,
+  //   flexDirection: "row",
+  //   marginLeft: 13
+  // },
+  // procedureFiller: {
+  //   flex: 1,
+  //   flexDirection: "row"
+  // },
+  // procedure: {
+  //   color: "rgba(106,164,27,1)",
+  //   fontSize: 18,
+  //   fontFamily: "roboto-900",
+  //   width: 89
+  // },
+  // button2Row: {
+  //   height: 18, //18
+  //   flexDirection: "row",
+  //   flex: 1
+  // },
+  // loremIpsum4: {
+  //   width: 364,
+  //   height: 71, //71
+  //   color: "rgba(0,0,0,1)",
+  //   fontSize: 19,
+  //   fontFamily: "roboto-300",
+  //   marginTop: -90, //-90
+  //   marginLeft: 23
+  // }
 });
 
 export default DetailMeal;

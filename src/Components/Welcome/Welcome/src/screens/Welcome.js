@@ -49,10 +49,7 @@ function Welcome(props) {
   return (
     <ScrollView>
       <View style={{flex:1, borderColor:"red"}}>
-        {/* <View style={{alignItems:"center", marginTop:hp("10%")}}>
-          <Text style={styles.welcomeText}>Welcome to Nutrition App</Text>
-        </View> */}
-
+       
         <View style={{alignItems:"center", marginTop:hp("10%"),}}>
           <Text style={styles.welcomeText}>Welcome to</Text>
         </View>
@@ -66,7 +63,6 @@ function Welcome(props) {
         ></Image>
         </View>
 
-        {/* <View style={{alignItems:"center", marginTop:hp("10%")}}></View> */}
 
         <View style={{ alignSelf:"center"}}>
           <Text style={styles.email}>Email:</Text>
@@ -92,26 +88,33 @@ function Welcome(props) {
           />
         </View>
 
-
-        <View style={{marginTop:hp("6%"), marginLeft:wp("15%"), flexDirection:"row"}}>
+       
+        <View style={{ marginTop: hp("6%"), marginLeft: wp("15%"), flexDirection: "row" }}>
           <TouchableOpacity
-            onPress={() => {navigation.navigate("Forget Password")}}
-            // style={styles.forgotThePassword}
+            onPress={() => { navigation.navigate("Forget Password") }}
+          // style={styles.forgotThePassword}
           >
-          <Text style={styles.forgotThePassword}>Forget Password?</Text>
+            <Text style={styles.forgotThePassword}>Forget Password?</Text>
           </TouchableOpacity>
-          <MaterialButtonSuccess1 style={[styles.MaterialButtonSuccess1, {marginRight:5}]}
+
+          <MaterialButtonSuccess1 style={[styles.MaterialButtonSuccess1, { marginRight: 10 }]}
             onButtonClick={onLoginPress}
           />
-        </View>
+        </View> 
 
+       
 
         <View style={{marginTop:hp("5%"), flexDirection:"column", alignItems:"center" }}>
           <Text style={styles.dontHaveAnAcc}>Don't have an account?</Text>
+          
+          <View>
           <MaterialButtonSuccess 
             style={styles.materialButtonSuccess2}
             onButtonClick={onJoinNowPress}
           />
+
+          </View>
+          
         </View>
       </View>
       </ScrollView>
@@ -124,20 +127,15 @@ const styles = StyleSheet.create({
     alignItems:"center",
     // alignContent:"center"
   },
-  button: {
-    
-    // width: 211,
-    // height: 40
-  },
+ 
   forgotThePassword: {
-    // width: 211,
-    // height: 40,
-    width: wp("49%"),
+   
+    width: wp("50%"),
     height: hp("7%"),
-    color: "rgba(127,202,23,1)",
+    color: "rgba(248,186,28,1)",
     fontSize: 16,
     fontFamily: "roboto-regular",
-    lineHeight: 40//hp("3%")//40
+    lineHeight: 40
   },
   buttonFiller: {
     flex: 1,
@@ -149,25 +147,18 @@ const styles = StyleSheet.create({
     marginTop: 7
   },
   buttonRow: {
-    // height: 46,
+    
     height: hp("50"),
     flexDirection: "row",
-    // marginTop: 435,
-    // marginLeft: 39,
-    // marginRight: 44
-    // alignContent:"center"
+   
   },
-  // group5: {
-  //   width: 228,
-  //   height: 91,
-  //   marginTop: 183,
-  //   marginLeft: 93
-  // },
+  
   dontHaveAnAcc: {
     // width: 228,
     // height: 37,
+    //marginBottom: 1,
     width: wp("100%"),
-    height: hp("5%"),
+    height: hp("6%"),
     color: "rgba(127,202,23,1)",
     fontSize: 17,
     fontFamily: "roboto-regular",
@@ -198,13 +189,7 @@ const styles = StyleSheet.create({
     // marginTop: -638,
     // marginLeft: 69
   },
-  logo: {
-   // width: wp("5%"),
-   // height: hp("5"),
-    //alignItems:"center",
-    //justifyContent: 'center',
-    //flexDirection: 'column' 
-  },
+  
   email: {
 
     // width: 111,
@@ -225,12 +210,7 @@ const styles = StyleSheet.create({
     fontFamily: "roboto-regular",
     marginTop: 7
   },
-  // group6: {
-  //   width: 332,
-  //   height: 64,
-  //   marginTop: 26,
-  //   marginLeft: 39
-  // },
+ 
   password: {
     // width: 111,
     // height: 23,
@@ -250,6 +230,23 @@ const styles = StyleSheet.create({
     fontFamily: "roboto-regular",
     alignSelf: "flex-end"
   },
+  btnContainer: {
+   
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "90%"
+  },
+  userBtn: {
+
+    backgroundColor: "rgba(122,179,52,1)",
+    padding: 10,
+    width: "45%"
+  },
+  btnTxt: {
+    fontSize: 16,
+    textAlign: "center",
+    color: "white"
+  }
   
 });
 
