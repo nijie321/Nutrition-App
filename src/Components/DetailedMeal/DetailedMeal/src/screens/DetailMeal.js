@@ -238,13 +238,13 @@ function DetailMeal(props) {
   return (
           
     <ScrollView style={styles.container}>
-      <View style={styles.group}>
+      
         <Image
           source={imgSrc}
           resizeMode="contain"
           style={styles.image}
         ></Image>
-      </View>
+   
 
       <View>
         <View style={{flexDirection:"row",}}>
@@ -310,8 +310,8 @@ function DetailMeal(props) {
                     mode="dropdown"
                     iosIcon={<Icon name="arrow-down" />}
                     style={{ width: undefined }}
-                    placeholder="Select a Pick-up Location"
-                    placeholderStyle={{ color: "#bfc6ea" }}
+                    placeholder="Pick-up Location"
+                    placeholderStyle={{ color: "#000000", fontWeight:"bold", fontSize:20, paddingLeft:wp("0%") }}
                     placeholderIconColor="#007aff"
                     selectedValue={pickUpLocation}
                     onValueChange={(value)=>{setPickUpLocation(value)}}
@@ -341,7 +341,7 @@ function DetailMeal(props) {
 
     <View style={{padding:30, paddingTop:20, paddingBottom:5}}>
       <Text style={{color: "rgba(0,0,0,1)",
-            fontSize: 19,
+            fontSize: 20,
             fontFamily: "roboto-300"}}
             >{mealInfo.description}</Text>
     </View>
@@ -349,28 +349,30 @@ function DetailMeal(props) {
       style={{
         borderBottomColor: 'black',
         borderBottomWidth: 1,
-      }}
-    />
-    <View style={{justifyContent:"space-evenly",padding:10, flexDirection:"row"}}>
-      <TouchableOpacity
-        onPress={NutritionInfo}
-        style={tabSelected.nutrition? {backgroundColor:"black"}:{}}
-      >
-        <Text style={{
-          color: "rgba(106,164,27,1)",
-          fontSize: 18,
-          fontFamily: "roboto-900"}}>Nutrition</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={IngredientsList}
-        style={tabSelected.ingredients? {backgroundColor:"black"}: {}}
-      >
-        <Text style={{
-          color: "rgba(106,164,27,1)",
-          fontSize: 18,
-          fontFamily: "roboto-900"}}>Ingredients</Text>
-      </TouchableOpacity>
-      {/* <TouchableOpacity
+      }}/>
+      
+      <View style={{ justifyContent: "space-evenly", padding: 10, flexDirection: "row" }}>
+        <TouchableOpacity
+          onPress={NutritionInfo}
+          style={tabSelected.nutrition ? { backgroundColor: "black" } : {}}>
+          <Text style={{
+            color: "rgba(106,164,27,1)",
+            fontSize: 18,
+            fontFamily: "roboto-900"
+          }}>Nutrition</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={IngredientsList}
+          style={tabSelected.ingredients ? { backgroundColor: "black", } : {}}>
+          <Text style={{
+            color: "rgba(106,164,27,1)",
+            fontSize: 18,
+            fontFamily: "roboto-900"
+          }}>Ingredients</Text>
+        </TouchableOpacity>
+
+        {/* <TouchableOpacity
         onPress={RecipesList}
         style={tabSelected.recipes? {backgroundColor:"black"}: {}}
       >
@@ -379,17 +381,17 @@ function DetailMeal(props) {
           fontSize: 18,
           fontFamily: "roboto-900"}}>Recipes</Text>
       </TouchableOpacity> */}
-      <TouchableOpacity
-        onPress={ProcedureInfo}
-        style={tabSelected.procedure? {backgroundColor:"black"}: {}}
-      >
-        <Text style={{
-          color: "rgba(106,164,27,1)",
-          fontSize: 18,
-          fontFamily: "roboto-900"}}>Recipe/Procedure</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          onPress={ProcedureInfo}
+          style={tabSelected.procedure ? { backgroundColor: "black" } : {}}>
+          <Text style={{
+            color: "rgba(106,164,27,1)",
+            fontSize: 18,
+            fontFamily: "roboto-900"
+          }}>Recipe/Procedure</Text>
+        </TouchableOpacity>
 
-    </View>
+      </View>
 
     
     <ScrollView>
@@ -434,7 +436,8 @@ const styles = StyleSheet.create({
   image: {
     alignSelf:"center",
     width: wp("100%"),
-    height: hp("50%")
+    height: hp("50%"),
+    
   },
   // loremIpsum: {
   //   color: "#121212",
