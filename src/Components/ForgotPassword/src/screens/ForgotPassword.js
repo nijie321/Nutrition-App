@@ -1,9 +1,11 @@
 import React from "react";
-import { StyleSheet, View, TextInput, Alert } from "react-native";
+import { StyleSheet, View, TextInput, Alert, Image} from "react-native";
 import CupertinoHeaderWithLargeTitle1 from "../components/CupertinoHeaderWithLargeTitle1";
 import CupertinoButtonWarning from "../components/CupertinoButtonWarning";
 
 import firebase from '../../../../../FireBase';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { ScrollView } from "react-native-gesture-handler";
 
 
 function ForgotPassword(props) {
@@ -19,13 +21,19 @@ function ForgotPassword(props) {
   }
   
   return (
+
     <View style={styles.container}>
+
       <View style={styles.group}>
+        <Image
+          source={require('../../../../../assets/MemphisEATS_logo.png')}
+          style={{ width: wp("50%"), height: hp("20%"), alignSelf: "center", }} />
+
         <CupertinoHeaderWithLargeTitle1
           style={styles.cupertinoHeaderWithLargeTitle1}
         ></CupertinoHeaderWithLargeTitle1>
         <TextInput
-          placeholder="Type your email"
+          placeholder="Enter your email to reset password."
           style={styles.textInput}
         ></TextInput>
         <CupertinoButtonWarning
@@ -34,6 +42,7 @@ function ForgotPassword(props) {
         ></CupertinoButtonWarning>
       </View>
     </View>
+   
   );
 
 }
@@ -41,32 +50,44 @@ function ForgotPassword(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "rgba(106,164,27,1)"
+    backgroundColor: "rgba(106,164,27,1)",
+   
+    flexDirection: 'row',
+    alignItems: "center",
+    justifyContent: "center"
   },
-  group: {
-    width: 375,
-    height: 439,
-    marginTop: 43
-  },
+  // group: {
+  //   width: 375,
+  //   height: 439,
+  //   marginTop: 43
+  // },
   cupertinoHeaderWithLargeTitle1: {
-    width: 375,
-    height: 96
+    //width: 375,
+    
+    width: wp("85%"),
+    height: hp("10%"),
+    marginTop: 50,
+    //alignItems: "flex-start",
+    justifyContent: "center"
   },
   textInput: {
-    width: 288,
-    height: 48,
+    width: wp("85%"),
+    height: hp("5%"),
     backgroundColor: "rgba(255,255,255,1)",
     color: "rgba(0,0,0,1)",
-    fontSize: 17,
-    fontFamily: "roboto-700",
-    marginTop: 179,
-    marginLeft: 44
+    fontSize: 15,
+    fontFamily: "roboto-500",
+    textAlign:"center",
+    //marginTop: 179,
+    //marginLeft: 44
+    marginTop: 40,
+    borderRadius: 5
   },
   cupertinoButtonWarning: {
-    width: 100,
-    height: 44,
+    width: wp("85%"),
+    height: hp("5%"),
     marginTop: 72,
-    marginLeft: 138
+    alignSelf:"center",
   }
 });
 
