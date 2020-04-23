@@ -9,7 +9,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import {useNavigation} from '@react-navigation/native';
 
-// import uuid from 'react-native-uuid';
+//import uuid from 'react-native-uuid';
 import firebase from '../../../../../FireBase';
 // import { parse } from 'url';
 // import { useNavigation, useFocusEffect } from '@react-navigation/native';

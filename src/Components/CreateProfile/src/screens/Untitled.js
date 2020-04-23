@@ -95,35 +95,35 @@ function CreateProfile(props) {
       <Container>
         <Content>
           <View>
-          <Form>
-            <View style={{flexDirection:"row"}}>
-              <Item stackedLabel style={{width:wp("30%")}}>
-                <Label>First Name</Label>
-                <Input onChangeText={text => {setFirstName(text)}}/>
+            <Form>
+              <View style={{ flexDirection: "row" }}>
+                <Item stackedLabel style={{ width: wp("50%")}}>
+                  <Label>First Name</Label>
+                  <Input onChangeText={text => { setFirstName(text) }} />
+                </Item>
+                <Item stackedLabel style={{ width: wp("50%") }}>
+                  <Label>Last Name</Label>
+                  <Input onChangeText={text => { setLastName(text) }} />
+                </Item>
+              </View>
+              <Item stackedLabel>
+                <Label>Email</Label>
+                <Input onChangeText={text => { setEmail(text) }} />
               </Item>
-              <Item stackedLabel style={{width:wp("30%")}}>
-                <Label>Last Name</Label>
-                <Input onChangeText={text => {setLastName(text)}}/>
+              <Item stackedLabel last>
+                <Label>Password</Label>
+                <Input onChangeText={text => { setPassword(text) }} secureTextEntry={true} />
               </Item>
-            </View>
-            <Item stackedLabel>
-              <Label>Email</Label>
-              <Input onChangeText={text => {setEmail(text)}}/>
-            </Item>
-            <Item stackedLabel last>
-              <Label>Password</Label>
-              <Input onChangeText={text => {setPassword(text)}} secureTextEntry={true}/>
-            </Item>
-            <Item stackedLabel last>
-              <Label>Confirm Password</Label>
-              <Input onChangeText={text => {setPasswordConfirm(text)}} secureTextEntry={true}/>
-            </Item>
-            <Item stackedLabel last>
-              <Label>Address</Label>
-              <Input onChangeText={text => {setAddress(text)}}/>
-            </Item>
-          </Form>
-            
+              <Item stackedLabel last>
+                <Label>Confirm Password</Label>
+                <Input onChangeText={text => { setPasswordConfirm(text) }} secureTextEntry={true} />
+              </Item>
+              <Item stackedLabel last>
+                <Label>Address</Label>
+                <Input onChangeText={text => { setAddress(text) }} />
+              </Item>
+            </Form>
+
           </View>
           
           <View style={{marginTop:wp("2%")}}>
@@ -177,7 +177,7 @@ function CreateProfile(props) {
             </ListItem>
           </View>
 
-          <View style={{width:wp("50%"), alignSelf:"center", marginTop:hp("2%")}}>
+          <View style={{width:wp("50%"), alignSelf:"center", marginTop:hp("2%"),}}>
             <Button block onPress={onSignupPress}>
               <Text>Sign Up</Text>
             </Button>

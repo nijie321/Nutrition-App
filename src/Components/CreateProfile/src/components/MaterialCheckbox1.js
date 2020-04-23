@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     borderRadius: 20
   },
   checkIcon: {
-    color: "rgba(122,179,52,1)",
+    color: "#fda856",
     fontFamily: "Roboto",
     fontSize: 28,
     lineHeight: 28
