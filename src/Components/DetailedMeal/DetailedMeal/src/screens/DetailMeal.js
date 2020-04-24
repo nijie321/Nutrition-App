@@ -153,27 +153,27 @@ function DetailMeal(props) {
   }
 
 
-  function addToCart() {
-    const user = firebase.auth().currentUser;
-    var docData = {
-      [route.params.meal_info]: qty
-    }
-    console.log("docData:", docData);
-    db.collection("shopping_cart").doc(user.uid).update(docData)
-      .then(function () {
-        console.log("update to shopping cart successfully.");
-      })
-      .catch(function (error) {
-        db.collection("shopping_cart").doc(user.uid).set(docData)
-          .then(function () {
-            console.log("add to shopping cart successfully.");
-          })
-        // console.log(error);
-        // console.log("failed adding meal to cart.");
-      })
-    // console.log(qty);
-    // console.log(route.params.meal_info)
-  }
+  // function addToCart() {
+  //   const user = firebase.auth().currentUser;
+  //   var docData = {
+  //     [route.params.meal_info]: qty
+  //   }
+  //   console.log("docData:", docData);
+  //   db.collection("shopping_cart").doc(user.uid).update(docData)
+  //     .then(function () {
+  //       console.log("update to shopping cart successfully.");
+  //     })
+  //     .catch(function (error) {
+  //       db.collection("shopping_cart").doc(user.uid).set(docData)
+  //         .then(function () {
+  //           console.log("add to shopping cart successfully.");
+  //         })
+  //       // console.log(error);
+  //       // console.log("failed adding meal to cart.");
+  //     })
+  //   // console.log(qty);
+  //   // console.log(route.params.meal_info)
+  // }
 
   function directToCart() {
 

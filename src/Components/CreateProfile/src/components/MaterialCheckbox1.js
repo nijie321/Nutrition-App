@@ -31,7 +31,7 @@ function MaterialCheckbox1(props) {
       })}
     >
       <Icon
-        name={checked ? "checkbox-marked" : "checkbox-blank-outline"}
+        name={checked ? "checkbox-marked" : "checkbox-blank-outline" }
         style={styles.checkIcon}
       ></Icon>
     </TouchableOpacity>
@@ -47,14 +47,14 @@ function MaterialCheckbox1(props) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "transparent",
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 20
-  },
+  // container: {
+  //   backgroundColor: "transparent",
+  //   alignItems: "center",
+  //   justifyContent: "center",
+  //   borderRadius: 20
+  // },
   checkIcon: {
-    color: "#fda856",
+    color: "rgba(106,164,27,1)",
     fontFamily: "Roboto",
     fontSize: 28,
     lineHeight: 28

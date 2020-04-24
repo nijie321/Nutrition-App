@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   },
   inputStyle: {
     flex: 1,
-    color: "#fda856",
+    color: "rgba(106,164,27,1)",
     alignSelf: "stretch",
     paddingTop: 16,
     paddingRight: 5,

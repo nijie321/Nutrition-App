@@ -97,29 +97,29 @@ function CreateProfile(props) {
           <View>
             <Form>
               <View style={{ flexDirection: "row" }}>
-                <Item stackedLabel style={{ width: wp("50%")}}>
-                  <Label>First Name</Label>
+                <Item stackedLabel style={{ width: wp("50%"), }}>
+                  <Label style={{ color: "rgba(106,164,27,1)" }}>First Name</Label>
                   <Input onChangeText={text => { setFirstName(text) }} />
                 </Item>
                 <Item stackedLabel style={{ width: wp("50%") }}>
-                  <Label>Last Name</Label>
+                  <Label style={{ color: "rgba(106,164,27,1)" }}>Last Name</Label>
                   <Input onChangeText={text => { setLastName(text) }} />
                 </Item>
               </View>
               <Item stackedLabel>
-                <Label>Email</Label>
+                <Label style={{ color: "rgba(106,164,27,1)" }}>Email</Label>
                 <Input onChangeText={text => { setEmail(text) }} />
               </Item>
               <Item stackedLabel last>
-                <Label>Password</Label>
+                <Label style={{ color: "rgba(106,164,27,1)" }}>Password</Label>
                 <Input onChangeText={text => { setPassword(text) }} secureTextEntry={true} />
               </Item>
               <Item stackedLabel last>
-                <Label>Confirm Password</Label>
+                <Label style={{ color: "rgba(106,164,27,1)" }}>Confirm Password</Label>
                 <Input onChangeText={text => { setPasswordConfirm(text) }} secureTextEntry={true} />
               </Item>
               <Item stackedLabel last>
-                <Label>Address</Label>
+                <Label style={{ color: "rgba(106,164,27,1)" }}>Address</Label>
                 <Input onChangeText={text => { setAddress(text) }} />
               </Item>
             </Form>
@@ -127,10 +127,10 @@ function CreateProfile(props) {
           </View>
           
           <View style={{marginTop:wp("2%")}}>
-          <Text style={{fontSize:hp("2%"), fontWeight:"bold"}}>Allergens</Text>
+          <Text style={{fontSize:hp("2%"), fontWeight:"bold", color:"rgba(106,164,27,1)" }}>Allergens</Text>
           
             <ListItem style={styles.list_view}>
-              <CheckBox checked={allergensSelected["wheat"]} onPress={() => {
+              <CheckBox color="rgba(106,164,27,1)" checked={allergensSelected["wheat"]} onPress={() => {
                   onUpdateAllergen("wheat")
                 }}
               />
@@ -139,7 +139,7 @@ function CreateProfile(props) {
               </Body>
             </ListItem>
             <ListItem style={styles.list_view}>
-              <CheckBox checked={allergensSelected["milk"]} onPress={() => {
+              <CheckBox color="rgba(106,164,27,1)" checked={allergensSelected["milk"]} onPress={() => {
                   onUpdateAllergen("milk")
                 }}
               />
@@ -148,7 +148,7 @@ function CreateProfile(props) {
               </Body>
             </ListItem>
             <ListItem style={styles.list_view}>
-              <CheckBox checked={allergensSelected["soy"]} onPress={() => {
+              <CheckBox color="rgba(106,164,27,1)" checked={allergensSelected["soy"]} onPress={() => {
                   onUpdateAllergen("soy")
                 }}
               />
@@ -157,7 +157,7 @@ function CreateProfile(props) {
               </Body>
             </ListItem>
             <ListItem style={styles.list_view}>
-              <CheckBox checked={allergensSelected["seasame"]} onPress={() => {
+              <CheckBox color="rgba(106,164,27,1)" checked={allergensSelected["seasame"]} onPress={() => {
                   onUpdateAllergen("seasame")
                 }}
               />
@@ -166,7 +166,7 @@ function CreateProfile(props) {
               </Body>
             </ListItem>
             <ListItem style={styles.list_view}>
-              <CheckBox checked={ allergensSelected["shelfish"] } onPress={() => {
+              <CheckBox color="rgba(106,164,27,1)" checked={ allergensSelected["shelfish"] } onPress={() => {
                   onUpdateAllergen("shelfish")
                   // setAllergensSelected(prev => {onUpdateAllergen("shelfish")})
                 }}
@@ -177,9 +177,9 @@ function CreateProfile(props) {
             </ListItem>
           </View>
 
-          <View style={{width:wp("50%"), alignSelf:"center", marginTop:hp("2%"),}}>
-            <Button block onPress={onSignupPress}>
-              <Text>Sign Up</Text>
+          <View style={{width:wp("30%"), alignSelf:"center", marginTop:hp("2%"),}}>
+            <Button color="rgba(106,164,27,1)" block onPress={onSignupPress}>
+              <Text>Sign up</Text>
             </Button>
           </View>
         </Content>
@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
     
   },
   list_view:{
-    width:wp("15%")
+    width:wp("45%")
   }
 
 })
