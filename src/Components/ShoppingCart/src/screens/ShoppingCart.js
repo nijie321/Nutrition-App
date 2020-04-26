@@ -9,11 +9,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import {useNavigation} from '@react-navigation/native';
 
-// import uuid from 'react-native-uuid';
 import firebase from '../../../../../FireBase';
-// import { parse } from 'url';
-// import { useNavigation, useFocusEffect } from '@react-navigation/native';
-// import { preventAutoHide } from 'expo/build/launch/SplashScreen';
 const db = firebase.firestore();
 
 function ShoppingCart(){
@@ -25,98 +21,50 @@ function ShoppingCart(){
     
     const navigation = useNavigation();
     // console.log(route.params.update);
-    useEffect(() => {
+
+    async function getDataFromDB(){
         subtotal.current = 0;
-        const getData = async ()=> {
-            
-            await db.collection('shopping_cart').doc(user.uid).get()
-            .then(function(doc){
-                return doc.data();
-                // setMetaData(doc.data());
-            })
-            .then(async function(data){
-                for(const d in data){
-                    // setQty(parseInt(data[d]));
-                    await db.collection('meals').doc(d).get()
-                    .then(function(doc){
-                        const temp = doc.data();
-                        const name = temp.name;
-                        const price = temp.price;
-                        const quantity = parseInt(data[d].qty);
-                        const pick_up_loc = data[d].pick_up_location;
-                        const meal_id = d;
-
-                        setMeal(prevState => {
-                            console.log(prevState);
-                            return {...prevState, ...{[d]:{meal_id,name,price,quantity, pick_up_loc}} } })
-
-                        // setQty(prevState => {
-                        //     return {...prevState, ...{[d]:{quantity}}}
-                        // })
-                        // calculate initial subtotal
-                        console.log("quantity = ", quantity);
-                        console.log("price = ", price);
-                        subtotal.current += (parseFloat(price.substr(1)) * quantity);
-                        // subtotal.current.toFixed(2);
-                    })
-                }
-            })
-        }
-
-       getData().then(() => {setHasData(true);})
-    },[]);
-    
-
-    // async 
-
-    async function updateMealInfo(){
-        subtotal.current = 0.0;
+        let data;
+        setHasData(false);
         await db.collection('shopping_cart').doc(user.uid).get()
         .then(function(doc){
-            console.log("inside first then----------------------");
-            // console.log("inside then 1");
-            // console.log(doc.data());
-            setHasData(false);
-            return doc.data();
+            data = doc.data();
+            // return doc.data();
         })
-        .then(async function(data){
-            console.log("inside second then----------------------");
+        .catch((error) => console.log(error))
+        return data;
+    }
+
+    async function loadData(data,update=false){
+        console.log("inside loadData, data=", data);
+        if(update){
             subtotal.current = 0.0;
             setMeal([]);
-            // setQty({});
+        }
+        for (const d in data){
+            await db.collection('meals').doc(d).get()
+            .then(function(doc){
+                const temp = doc.data();
+                const name = temp.name;
+                const price = temp.price;
+                const quantity = parseInt(data[d].qty);
+                const pick_up_loc = data[d].pick_up_location;
+                const meal_id = d;
 
-            
-            for(const d in data) {
-                await db.collection('meals').doc(d).get()
-                .then(function(doc){
-                    // console.log('0000000000000000000000');
-                    // console.log(doc.data());
-                    console.log("inside for loop then-------------------");
-                    const temp = doc.data();
-                    const name = temp.name;
-                    const price = temp.price;
-                    const quantity = parseInt(data[d].qty);
-                    const pick_up_loc = data[d].pick_up_location;
-                    const meal_id = d;
-
-                    
-                    setMeal(prevState => {
-                        console.log("previous state--------------------------");
-                        console.log(prevState);
-                        return {...prevState, ...{[d]:{meal_id,name,price, quantity, pick_up_loc}} } })
-                    // setQty(prevState => {
-                    //     return {...prevState, ...{[d]:{quantity}}}
-                    // })
-                    // calculate initial subtotal
+                setMeal(prevState => {
+                    console.log(prevState);
+                    return {...prevState, ...{[d]:{meal_id,name,price,quantity, pick_up_loc}} } })
                     subtotal.current += (parseFloat(price.substr(1)) * quantity);
-                    
                 })
-            }
-
-        })
+            .catch((error)=> console.log(error))
+        }
     }
-    function displayMealInfo(){
-        updateMealInfo().then(() => {setHasData(true)});
+    useEffect(() => {
+        getDataFromDB().then((data) => loadData(data)).then(() => setHasData(true))
+    },[]);
+    
+    function updateMealInfo(){
+        getDataFromDB().then((data) => loadData(data, true)).then(() =>setHasData(true))
     }
 
     async function updateQty(field_id, new_val){
@@ -129,40 +77,7 @@ function ShoppingCart(){
             console.log("error");
         })
     }
-
-    function updateDB(doc_id, collection_name, field_id, action="update"){
-        
-        const REF = db.collection.collection(collection_name).doc(doc_id)
-        switch(action){
-            case "update":
-                // REF.update()
-                break;
-            case "get":
-                // REF.get()
-                break;
-            case "set":
-                // REF.set()
-                break;
-            case "delete":
-                REF.update({
-                    [field_id]: firebase.firestore.FieldValue.delete()
-                }).then(()=>{
-                    console.log("delete successfully");
-                }).catch((err)=>{
-                    console.log("error=", err);
-                })
-                break;
-            default:
-                console.log("unknown action.");
-        }
-        
-        
-    }
     function onMinusPress(meal){
-
-        // const quantity = qty[meal.meal_id].quantity;
-        // const new_quantity = quantity - 1;
-        
         console.log("inside on minus press");
         const quantity = meal.quantity;
         const new_quantity = quantity - 1;
@@ -186,7 +101,7 @@ function ShoppingCart(){
                         [meal.meal_id]: firebase.firestore.FieldValue.delete()
                     })
                 }
-                u().then(()=>{displayMealInfo()});
+                u().then(()=>{updateMealInfo()});
             }
         }else{
             console.log("The quantity is already zero.");
@@ -305,7 +220,7 @@ function ShoppingCart(){
         <View style={styles.container}>
             {hasData?createMealInfoContainer():null}
             <View style={{width:wp("10%")}}>
-                <FontAwesome.Button name="refresh" backgroundColor="transparent" size={wp("5%")} underlayColor="red" color="#007AFF" onPress={displayMealInfo}/>
+                <FontAwesome.Button name="refresh" backgroundColor="transparent" size={wp("5%")} underlayColor="red" color="#007AFF" onPress={updateMealInfo}/>
             </View>
 
             <View style={{marginTop:hp("5%") }}>
