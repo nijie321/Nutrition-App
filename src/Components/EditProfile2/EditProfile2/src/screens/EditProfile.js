@@ -617,9 +617,11 @@ return (
         <TextInput
           style={styles.input}
           placeholderTextColor="rgba(230,230,230,1)"
+          onChangeText={(text)=>{setPassword(text)}}
+          secureTextEntry={true}
           autoCapitalize="none"
           autoCorrect={false}
-          onChangeText={(text) => { setPassword(text) }}/>
+         />
       </View>
 
       <TouchableOpacity
