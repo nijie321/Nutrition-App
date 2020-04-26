@@ -5,8 +5,10 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  ScrollView
+  ScrollView,
+ 
 } from "react-native";
+import { Container, CheckBox, Content, Body, Button ,ListItem, Form,Item , Input,Label} from 'native-base';
 import IoniconsIcon from "react-native-vector-icons/Ionicons";
 import EntypoIcon from "react-native-vector-icons/Entypo";
 
@@ -30,6 +32,22 @@ function EditProfile() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [a1c, setA1c]= useState("");
+
+
+  const [checked, setChecked] = useState(false);
+  
+  const INITIALALLERGENS = {
+    "wheat": false,
+    "milk": false,
+    "soy": false,
+    "seasame": false,
+    "shelfish": false
+  }
+  const [allergensSelected, setAllergensSelected] = useState(INITIALALLERGENS);
+
+  function onUpdateAllergen(key){
+    setAllergensSelected(prev => {return {...prev, [key]: !prev[key]}})
+  }
 
   
 
@@ -385,7 +403,7 @@ return (
 
   <ScrollView>
 
-    <View style={{ flexDirection: "column", marginLeft: 36, marginTop: 5  }}>
+    <View style={{ flexDirection: "column", marginLeft: 15, marginTop: 5  }}>
         <Text style={{ color: "black", fontSize: 20, fontFamily: "roboto-300", }}>Personal Info:</Text>
     </View>
 
@@ -395,7 +413,7 @@ return (
       <View style={[styles.btnContainer]}>
 
         <View style={{ flex:1, flexDirection: "column",}}>
-          <Text style={styles.firstName}>First name:</Text>
+          <Text style={styles.firstName}>First Name:</Text>
           <TextInput
             style={styles.input1}
            // placeholder="John"
@@ -405,7 +423,7 @@ return (
         </View>
 
         <View style={{flex:1, flexDirection: "column", width: wp("10%"), }}>
-        <Text style={styles.firstName}>Last name:</Text>
+        <Text style={styles.firstName}>Last Name:</Text>
           <TextInput
             style={styles.input2}
            // placeholder="Smith"
@@ -456,19 +474,70 @@ return (
       </View>  
   </View>
   
-    <View style={{ flexDirection: "column", marginLeft: 36  }}>
+    <View style={{ flexDirection: "column", marginLeft: 15  }}>
       <View >
         <Text style={{ color: "black", fontSize: 20, fontFamily: "roboto-300", }}>Allergies and Restrictions:</Text>
       </View>
-      <View >
+      {/* <View >
         <TouchableOpacity>
           <Text style={{ color: "rgba(161,197,89,1)", fontSize: 17, fontFamily: "roboto-300", }}>Add Restrictions</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
     </View>
 
+    <View style={{marginTop:wp("2%")}}>
+          {/* <Text style={{fontSize:hp("2%"), fontWeight:"bold", color:"rgba(106,164,27,1)" }}>Allergens</Text> */}
+          
+            <ListItem style={styles.list_view}>
+              <CheckBox color="rgba(106,164,27,1)" checked={allergensSelected["wheat"]} onPress={() => {
+                  onUpdateAllergen("wheat")
+                }}
+              />
+              <Body>
+                <Text>wheat</Text>
+              </Body>
+            </ListItem>
+            <ListItem style={styles.list_view}>
+              <CheckBox color="rgba(106,164,27,1)" checked={allergensSelected["milk"]} onPress={() => {
+                  onUpdateAllergen("milk")
+                }}
+              />
+              <Body>
+                <Text>milk</Text>
+              </Body>
+            </ListItem>
+            <ListItem style={styles.list_view}>
+              <CheckBox color="rgba(106,164,27,1)" checked={allergensSelected["soy"]} onPress={() => {
+                  onUpdateAllergen("soy")
+                }}
+              />
+              <Body>
+                <Text>soy</Text>
+              </Body>
+            </ListItem>
+            <ListItem style={styles.list_view}>
+              <CheckBox color="rgba(106,164,27,1)" checked={allergensSelected["seasame"]} onPress={() => {
+                  onUpdateAllergen("seasame")
+                }}
+              />
+              <Body>
+                <Text>seasame</Text>
+              </Body>
+            </ListItem>
+            <ListItem style={styles.list_view}>
+              <CheckBox color="rgba(106,164,27,1)" checked={ allergensSelected["shelfish"] } onPress={() => {
+                  onUpdateAllergen("shelfish")
+                  // setAllergensSelected(prev => {onUpdateAllergen("shelfish")})
+                }}
+              />
+              <Body>
+                <Text>shelfish</Text>
+              </Body>
+            </ListItem>
+          </View>
 
-    <View style={{ flexDirection: "column", marginLeft: 36, marginTop: 5  }}>
+
+    <View style={{ flexDirection: "column", marginLeft: 15, marginTop: 5  }}>
         <Text style={{ color: "black", fontSize: 20, fontFamily: "roboto-300", }}>Health Info:</Text>
     </View>
 
@@ -523,7 +592,7 @@ return (
       </View>
   </View>
 
-  <View style={{ flexDirection: "column", marginLeft: 36, marginTop: 5  }}>
+  <View style={{ flexDirection: "column", marginLeft: 15, marginTop: 5  }}>
         <Text style={{ color: "black", fontSize: 20, fontFamily: "roboto-300", }}>Security:</Text>
   </View>
 
@@ -591,10 +660,13 @@ const styles = StyleSheet.create({
   input1: {
     flex: 1,
     width: wp("42%"),
-    backgroundColor: "rgba(122,179,52,1)",
+    //backgroundColor: "rgba(122,179,52,1)",
     padding: 15,
     marginBottom: 10,
-    marginRight: 5
+    marginRight: 5,
+    borderColor: "rgba(122,179,52,1)",
+    borderWidth: 1,
+    borderRadius: 5
     //flex: 2,
    //marginRight: 10,
 
@@ -603,18 +675,24 @@ const styles = StyleSheet.create({
   input2: {
     flex: 1,
     width: wp("44%"),
-    backgroundColor: "rgba(122,179,52,1)",
+    //backgroundColor: "rgba(122,179,52,1)",
     padding: 15,
     marginBottom: 10,
-    marginLeft: 5
+    marginLeft: 5,
+    borderColor: "rgba(122,179,52,1)",
+    borderWidth: 1,
+    borderRadius: 5
   },
 
   input: {
     flex: 1,
     width: wp("90%"),
-    backgroundColor: "rgba(122,179,52,1)",
+    //backgroundColor: "rgba(122,179,52,1)",
     padding: 15,
     marginBottom: 10,
+    borderColor: "rgba(122,179,52,1)",
+    borderWidth: 1,
+    borderRadius: 5
    // marginLeft: 5
   },
 
@@ -669,6 +747,10 @@ const styles = StyleSheet.create({
     fontFamily: "roboto-regular",
     lineHeight: 40,
     textAlign:"right"
+  },
+
+  list_view:{
+    width:wp("90%")
   }
 
   

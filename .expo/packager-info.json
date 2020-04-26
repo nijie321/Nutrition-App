@@ -3,8 +3,8 @@
   "expoServerPort": null,
   "packagerPort": null,
   "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
+  "expoServerNgrokUrl": "https://4f-idv.anonymous.nutrition-app.exp.direct",
+  "packagerNgrokUrl": "https://packager.4f-idv.anonymous.nutrition-app.exp.direct",
+  "ngrokPid": 1372,
   "webpackServerPort": null
 }
