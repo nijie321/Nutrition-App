@@ -11,16 +11,11 @@ import {
   Alert
 } from "react-native";
 import {Picker,Icon} from 'native-base';
-
 import { useRoute, useNavigation } from "@react-navigation/native";
-
 import firebase from '../../../../../../FireBase';
-
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-
-
 
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
@@ -73,11 +68,6 @@ function DetailMeal() {
     if(procedure) splitString = ". ";
     else splitString = ", ";
     return info.split(splitString).reduce((acc, cur) => {acc += cur + "\n"; return acc}, "");
-    // if (procedure) {
-    //   return info.split(". ").reduce((acc, cur) => { acc += cur + "\n"; return acc }, "");
-    // } else {
-    //   return info.split(", ").reduce((acc, cur) => { acc += cur + "\n"; return acc }, "");
-    // }
   }
 
   function returnDisplayText() {
@@ -161,9 +151,7 @@ function DetailMeal() {
           .then(function () {
             console.log("add to favorite successfully.");
           })
-        
       })
-   
   }
 
   //remove to favorite
@@ -184,7 +172,6 @@ function DetailMeal() {
 
 
   return (
-          
     <ScrollView style={styles.container}>
       <View style={styles.group}>
         <Image
@@ -267,9 +254,6 @@ function DetailMeal() {
         
       </View>
 
-
-
-
     <View style={{padding:30, paddingTop:20, paddingBottom:5}}>
       <Text style={{color: "rgba(0,0,0,1)",
             fontSize: 19,
@@ -339,19 +323,12 @@ const styles = StyleSheet.create({
     // left: 200, 
   },
   infoContainer:{
-    // alignContent:"center",
-    // alignSelf:"center",
-    // alignItems:"center",
     textAlign:"center",
     marginLeft: 23
   },
   group: {
     // width: 364,
     // height: 312,
-
-    // alignSelf: "flex-end",
-    // marginTop: -13,
-    // marginRight: 25
   },
   image: {
     alignSelf:"center",

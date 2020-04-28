@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Text,Input,Item,Button } from 'native-base';
-import {StyleSheet, View, ScrollView} from 'react-native';
+import {StyleSheet, View, ScrollView, Alert} from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp, widthPercentageToDP} from 'react-native-responsive-screen';
 
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -51,7 +51,7 @@ function Payment({route, navigation}){
             }
         }
         db.collection("order").doc(user.uid).set(docData, {merge:true})
-        .then(() => {console.log("Order Placed SUccessfully.")})
+        .then(() => {Alert.alert("Payment went through successfully.")})
     }
     return(
         <ScrollView>
