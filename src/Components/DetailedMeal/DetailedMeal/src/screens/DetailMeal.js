@@ -25,6 +25,9 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+//import Stars from '../../../../../../src/Screens/Stars.js';
+//import {StarRating} from 'react-native-rating-star';
+import { Rating, AirbnbRating } from 'react-native-ratings';
 
 
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -75,6 +78,14 @@ function DetailMeal(props) {
     setNutritionText(`calories_serving: ${mealInfo.calories_serving}, chol: ${mealInfo.chol}, dietary_fiber: ${mealInfo.dietary_fiber}, omega3: ${mealInfo.omega3}, omega6: ${mealInfo.omega6}, polyunsat: ${mealInfo.polyunsat}, protein: ${mealInfo.protein}, sat: ${mealInfo.sat}, sugar: ${mealInfo.sugar}, total_carb: ${mealInfo.total_carb}, total_fat: ${mealInfo.total_fat}, trans: ${mealInfo.trans}`)
     setTabSelected({ nutrition: true });
   }
+
+
+
+  function ratingCompleted( rating ) {
+    console.log( `Rating is: ${rating}` );
+  }
+
+
 
   function returnIngredientString(info, procedure = false) {
     if (procedure) {
@@ -269,7 +280,18 @@ function DetailMeal(props) {
             {/* <Ionicons name='ios-heart-dislike' size={28} color='#77787d' /> */}
           </TouchableOpacity>
         </View>
-        
+
+
+
+        <View>
+          <AirbnbRating 
+            showRating={true}
+            onFinishRating={ratingCompleted}
+          />
+        </View>
+
+
+
         <View style={{flexDirection:"row", marginVertical:20}}>
           <Text style={{fontWeight:"bold", fontSize:20, alignSelf:"center", paddingLeft:wp("5%")}}>
             Serving Size:
@@ -554,4 +576,5 @@ const styles = StyleSheet.create({
 });
 
 export default DetailMeal;
+
 
