@@ -8,16 +8,7 @@ import {
     Image,
 } from 'react-native';
 
-import {Picker,Icon} from 'native-base';
-
-
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
-
-
-
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-
-
 import firebase from '../../FireBase';
 const db = firebase.firestore();
 
@@ -246,22 +237,6 @@ function M({navigation, route}){
                     </ScrollView>
                 </View> 
             </View>
-            <View style={{width: wp("30%")}}>
-                    <Picker
-                    mode="dropdown"
-                    iosIcon={<Icon name="arrow-down" />}
-                    style={{ width: undefined }}
-                    placeholder="Select your SIM"
-                    placeholderStyle={{ color: "#bfc6ea" }}
-                    placeholderIconColor="#007aff"
-                >
-                    <Picker.Item label="Wallet" value="key0" />
-                    <Picker.Item label="ATM Card" value="key1" />
-                    <Picker.Item label="Debit Card" value="key2" />
-                    <Picker.Item label="Credit Card" value="key3" />
-                    <Picker.Item label="Net Banking" value="key4" />
-                </Picker>
-            </View>
         </ScrollView>
         );
     }else{
@@ -270,17 +245,13 @@ function M({navigation, route}){
 } //end function M
 
 const Tab = createMaterialTopTabNavigator();
-
-
 function MainScreen1(){
-
     return(
         <Tab.Navigator>
         <Tab.Screen name="Week 1" component={M} initialParams={{id:1}}/> 
         <Tab.Screen name="Week 2" component={M} initialParams={{id:2}}/>
       </Tab.Navigator>
     )
-    
 }
 
 const styles = StyleSheet.create({

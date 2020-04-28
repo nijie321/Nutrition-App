@@ -1,14 +1,9 @@
-import React, { useState, useEffect, useRef} from 'react';
-import { Container, Content ,Text,Input,Item,Button, Icon } from 'native-base';
-import {StyleSheet, View, Image, TextInput, ScrollView} from 'react-native';
+import React, { useState } from 'react';
+import { Container, Text,Input,Item,Button } from 'native-base';
+import {StyleSheet, View, ScrollView, Alert} from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp, widthPercentageToDP} from 'react-native-responsive-screen';
 
-
-import uuid from 'react-native-uuid';
-// import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
-// import { useTheme } from '@react-navigation/native';
-
 import firebase from '../../../../FireBase';
 
 function Payment({route, navigation}){
@@ -28,6 +23,10 @@ function Payment({route, navigation}){
     
     const user = firebase.auth().currentUser;
     const db = firebase.firestore();
+    
+    function generateOrderID(){
+        return Math.random().toString(36).substring(7);
+    };
 
     function SubmitOrder(){
         const mealData = _ => {
@@ -44,41 +43,15 @@ function Payment({route, navigation}){
         }
 
         const docData = {
-            [uuid.v1()]:{
+            [generateOrderID()]:{
             "order_date": new Date(),
             "meals": mealData(),
             "status":"processing", // ["processing", "confirmed", "cancelled"]
             "can_cancel":true,
             }
         }
-
-        db.collection("order").doc(user.uid).update(docData)
-        .then(()=>{
-            Alert.alert("New Order Placed Successfully.");
-        })
-        .catch((err)=>{
-            console.log(err);
-            console.log("attemping to set a new documentation in the databse");
-            db.collection("order").doc(user.uid).set(docData)
-            .then(()=>{
-                console.log("Order Placed Successfully.");
-            })
-        })
-
-        // db.collection("order").doc(user.uid).set(docData)
-        // .then(() => {Alert.alert("Order Placed Successfully.");})
-        // .then(() => {
-        //     navigation.dispatch(
-        //         CommonActions.reset({
-        //           index:0,
-        //           routes:[
-        //             {name: "Home"}
-        //           ]
-        //         })
-        //         )
-        // })
-        // .catch((err) => {console.log("something went wrong. error code:", err);})
-
+        db.collection("order").doc(user.uid).set(docData, {merge:true})
+        .then(() => {Alert.alert("Payment went through successfully.")})
     }
     return(
         <ScrollView>
@@ -95,8 +68,6 @@ function Payment({route, navigation}){
             <View style={styles.card}>
                 <Text style={styles.text_header}>Valid Until</Text>
                 <View style={{flexDirection:"row", justifyContent:"space-between"}}>
-                    {/* <TextInput style={{borderColor:"red", borderWidth:1, width:wp("5%") }}/>
-                    <TextInput style={{borderColor:"red", borderWidth:1}} />  */}
                     <Item style={{width:wp("40%"), borderColor: boxesOnFocus["card-month"]? "red":"black" }}>
                         <Input onFocus={() => { setBoxesOnFocus({...INITIALBOXESFOCUS, "card-month":true})}} placeholder="Month"/>
                     </Item>

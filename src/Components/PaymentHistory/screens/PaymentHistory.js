@@ -1,16 +1,15 @@
-import React, { useState, useEffect, useRef} from 'react';
-import { Container, Content ,Text, Button,Accordion, Icon } from 'native-base';
-import {StyleSheet, View, Image, TextInput} from 'react-native';
+import React, { useState, useEffect} from 'react';
+import { Text,Accordion, Icon } from 'native-base';
+import {StyleSheet, View} from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 import firebase from '../../../../FireBase';
 const db = firebase.firestore();
 
-
-const user = firebase.auth().currentUser;
 function OrderContainer(){
     const [hasData, setHasData] = useState(false);
     const [orderData, setOrderdata] = useState({});
+    const user = firebase.auth().currentUser;
     useEffect(() => {
         const getData = async () =>{
             await db.collection('order').doc(user.uid).get()
@@ -19,33 +18,12 @@ function OrderContainer(){
                 setOrderdata(doc.data())
             })
         }
-        
-        getData().then(() => {setHasData(true);})
+
+        getData()
+        .then(() => {setHasData(true);})
+        .catch((error) => {console.log(error);})
     },[]);
-    
-    async function updateScreen(){
-        await db.collection('order').doc(user.uid).get()
-        .then((doc)=>{
-            // setHasData(false);
-            setOrderdata(doc.data())
-        })
-    }
-    async function cancelOrder(order_id){
-        
-        await db.collection('order').doc(user.uid).update({
-            [order_id]: firebase.firestore.FieldValue.delete()
-        })
-        .then(() => {
-            setHasData(false);
-            console.log("deleted the order successfully.");
-        })
-        .then(()=>{
-            updateScreen().then(()=>{setHasData(true)});
-        })
-        .catch((err)=> {
-            console.log("Error:", err);
-        })
-    }
+
     function _renderHeader(item, expanded) {
         return (
           <View style={{
@@ -84,22 +62,13 @@ function OrderContainer(){
             }
             Order Total: {total.toFixed(2)}
           </Text>
-          <View style={{width:wp("10%"), alignContent:"center", backgroundColor:"#e3f1f1"}}>
-            <Button danger onPress={()=>{cancelOrder(item.key)}}><Text style={{textAlign:"center"}}>Cancel</Text></Button>
-          </View>
           </View>
         );
       }
 
     function generateDataArray(){
-
         let array = [];
-
         if(hasData){
-            console.log("inside generate data array");
-            console.log("data=",orderData);
-            // console.log("data key = ", Object.keys(orderData));
-
             for(const key in orderData){
                 console.log("key=",key);
                 let order_date = orderData[key].order_date.toDate().toDateString();
@@ -111,11 +80,9 @@ function OrderContainer(){
         return array;
     }
     const dataArray = generateDataArray();
-
         return(
             <View style={styles.order_container}>
                 {hasData? 
-                
                     <Accordion
                     dataArray={dataArray}
                     animation={true}
@@ -126,29 +93,17 @@ function OrderContainer(){
                 :
                 null
                 }
-                
-                
             </View>
         )
     }
 
 
 function PaymentHistory(){
-    
-
-    // console.log(orderData);
-
     return(
         <View>
-        {/* <Text>{Object.keys(orderData['meal'])}</Text> */}
-        <OrderContainer />
-        {/* <OrderContainer />
-        <OrderContainer /> */}
-            {/* <Button onPress={()=>{updateScreen()}}><Text>update</Text></Button> */}
+            <OrderContainer />
         </View>
     )
-    
-  
 }
 
 const styles = StyleSheet.create({
