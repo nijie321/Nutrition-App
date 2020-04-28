@@ -65,7 +65,8 @@ function Payment({route, navigation}){
                 console.log("Order Placed Successfully.");
             })
         })
-         navigation.navigate("Confirm",{order:docData,id:id,total:route.params.total});
+        db.collection("shopping_cart").doc(user.uid).delete();
+        navigation.navigate("Confirm",{order:docData,id:id,total:route.params.total});
         // db.collection("order").doc(user.uid).set(docData)
         // .then(() => {Alert.alert("Order Placed Successfully.");})
         // .then(() => {
