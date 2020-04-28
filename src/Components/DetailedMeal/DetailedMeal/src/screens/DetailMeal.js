@@ -27,7 +27,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //import Stars from '../../../../../../src/Screens/Stars.js';
 //import {StarRating} from 'react-native-rating-star';
-import { Rating, AirbnbRating } from 'react-native-ratings';
+import { AirbnbRating } from 'react-native-ratings';
 
 
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
