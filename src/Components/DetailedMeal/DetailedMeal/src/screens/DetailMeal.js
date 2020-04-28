@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   ScrollView,
   TextInput,
+  Alert
 } from "react-native";
 import {Picker,Icon} from 'native-base';
 
@@ -18,16 +19,15 @@ import firebase from '../../../../../../FireBase';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
 
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-const db = firebase.firestore();
 
 function DetailMeal() {
   
+  const db = firebase.firestore();
+  const user = firebase.auth().currentUser;
   const route = useRoute();
   const [display, setDisplay] = useState({toDisplay: ""});
   const [pickUpLocation, setPickUpLocation] = useState("");
@@ -69,19 +69,23 @@ function DetailMeal() {
   }
 
   function returnIngredientString(info, procedure = false) {
-    if (procedure) {
-      return info.split(". ").reduce((acc, cur) => { acc += cur + "\n"; return acc }, "");
-    } else {
-      return info.split(", ").reduce((acc, cur) => { acc += cur + "\n"; return acc }, "");
-    }
+    let splitString = ""
+    if(procedure) splitString = ". ";
+    else splitString = ", ";
+    return info.split(splitString).reduce((acc, cur) => {acc += cur + "\n"; return acc}, "");
+    // if (procedure) {
+    //   return info.split(". ").reduce((acc, cur) => { acc += cur + "\n"; return acc }, "");
+    // } else {
+    //   return info.split(", ").reduce((acc, cur) => { acc += cur + "\n"; return acc }, "");
+    // }
   }
 
   function returnDisplayText() {
     switch (display.toDisplay) {
-      case "ingredients": return (<Text>{returnIngredientString(mealInfo.ingredients)}</Text>); break;
-      case "recipe": return (<Text>recipe....</Text>); break;
-      case "nutrition": return (<Text>{returnIngredientString(nutritionText)}</Text>); break;
-      case "procedures": return (<Text>{returnIngredientString(mealInfo.procedure, true)}</Text>); break;
+      case "ingredients": return (<Text>{returnIngredientString(mealInfo.ingredients)}</Text>);
+      case "recipe": return (<Text>recipe....</Text>);
+      case "nutrition": return (<Text>{returnIngredientString(nutritionText)}</Text>);
+      case "procedures": return (<Text>{returnIngredientString(mealInfo.procedure, true)}</Text>);
     }
   }
 
@@ -121,7 +125,6 @@ function DetailMeal() {
   
   function addToCart(){
     if(qty > 0 && pickUpLocation !== ""){
-      const user = firebase.auth().currentUser;
       var docData = {
         [route.params.meal_info]: {
           qty,
@@ -131,7 +134,7 @@ function DetailMeal() {
       console.log("docData:", docData);
       db.collection("shopping_cart").doc(user.uid).update(docData)
       .then(function(){
-        console.log("update to shopping cart successfully.");
+        Alert.alert("Added to shopping cart successfully.");
       })
       .catch(() => {
         db.collection("shopping_cart").doc(user.uid).set(docData)
@@ -145,9 +148,8 @@ function DetailMeal() {
   }
 
   function addToFavorite2() {
-    const user = firebase.auth().currentUser;
     var docData = {
-      [route.params.meal_info]: qty
+      [route.params.meal_info]: 1
     }
     console.log("docData:", docData);
     db.collection("favorite").doc(user.uid).update(docData)
@@ -167,23 +169,11 @@ function DetailMeal() {
   //remove to favorite
 
   function removeToFavorite2() {
-    const user = firebase.auth().currentUser;
-    var docData = {
-      [route.params.meal_info]: qty
-    }
-    console.log("docData:", docData);
-    db.collection("favorite").doc(user.uid).update(docData)
-      .then(function () {
-        console.log("remove to favorite successfully.");
-      })
-      .catch(function (error) {
-        db.collection("favorite").doc(user.uid).set(docData)
-          .then(function () {
-            console.log("remove to favorite successfully.");
-          })
-        
-      })
-   
+    db.collection("favorite").doc(user.uid).update({
+      [ route.params.meal_info ]: firebase.firestore.FieldValue.delete()
+    })
+    .then(() => {console.log("delete successfully")})
+    .catch((err) => {console.log(err)});
   }
 
   useEffect(() => {
