@@ -3,23 +3,48 @@ import {Platform, InteractionManager,Text, View} from 'react-native';
 import { NavigationContainer, StackActions} from '@react-navigation/native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 
+
+// import {Buffer} from 'buffer';  
+// global.Buffer = Buffer;
+
+
 import {createStackNavigator} from '@react-navigation/stack';
+
+
 import {Welcome} from './src/Components/Welcome/Welcome/index';
+
+
 import {CreateProfile} from './src/Components/CreateProfile/index';
 import {ForgotPassword} from './src/Components/ForgotPassword/index';
 import MainScreen1 from './src/Screens/MainScreen';
 import {DetailMeal} from './src/Components/DetailedMeal/DetailedMeal/index';
+
+//import DetailMeal from './src/Screens/DetailMeal';
 import {EditProfile} from './src/Components/EditProfile2/EditProfile2/index';
+
 import {default as PaymentHistory} from './src/Components/PaymentHistory/screens/PaymentHistory';
 import {default as Payment} from './src/Components/Payment/screens/Payment';
 import {default as ShoppingCart} from './src/Components/ShoppingCart/src/screens/ShoppingCart';
+import Confirm from './src/Screens/Confirm';
+//import FavList from './src/Screens/FavList';
+
 import Favorite from './src/Screens/Favorite';
 import firebase from './FireBase';
+
+
+
+// import Detail from './src/Screens/Detail';
+// import Week from './src/Screens/Week';
+
+
 import * as Font from 'expo-font';
+
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
+
 
 const _setTimeout = global.setTimeout;
 const _clearTimeout = global.clearTimeout;
@@ -108,6 +133,11 @@ function HomeTabNavigator({navigation,route}){
   useLayoutEffect(() => {
       if(user){
         navigation.setOptions({headerRight: () => (
+            // <TouchableOpacity
+            //   onPress={() => {navigation.dispatch(StackActions.replace("Welcome"))}}
+            // >
+            //   <Text>Log Out</Text>
+            // </TouchableOpacity>
             <SimpleLineIcons.Button
               name="logout"
               backgroundColor="#a1c559" //"#3b5998"
@@ -122,6 +152,7 @@ function HomeTabNavigator({navigation,route}){
         },[navigation,route])
  
       };
+      // console.log("use effect");
   }
   )
 
@@ -155,7 +186,9 @@ function HomeTabNavigator({navigation,route}){
           ),
           title:"Edit Profile"
         }}
+        // tabPress={() => {}}
         />
+
         <Tab.Screen name="Shopping Cart" component={ShoppingCart}
         options={{
           tabBarLabel: 'Shopping Cart',
@@ -180,6 +213,10 @@ function HomeTabNavigator({navigation,route}){
             <FontAwesome5 name="history" color={color} size={20} />
           )  
         }} />
+
+     
+      {/* <Tab.Screen name="Favorite" component={FavList} */}
+       
         <Tab.Screen name="Favorite" component={Favorite}
         options={{
           tabBarLabel: 'Favorite',
@@ -187,6 +224,7 @@ function HomeTabNavigator({navigation,route}){
             <MaterialIcons name="favorite" color={color} size={20} />
           )  
         }} />
+        
       </Tab.Navigator>
   )
 }
@@ -216,6 +254,10 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Welcome" //#"Welcome"
+        // screenOptions={{
+        //   headerShown: false
+        // }}
+        // screenOptions={{headerTitleAlign:"center"}}
       >
         <Stack.Screen
           name="Payment"
@@ -256,6 +298,11 @@ export default function App() {
           name="Home"
           component={HomeTabNavigator}
           // options={{title:"home1"}}
+        />
+        <Stack.Screen
+          name="Confirm"
+          component={Confirm}
+          options={{title: 'Confirmation'}}
         />
       </Stack.Navigator>
     </NavigationContainer>

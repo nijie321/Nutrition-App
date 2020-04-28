@@ -198,7 +198,7 @@ function ShoppingCart(){
         return(
             <View>
                 <MaterialIcons.Button name="payment" color="#007AFF" backgroundColor="transparent" underlayColor="green" size={wp("10%")}
-                    onPress={()=>{ navigation.navigate("Payment", {data:meal})}}
+                    onPress={()=>{ navigation.navigate("Payment", {data:meal,total:subtotal.current*1.15})}}
                 />
             </View>
         )
