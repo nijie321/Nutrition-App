@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useRef} from 'react';
-import { Container, Content ,Text, Button, Icon } from 'native-base';
-import {StyleSheet, View, Image, TextInput, ScrollView} from 'react-native';
+import { Text, Button, Icon } from 'native-base';
+import {StyleSheet, View, Image, ScrollView} from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -13,14 +13,12 @@ import firebase from '../../../../../FireBase';
 const db = firebase.firestore();
 
 function ShoppingCart(){
-    const[qty, setQty] = useState({});
     const[meal, setMeal] = useState([]);
     const [hasData, setHasData] = useState(false);
     const subtotal = useRef(0.0);
     const user = firebase.auth().currentUser;
     
     const navigation = useNavigation();
-    // console.log(route.params.update);
 
     async function getDataFromDB(){
         subtotal.current = 0;
@@ -29,7 +27,6 @@ function ShoppingCart(){
         await db.collection('shopping_cart').doc(user.uid).get()
         .then(function(doc){
             data = doc.data();
-            // return doc.data();
         })
         .catch((error) => console.log(error))
         return data;
@@ -78,19 +75,14 @@ function ShoppingCart(){
         })
     }
     function onMinusPress(meal){
-        console.log("inside on minus press");
         const quantity = meal.quantity;
         const new_quantity = quantity - 1;
         if(quantity >= 1){
-
-            console.log("inside if statement (if quantity >= 1)");
-            // setMeal({...previous, [meal.meal_id]:{...previous[meal.meal_id],quantity:new_quantity} })
             setMeal(prevState => {
                 console.log("printing previous state...");
                 console.log(prevState);
                 return {...prevState, ...{[meal.meal_id]:{...prevState[meal.meal_id], quantity:new_quantity}}}}
                 )
-            // console.log("meal location = ", meal[meal.meal_id].pick_up_location);
             updateQty(meal.meal_id, new_quantity);
 
             subtotal.current -= parseFloat(meal.price.substr(1));
@@ -111,21 +103,16 @@ function ShoppingCart(){
     
 
     function onPlusPress(meal){
-        // const quantity = qty[meal.meal_id].quantity;
-        // const new_quantity = quantity + 1;
         const quantity = meal.quantity;
         const new_quantity = quantity + 1;
         setMeal(prevState => {return {...prevState, ...{[meal.meal_id]:{...prevState[meal.meal_id], quantity:new_quantity}}}})
-        // setQty(prevState => {return {...prevState, ...{[meal.meal_id]: {quantity:new_quantity}}} });
         updateQty(meal.meal_id,new_quantity);
         subtotal.current += parseFloat(meal.price.substr(1));
-        // console.log(qty);
     }
     
     function AddRemoveBTNs({meal}){
         return(
             <View style={styles.quantity_btn_container}>
-                {/* remove quantity */}
                 <Button transparent rounded
                     style={styles.remove_btn}
                     onPress={async () => {await onMinusPress(meal)}}
@@ -133,7 +120,6 @@ function ShoppingCart(){
                 <Icon type="AntDesign" name="minuscircle" style={styles.remove_btn} />
                 </Button>
                 <Text style={{fontSize:wp("3%"), alignSelf:"center", paddingHorizontal:5, fontWeight:"bold" }}>Quantity: { meal.quantity }</Text>
-                {/* add quantity */}
                 <Button transparent rounded
                     style={styles.remove_btn}
                     onPress={() => {onPlusPress(meal)}}
@@ -158,8 +144,6 @@ function ShoppingCart(){
       }
     
     function MealInfoContainer({meal}){
-        console.log("inside meal info container");
-        console.log(meal);
         return(
             <View style={styles.meal_info_container}>
                 <Image style={styles.img} resizeMode="cover" source={determineImg(meal.meal_id)}/>
@@ -188,7 +172,6 @@ function ShoppingCart(){
         return(
             <View style={{flexDirection:"column", justifyContent:"space-between"}}>
                 <Text style={styles.price}>Subtotal: {"\t$"+`${subtotal.current.toFixed(2)}`}</Text> 
-                {/* ${subtotal.current.toFixed(2) */}
                 <Text style={styles.price}>Tax: {"\t\t$"+`${(subtotal.current * .15).toFixed(2)}`}</Text>
                 <Text style={styles.price}>Total: {"\t\t$" + `${(subtotal.current * 1.15).toFixed(2)}`}</Text>
             </View>
@@ -219,22 +202,27 @@ function ShoppingCart(){
         <ScrollView>
         <View style={styles.container}>
             {hasData?createMealInfoContainer():null}
-            <View style={{width:wp("10%")}}>
-                <FontAwesome.Button name="refresh" backgroundColor="transparent" size={wp("5%")} underlayColor="red" color="#007AFF" onPress={updateMealInfo}/>
+        </View>
+        <View
+            style={{
+                borderBottomColor: 'black',
+                borderBottomWidth: 3,
+                marginBottom: 10,
+            }}
+        />
+        <View style={{alignSelf:"center", flexDirection:"row"}}>
+            <View style={{flexDirection:"column", marginHorizontal:wp("5%")}}>
+                <Button transparent onPress={() => updateMealInfo()}>
+                    <Text>REFRESH</Text>
+                </Button>
+                <Button transparent onPress={()=>{ navigation.navigate("Payment", {data:meal})}}>
+                    <Text>Pay Now</Text>
+                </Button>
             </View>
-
-            <View style={{marginTop:hp("5%") }}>
-
-                {/* <View style={{marginRight:wp("5%")}}>
-                    
-                </View> */}
-                <Total />
-                <Payment />
-            </View>
+            <Total />
         </View>
 </ScrollView>
     )
-    // }else{return null};
 }
 
 const styles = StyleSheet.create({
@@ -263,9 +251,6 @@ const styles = StyleSheet.create({
     meal_info_container:{
         flexDirection:"row",
         marginHorizontal:wp("3%"),
-        // marginVertical: hp("2%"),
-        // borderColor:"red",
-        // borderWidth:1,
         marginBottom:hp("1%")
     },
     img:{
