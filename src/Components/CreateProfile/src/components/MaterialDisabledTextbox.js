@@ -78,12 +78,12 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     flexDirection: "row",
     alignItems: "center",
-    borderColor: "#D9D5DC",
+    borderColor: "rgba(106,164,27,1)",
     borderBottomWidth: 1
   },
   inputStyle: {
     flex: 1,
-    color: "#000",
+    color: "rgba(106,164,27,1)",
     alignSelf: "stretch",
     paddingTop: 16,
     paddingRight: 5,
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     lineHeight: 16
   },
   iconStyle: {
-    color: "#384850",
+    color: "rgba(106,164,27,1)",
     fontFamily: "Roboto",
     fontSize: 24,
     paddingRight: 8,

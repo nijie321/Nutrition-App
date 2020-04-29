@@ -6,7 +6,7 @@ function CupertinoButtonWarning(props) {
     <TouchableOpacity style={[styles.container, props.style]}
       onPress={props.onButtonClick}
     >
-      <Text style={styles.caption}>Send</Text>
+      <Text style={styles.caption}>SEND</Text>
     </TouchableOpacity>
   );
 }

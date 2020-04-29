@@ -17,8 +17,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    // paddingRight: 16,
-    // paddingLeft: 16,
+    //paddingRight: 16,
+    //paddingLeft: 16,
     elevation: 2,
     minWidth: 88,
     borderRadius: 2,
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   caption: {
     color: "#fff",
     fontSize: 16,
-    fontFamily: "courier-regular"
+    fontFamily: "roboto-regular"
   }
 });
 
