@@ -21,6 +21,15 @@ function Payment({route}){
         return Math.random().toString(36).substring(7);
     };
 
+    async function deleteFromDB(){
+        for(let meal in route.params.mealNames){
+            await db.collection("shopping_cart").doc(user.uid).update({
+                [meal]: firebase.firestore.FieldValue.delete()
+            })
+            .then(() => console.log("delete successfully"))
+            .catch(err => console.log(err));
+        }
+    }
     function SubmitOrder(){
         const mealData = _ => {
             const temp = {};
@@ -45,6 +54,7 @@ function Payment({route}){
         }
         db.collection("order").doc(user.uid).set(docData, {merge:true})
         .then(() => {Alert.alert("Payment went through successfully.")})
+        .then(() => deleteFromDB())
         .then(() => navigation.navigate("History"))
         // .then(() => navigation.navigate("Confirm", {order:docData, id:order_id,total:route.params.total}))
         .catch((err) => {console.log(err)})

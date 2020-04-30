@@ -16,7 +16,7 @@ function ShoppingCart(){
     const [hasData, setHasData] = useState(false);
     const subtotal = useRef(0.0);
     const user = firebase.auth().currentUser;
-    
+    const [mealNames, setMealNames]  = useState([]);
     const navigation = useNavigation();
 
     async function getDataFromDB(){
@@ -26,11 +26,11 @@ function ShoppingCart(){
         await db.collection('shopping_cart').doc(user.uid).get()
         .then(function(doc){
             data = doc.data();
+            setMealNames(data);
         })
         .catch((error) => console.log(error))
         return data;
     }
-
     async function loadData(data,update=false){
         if(update){
             subtotal.current = 0.0;
@@ -172,6 +172,7 @@ function ShoppingCart(){
             </View>
         )
     }
+    
     function Payment(){
         return(
             <View>
@@ -207,7 +208,8 @@ function ShoppingCart(){
                 <Button transparent onPress={() => updateMealInfo()}>
                     <Text>REFRESH</Text>
                 </Button>
-                <Button transparent onPress={()=>{ navigation.navigate("Payment", {data:meal, total:subtotal.current*1.15})}}>
+                <Button transparent onPress={()=>{ 
+                    navigation.navigate("Payment", {data:meal, mealNames: mealNames})}} >
                     <Text>Pay Now</Text>
                 </Button>
             </View>
