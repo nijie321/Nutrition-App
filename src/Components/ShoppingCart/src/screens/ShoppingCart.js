@@ -5,7 +5,6 @@ import {StyleSheet, View, Image, ScrollView} from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import {useNavigation} from '@react-navigation/native';
 
@@ -33,7 +32,6 @@ function ShoppingCart(){
     }
 
     async function loadData(data,update=false){
-        console.log("inside loadData, data=", data);
         if(update){
             subtotal.current = 0.0;
             setMeal([]);
@@ -47,7 +45,6 @@ function ShoppingCart(){
                 const quantity = parseInt(data[d].qty);
                 const pick_up_loc = data[d].pick_up_location;
                 const meal_id = d;
-
                 setMeal(prevState => {
                     console.log(prevState);
                     return {...prevState, ...{[d]:{meal_id,name,price,quantity, pick_up_loc}} } })
@@ -65,7 +62,7 @@ function ShoppingCart(){
     }
 
     async function updateQty(field_id, new_val){
-        let id = field_id;
+        // let id = field_id;
         await db.collection("shopping_cart").doc(user.uid).update({
             [field_id + '.qty'] : new_val.toString()
         }).then(function(){
@@ -79,8 +76,6 @@ function ShoppingCart(){
         const new_quantity = quantity - 1;
         if(quantity >= 1){
             setMeal(prevState => {
-                console.log("printing previous state...");
-                console.log(prevState);
                 return {...prevState, ...{[meal.meal_id]:{...prevState[meal.meal_id], quantity:new_quantity}}}}
                 )
             updateQty(meal.meal_id, new_quantity);
@@ -181,17 +176,14 @@ function ShoppingCart(){
         return(
             <View>
                 <MaterialIcons.Button name="payment" color="#007AFF" backgroundColor="transparent" underlayColor="green" size={wp("10%")}
-                    onPress={()=>{ navigation.navigate("Payment", {data:meal})}}
+                    onPress={()=>{ navigation.navigate("Payment", {data:meal, total:subtotal.current*1.15})}}
                 />
             </View>
         )
     }
 
     const createMealInfoContainer = () => {
-        console.log("inside create meal coninters");
-
         let container = [];
-
         for(const m in meal){
             container.push(<MealInfoContainer meal={meal[m]} key={m}/>)
         }
@@ -215,7 +207,7 @@ function ShoppingCart(){
                 <Button transparent onPress={() => updateMealInfo()}>
                     <Text>REFRESH</Text>
                 </Button>
-                <Button transparent onPress={()=>{ navigation.navigate("Payment", {data:meal})}}>
+                <Button transparent onPress={()=>{ navigation.navigate("Payment", {data:meal, total:subtotal.current*1.15})}}>
                     <Text>Pay Now</Text>
                 </Button>
             </View>

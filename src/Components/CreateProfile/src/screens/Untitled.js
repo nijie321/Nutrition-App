@@ -2,9 +2,6 @@ import React, { useState } from "react";
 import { StyleSheet, View, TextInput, ScrollView, Alert, KeyboardAvoidingView} from "react-native";
 import { Container, CheckBox, Content, Body, Text, Button ,ListItem, Form,Item , Input,Label} from 'native-base';
 
-import MaterialDisabledTextbox from "../components/MaterialDisabledTextbox";
-// import MaterialCheckbox1 from "../components/MaterialCheckbox1";
-import MaterialButtonViolet from "../components/MaterialButtonViolet";
 
 import {useNavigation, CommonActions} from '@react-navigation/native';
 
@@ -73,10 +70,6 @@ function CreateProfile(props) {
             ]
           })
           )
-
-        //   navigation.dispatch(
-        //     StackActions.replace('Home')
-        // )
       })
         .catch(function(error){
             // var errorCode = error.code;

@@ -4,7 +4,6 @@ import {
   StyleSheet,
   View,
   Image,
-  // Text,
   TouchableOpacity,
   ScrollView,
   TextInput,
@@ -154,7 +153,7 @@ function DetailMeal() {
       })
   }
 
-  //remove to favorite
+  //remove from favorite
 
   function removeFromList() {
     db.collection("favorite").doc(user.uid).update({
@@ -292,9 +291,7 @@ function DetailMeal() {
     
     <ScrollView>
       <View style={styles.infoContainer}>
-        {/* <Text>{mealInfo.name}</Text> */}
         {returnDisplayText()}
-        
       </View>
 
     </ScrollView>

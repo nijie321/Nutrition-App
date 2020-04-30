@@ -10,6 +10,7 @@ import {ForgotPassword} from './src/Components/ForgotPassword/index';
 import MainScreen1 from './src/Screens/MainScreen';
 import {DetailMeal} from './src/Components/DetailedMeal/DetailedMeal/index';
 import {EditProfile} from './src/Components/EditProfile2/EditProfile2/index';
+import Confirm from './src/Screens/Confirm';
 import {default as PaymentHistory} from './src/Components/PaymentHistory/screens/PaymentHistory';
 import {default as Payment} from './src/Components/Payment/screens/Payment';
 import {default as ShoppingCart} from './src/Components/ShoppingCart/src/screens/ShoppingCart';
@@ -257,6 +258,12 @@ export default function App() {
           component={HomeTabNavigator}
           // options={{title:"home1"}}
         />
+
+      <Stack.Screen
+        name="Confirm"
+        component={Confirm}
+        options={{title: 'Confirmation'}}
+      />
       </Stack.Navigator>
     </NavigationContainer>
   );

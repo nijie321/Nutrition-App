@@ -3,22 +3,15 @@ import { Container, Text,Input,Item } from 'native-base';
 import {StyleSheet, View, ScrollView,Button, Alert} from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp, widthPercentageToDP} from 'react-native-responsive-screen';
 
-import Entypo from 'react-native-vector-icons/Entypo';
 import firebase from '../../../../FireBase';
 
 import { CreditCardInput } from 'react-native-credit-card-input';
 
-function Payment({route, navigation}){
-    const STRIPE_PUBLISHABLE_KEY = 'pk_test_nNf99ywU1zbOU8EDD6oUUoZ100WIQKKHsT'; 
+import {useNavigation} from '@react-navigation/native';
 
-    const INITIALBOXESFOCUS = {
-        "card-number":false,
-        "card-month":false,
-        "card-year":false,
-        "card-name":false,
-        "card-cvv":false,
-    }
-    const[boxesOnFocus, setBoxesOnFocus] = useState(INITIALBOXESFOCUS);
+function Payment({route}){
+    const navigation = useNavigation();
+    const STRIPE_PUBLISHABLE_KEY = 'pk_test_nNf99ywU1zbOU8EDD6oUUoZ100WIQKKHsT'; 
     const user = firebase.auth().currentUser;
     const db = firebase.firestore();
     const [cardData, setCardData] = useState({});
@@ -41,8 +34,9 @@ function Payment({route, navigation}){
             }
             return temp;
         }
+        let order_id = generateOrderID();
         const docData = {
-            [generateOrderID()]:{
+            [order_id]:{
             "order_date": new Date(),
             "meals": mealData(),
             "status":"processing", // ["processing", "confirmed", "cancelled"]
@@ -51,6 +45,8 @@ function Payment({route, navigation}){
         }
         db.collection("order").doc(user.uid).set(docData, {merge:true})
         .then(() => {Alert.alert("Payment went through successfully.")})
+        // .then(() => navigation.navigate("Confirm", {order:docData, id:order_id,total:route.params.total}))
+        .catch((err) => {console.log(err)})
     }
     
 
@@ -90,57 +86,11 @@ function Payment({route, navigation}){
                 <CreditCardInput allowScroll={true} onChange={(data) => {setCardData(data); _onChange(data)} } />
             </View>
             <View> 
-                <Button title="Review Meals" disabled={notValid} onPress={() =>getCreditCardToken()} />
+                <Button title="Confirm Order" disabled={notValid} onPress={() => {getCreditCardToken(); SubmitOrder()}} />
+                {/* <Button title="Review Meals" disabled={notValid} onPress={() =>getCreditCardToken()} />
+                <Button title="Pay" onPress={() => SubmitOrder()} /> */}
             </View>
         </View>
-        // <ScrollView>
-        // <Container>
-        //     <View style={styles.card}>
-        //         <Text style={styles.text_header}>Card Number</Text>
-        //         <Item style={{borderColor: boxesOnFocus["card-number"]? "red":"black" }} >
-        //             <Entypo name="credit-card" size={wp("3%")}/>
-        //             <Input onFocus={() => {setBoxesOnFocus({...INITIALBOXESFOCUS, "card-number":true})}}/>
-        //         </Item>
-        //     </View>
-            
-        //     <View style={styles.card}>
-        //         <Text style={styles.text_header}>Valid Until</Text>
-        //         <View style={{flexDirection:"row", justifyContent:"space-between"}}>
-        //             <Item style={{width:wp("40%"), borderColor: boxesOnFocus["card-month"]? "red":"black" }}>
-        //                 <Input onFocus={() => { setBoxesOnFocus({...INITIALBOXESFOCUS, "card-month":true})}} placeholder="Month"/>
-        //             </Item>
-                    
-        //             <Item style={{width:wp("40%"), borderColor: boxesOnFocus["card-year"]? "red":"black"}}>
-        //                 <Input onFocus={prevState => { setBoxesOnFocus({...INITIALBOXESFOCUS, "card-year":true})} } placeholder="Year"/>
-                        
-        //             </Item>
-        //         </View>
-
-        //     </View>
-
-        //     <View style={{flexDirection:"row"}}>
-        //         <View style={styles.card}>
-        //             <Text style={styles.text_header}>Card Holder's Name</Text>
-        //             <Item style={{width:wp("20%"), borderColor: boxesOnFocus["card-name"]? "red":"black"}}>
-        //                     <Input onFocus={prevState => { setBoxesOnFocus({...INITIALBOXESFOCUS, "card-name":true})} }/>
-        //             </Item>
-        //         </View>
-
-        //         <View style={styles.card}>
-        //             <Text style={styles.text_header}>CVV</Text>
-        //             <Item style={{width:wp("10%"), borderColor: boxesOnFocus["card-cvv"]? "red":"black"}}>
-        //                     <Input onFocus={prevState => { setBoxesOnFocus({...INITIALBOXESFOCUS, "card-cvv":true})} }/>
-                            
-        //             </Item>
-        //         </View>
-        //     </View>
-
-        //     <Button success onPress={SubmitOrder} style={{width:wp("10%"), position:"absolute", bottom:hp("20%"), right:wp("10%"), justifyContent:"center"}}>
-        //         <Text style={{textAlign:"center"}}> Pay </Text>
-        //     </Button>
-            
-        // </Container>
-        // </ScrollView>
     )
 }
 
