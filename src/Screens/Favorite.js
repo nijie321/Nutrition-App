@@ -1,6 +1,6 @@
 import React, { useState , useEffect} from 'react';
 import { Container,Text, Content, List, ListItem, Thumbnail, Left, Body, Right, Button } from 'native-base';
-
+import {View} from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import firebase from '../../FireBase';
 
@@ -8,44 +8,61 @@ export default function Favorite2() {
   const db = firebase.firestore();
   const user = firebase.auth().currentUser;
   const [mealData, setMealData] = useState({});
-  const [hasData, setHasData] = useState(true);
+  const [hasData, setHasData] = useState(false);
   const navigation = useNavigation();
 
-  useEffect(() => {
-
-    const getData = async () => {
+  const getData = async () => {
+    setHasData(false);
     await db.collection('favorite').doc(user.uid).get()
     .then((doc) => {
       let meals = [];
-      Object.entries(doc.data()).forEach(([key, value]) => {})
-      for(let [key,value] of Object.entries(doc.data())){
+      for(let [key,_] of Object.entries(doc.data())){
         meals.push(key);
       }
       return meals;
     })
     .then(async (meals) => {
       const temp = {};
-      console.log(meals);
       for(const meal in meals){
         const mealN = meals[meal];
-        temp[mealN] = []
+        temp[mealN] = [];
         await db.collection('meals').doc(mealN).get()
-        .then((doc) => {
+        .then(doc => {
           let data = doc.data();
           temp[mealN].push(data.name);
           temp[mealN].push(data.description);
           temp[mealN].push(determineImg(mealN));
+          temp[mealN].push(mealN);
         })
       }
       return temp;
     })
-    .then((data) => setMealData(data))
-    .catch((error) => console.log(error));
-    }
+    .then(data => setMealData(data))
+    .catch(err => console.log(err));
+  }
+
+  useEffect(() => {
     getData()
     .then(() => setHasData(true))
     .catch((error) => console.log(error))
   },[]);
+  
+  const refreshScreen = async () => {
+    await getData()
+    .then(() => setHasData(true))
+    .catch(err => console.log(err));
+  }
+
+  const deleteAndRefresh = async (mealN) => {
+    console.log(mealN);
+    db.collection("favorite").doc(user.uid).update({
+      [mealN]: firebase.firestore.FieldValue.delete()
+    })
+    .then(() => {console.log("delete successfully")})
+    .then(() => {refreshScreen()})
+    .catch(err => console.log(err));
+
+  }
   
   function generateListItem(){
     let temp = [];
@@ -60,9 +77,13 @@ export default function Favorite2() {
               <Text>{data[0]}</Text>
               <Text note numberOfLines={1}>{data[1]}</Text>
             </Body>
-            <Right>
+            <Right style={{borderColor:"white"}}>
             <Button transparent onPress={() => {navigation.navigate('Detail Meal',{meal_info: d})}}>
                 <Text>View</Text>
+              </Button>
+
+            <Button transparent onPress={() => deleteAndRefresh(data[3])}>
+                <Text style={{color:"red"}}>Remove</Text>
               </Button>
             </Right>
           </ListItem>
@@ -88,11 +109,24 @@ export default function Favorite2() {
   return (
     <Container>
       <Content>
+        <View>
+          <Button transparent onPress={() => refreshScreen()}><Text>Refresh</Text></Button> 
+        </View>
+        <View
+              style={{
+                  borderBottomColor: 'black',
+                  borderBottomWidth: 3,
+                  marginBottom: 10,
+              }}
+          />
+          
         <List>
           {generateListItem().map(i => i)}
         </List>
       </Content>
     </Container>
   );
+  }else{
+    return null;
   }
 }
