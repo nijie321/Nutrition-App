@@ -74,7 +74,7 @@ const Stack = createStackNavigator();
 function HomeTabNavigator({navigation,route}){
   
   // shopping cart item badge number. use 0 as a placeholder for now.
-  const [items, setItems] = useState(1)
+  const [items, setItems] = useState(0)
   
   // edit profile information. used for setting badge mark on profile icon.
   const [profileCompleted, setProfileCompleted] = useState(false)
@@ -172,7 +172,7 @@ function HomeTabNavigator({navigation,route}){
               }
             </View>
           )  
-        }} initialParams={{id:["Meal 1","Meal 2","Meal 3"]}}/>
+        }} initialParams={{setItems}}/>
 
         <Tab.Screen name="History" component={PaymentHistory}
         options={{

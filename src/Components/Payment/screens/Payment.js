@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Text,Input,Item } from 'native-base';
-import {StyleSheet, View, ScrollView,Button, Alert} from 'react-native';
+import {StyleSheet, View,Button, Alert} from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp, widthPercentageToDP} from 'react-native-responsive-screen';
 
 import firebase from '../../../../FireBase';
@@ -10,6 +9,7 @@ import { CreditCardInput } from 'react-native-credit-card-input';
 import {useNavigation} from '@react-navigation/native';
 
 function Payment({route}){
+    console.log(route.params.mealNames);
     const navigation = useNavigation();
     const STRIPE_PUBLISHABLE_KEY = 'pk_test_nNf99ywU1zbOU8EDD6oUUoZ100WIQKKHsT'; 
     const user = firebase.auth().currentUser;
@@ -22,6 +22,8 @@ function Payment({route}){
     };
 
     async function deleteFromDB(){
+        console.log("inside deleteFromDB");
+        console.log(route.params.mealNames);
         for(let meal in route.params.mealNames){
             await db.collection("shopping_cart").doc(user.uid).update({
                 [meal]: firebase.firestore.FieldValue.delete()
@@ -98,27 +100,9 @@ function Payment({route}){
             </View>
             <View> 
                 <Button title="Confirm Order" disabled={notValid} onPress={() => {getCreditCardToken(); SubmitOrder()}} />
-                {/* <Button title="Review Meals" disabled={notValid} onPress={() =>getCreditCardToken()} />
-                <Button title="Pay" onPress={() => SubmitOrder()} /> */}
             </View>
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    container:{
-        flexDirection:"column",
-    },
-    card:{
-        marginHorizontal:wp("5%"),
-        marginVertical:hp("5%")
-    },
-    text_header:{
-        fontSize:wp("2%"),
-        fontWeight:"bold",
-        marginBottom:hp("1%")
-    },
-
-})
 
 export default Payment;

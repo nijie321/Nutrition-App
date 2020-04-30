@@ -1,23 +1,16 @@
 import React, { useState } from "react";
 import { StyleSheet, View, TextInput, ScrollView, Alert, KeyboardAvoidingView} from "react-native";
 import { Container, CheckBox, Content, Body, Text, Button ,ListItem, Form,Item , Input,Label} from 'native-base';
-
-
 import {useNavigation, CommonActions} from '@react-navigation/native';
 
-import cloneDeep from 'lodash/cloneDeep';
-// import * as firebase from 'firebase';
 import firebase from '../../../../../FireBase';
 const db = firebase.firestore();
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
-// import { TextInput } from "react-native-paper";
 
 
 
-function CreateProfile(props) {
+function CreateProfile() {
   const navigation = useNavigation();
-  // const [fontLoaded, setFontLoaded] = useState(false);
-  
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -25,9 +18,7 @@ function CreateProfile(props) {
   const [password,setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [address, setAddress] = useState("");
-  
   const [checked, setChecked] = useState(false);
-  
   const INITIALALLERGENS = {
     "wheat": false,
     "milk": false,

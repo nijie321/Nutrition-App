@@ -6,7 +6,7 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute } from '@react-navigation/native';
 
 import firebase from '../../../../../FireBase';
 const db = firebase.firestore();
@@ -18,7 +18,8 @@ function ShoppingCart(){
     const user = firebase.auth().currentUser;
     const [mealNames, setMealNames]  = useState([]);
     const navigation = useNavigation();
-
+    const route = useRoute();
+    const setItems = route.params.setItems;
     async function getDataFromDB(){
         subtotal.current = 0;
         let data;
@@ -43,6 +44,7 @@ function ShoppingCart(){
                 const name = temp.name;
                 const price = temp.price;
                 const quantity = parseInt(data[d].qty);
+                setItems(quantity);
                 const pick_up_loc = data[d].pick_up_location;
                 const meal_id = d;
                 setMeal(prevState => {
@@ -65,15 +67,18 @@ function ShoppingCart(){
         // let id = field_id;
         await db.collection("shopping_cart").doc(user.uid).update({
             [field_id + '.qty'] : new_val.toString()
-        }).then(function(){
+        })
+        .then(function(){
             console.log("update shopping cart successfully.");
-        }).catch(function(error){
-            console.log("error");
+        })
+        .catch(function(error){
+            console.log(error);
         })
     }
     function onMinusPress(meal){
         const quantity = meal.quantity;
         const new_quantity = quantity - 1;
+        setItems(new_quantity);
         if(quantity >= 1){
             setMeal(prevState => {
                 return {...prevState, ...{[meal.meal_id]:{...prevState[meal.meal_id], quantity:new_quantity}}}}
@@ -100,6 +105,7 @@ function ShoppingCart(){
     function onPlusPress(meal){
         const quantity = meal.quantity;
         const new_quantity = quantity + 1;
+        setItems(new_quantity);
         setMeal(prevState => {return {...prevState, ...{[meal.meal_id]:{...prevState[meal.meal_id], quantity:new_quantity}}}})
         updateQty(meal.meal_id,new_quantity);
         subtotal.current += parseFloat(meal.price.substr(1));
@@ -169,16 +175,6 @@ function ShoppingCart(){
                 <Text style={styles.price}>Subtotal: {"\t$"+`${subtotal.current.toFixed(2)}`}</Text> 
                 <Text style={styles.price}>Tax: {"\t\t$"+`${(subtotal.current * .15).toFixed(2)}`}</Text>
                 <Text style={styles.price}>Total: {"\t\t$" + `${(subtotal.current * 1.15).toFixed(2)}`}</Text>
-            </View>
-        )
-    }
-    
-    function Payment(){
-        return(
-            <View>
-                <MaterialIcons.Button name="payment" color="#007AFF" backgroundColor="transparent" underlayColor="green" size={wp("10%")}
-                    onPress={()=>{ navigation.navigate("Payment", {data:meal, total:subtotal.current*1.15})}}
-                />
             </View>
         )
     }

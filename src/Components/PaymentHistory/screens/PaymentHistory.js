@@ -19,13 +19,6 @@ function OrderContainer(){
         })
     }
     useEffect(() => {
-        // const getData = async () =>{
-        //     await db.collection('order').doc(user.uid).get()
-        //     .then(function(doc){
-        //         console.log("order data====", doc.data());
-        //         setOrderdata(doc.data())
-        //     })
-        // }
         getData()
         .then(() => {setHasData(true);})
         .catch((error) => {console.log(error);})
@@ -85,9 +78,7 @@ function OrderContainer(){
             for(const key in orderData){
                 console.log("key=",key);
                 const date = orderData[key].order_date;
-                // let order_date = orderData[key].order_date.toDate().toDateString();
                 let order_date = orderData[key].order_date.toDate().toTimeString();
-                // console.log(orderData[key].order_date.toDate())
                 let meals = orderData[key].meals;
                 array.push({order_date,meals,key});
             }
