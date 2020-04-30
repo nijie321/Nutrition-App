@@ -12,19 +12,24 @@ import {
 } from "react-native";
 import {Picker,Icon, Card, CardItem, Body, Text} from 'native-base';
 import { useRoute, useNavigation } from "@react-navigation/native";
+
 import firebase from '../../../../../../FireBase';
+
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Feather from 'react-native-vector-icons/Feather';
 
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+const db = firebase.firestore();
 
-function DetailMeal() {
+// const width = Dimensions.get("window").width;
+
+
+function DetailMeal(props) {
+
   
-  const db = firebase.firestore();
-  const user = firebase.auth().currentUser;
   const route = useRoute();
   const [display, setDisplay] = useState({toDisplay: ""});
-  const [pickUpLocation, setPickUpLocation] = useState("");
+  const [pickUpLocation, setPickUpLocation] = useState("address 1");
   const [nutritionText, setNutritionText] = useState("");
   const [imgSrc, setImgSrc] = useState();
   const [mealInfo, setMealInfo] = useState({});
@@ -35,7 +40,7 @@ function DetailMeal() {
     recipes: false,
     procedure: false
   });
-
+  const [option, setOption] = useState("false");
   const navigation = useNavigation();
 
   const IngredientsList = () => {
@@ -63,18 +68,19 @@ function DetailMeal() {
   }
 
   function returnIngredientString(info, procedure = false) {
-    let splitString = ""
-    if(procedure) splitString = ". ";
-    else splitString = ", ";
-    return info.split(splitString).reduce((acc, cur) => {acc += cur + "\n"; return acc}, "");
+    if (procedure) {
+      return info.split(". ").reduce((acc, cur) => { acc += cur + "\n"; return acc }, "");
+    } else {
+      return info.split(", ").reduce((acc, cur) => { acc += cur + "\n"; return acc }, "");
+    }
   }
 
   function returnDisplayText() {
     switch (display.toDisplay) {
-      case "ingredients": return (<Text>{returnIngredientString(mealInfo.ingredients)}</Text>);
-      case "recipe": return (<Text>recipe....</Text>);
-      case "nutrition": return (<Text>{returnIngredientString(nutritionText)}</Text>);
-      case "procedures": return (<Text>{returnIngredientString(mealInfo.procedure, true)}</Text>);
+      case "ingredients": return (<Text>{returnIngredientString(mealInfo.ingredients)}</Text>); break;
+      case "recipe": return (<Text>recipe....</Text>); break;
+      case "nutrition": return (<Text>{returnIngredientString(nutritionText)}</Text>); break;
+      case "procedures": return (<Text>{returnIngredientString(mealInfo.procedure, true)}</Text>); break;
     }
   }
 
@@ -113,32 +119,34 @@ function DetailMeal() {
   }
   
   function addToCart(){
-    if(qty > 0 && pickUpLocation !== ""){
+    if(qty > 0){
+      const user = firebase.auth().currentUser;
       var docData = {
         [route.params.meal_info]: {
           qty,
-          pick_up_location: pickUpLocation
+          pick_up_location: pickUpLocation,
+          meatless:option
         }
       }
       console.log("docData:", docData);
       db.collection("shopping_cart").doc(user.uid).update(docData)
       .then(function(){
-        Alert.alert("Added to shopping cart successfully.");
+        console.log("update to shopping cart successfully.");
       })
-      .catch(() => {
+      .catch(function(error){
         db.collection("shopping_cart").doc(user.uid).set(docData)
         .then(function(){
           console.log("add to shopping cart successfully.");
         })
       })  
     }else{
-      Alert.alert("Please make sure the quantity is above 0 and/or the pick-up locaiton is entered.");
+      Alert.alert("The quantity must be greater than 0");
     }
   }
 
   function addToList() {
     var docData = {
-      [route.params.meal_info]: 1
+      [route.params.meal_info]: qty
     }
     console.log("docData:", docData);
     db.collection("favorite").doc(user.uid).update(docData)
@@ -150,7 +158,9 @@ function DetailMeal() {
           .then(function () {
             console.log("add to favorite successfully.");
           })
+        
       })
+   
   }
 
   //remove from favorite
@@ -169,8 +179,10 @@ function DetailMeal() {
     setBackButton();
   }, []);
 
+  // getMealInfo();
 
   return (
+          
     <ScrollView style={styles.container}>
       
         <Image
@@ -210,6 +222,19 @@ function DetailMeal() {
                       onChangeText={text => setQty(text)}
                       />
           
+          {/* <Text style={{fontWeight:"bold", fontSize:20, alignSelf:"center", paddingLeft:wp("5%")}}>
+            Pick-up Location:
+          </Text>
+          <TextInput style={{borderWidth:1 ,marginTop:5, width:wp("30%"), height:hp("4%"), marginLeft:wp("1%"), alignSelf:"center"}}/> */}
+          
+          {/* <TouchableOpacity style={{backgroundColor:"rgba(106,164,27,1)", width:wp("1%"), alignItems:"center", marginLeft:wp("5%") , padding:10, borderRadius:10}}
+                onPress={() => {navigation.navigate("Shopping Cart")}}
+          >
+              <Text style={{color:"white"}}>
+                Go to Shopping Cart
+              </Text>
+          </TouchableOpacity> */}
+
           <TouchableOpacity style={{backgroundColor:"rgba(106,164,27,1)", width:wp("20%"), alignItems:"center", padding:10, borderRadius:10, position:"absolute", alignSelf:"center", right:wp("1%")}}
                 onPress={addToCart}
           >
@@ -220,8 +245,11 @@ function DetailMeal() {
         </View>
 
         <View style={{flexDirection:"row", marginBottom:hp("2%")}}>
+          { <Text style={{fontWeight:"bold", fontSize:20, paddingLeft:wp("5%"),paddingTop:hp("2%")}}>
+            Pick-up Location:
+          </Text> }
 
-            <View style={{width: wp("30%") ,marginLeft:wp("5%")}}>
+            <View style={{width: wp("40%") ,marginLeft:wp("5%")}}>
                     <Picker
                     mode="dropdown"
                     iosIcon={<Icon name="arrow-down" />}
@@ -239,6 +267,7 @@ function DetailMeal() {
                     <Picker.Item label="address 5" value="address 5" />
                 </Picker>
             </View>
+          {/* <TextInput style={{borderWidth:1 ,marginTop:5, width:wp("30%"), height:hp("3%"), marginLeft:wp("1%")}}/>  */}
 
            <TouchableOpacity style={{backgroundColor:"rgba(106,164,27,1)", width:wp("20%"), alignItems:"center", marginLeft:wp("5%") , padding:10, borderRadius:10, position:"absolute",right:wp("1%")}}
                 onPress={() => {navigation.navigate("Shopping Cart")}}
@@ -248,7 +277,26 @@ function DetailMeal() {
               </Text>
           </TouchableOpacity>
         </View>
-        
+        <View style={{flexDirection:"row", marginBottom:hp("2%")}}>
+          <Text style={{fontWeight:"bold", fontSize:20, paddingLeft:wp("5%"),paddingTop:hp("2%")}}>
+              Meatless:
+          </Text>
+          <View style={{width: wp("30%") ,marginLeft:wp("5%")}}>
+                    <Picker
+                    mode="dropdown"
+                    iosIcon={<Icon name="arrow-down" />}
+                    style={{ width: undefined }}
+                    placeholder="Choose an option to make this meal meatless"
+                    placeholderStyle={{ color: "#bfc6ea" }}
+                    placeholderIconColor="#007aff"
+                    selectedValue={option}
+                    onValueChange={(value)=>{setOption(value);}}
+                >
+                    <Picker.Item label="Yes" value="true" />
+                    <Picker.Item label="No" value="false" />
+                </Picker>
+          </View>
+        </View>
       </View>
     <View
       style={{
@@ -306,6 +354,9 @@ const styles = StyleSheet.create({
     flex: 1
   },
   infoContainer:{
+    // alignContent:"center",
+    // alignSelf:"center",
+    // alignItems:"center",
     textAlign:"center",
     marginLeft: 15
   },

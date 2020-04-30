@@ -9,7 +9,6 @@ import { CreditCardInput } from 'react-native-credit-card-input';
 import {useNavigation} from '@react-navigation/native';
 
 function Payment({route}){
-    console.log(route.params.mealNames);
     const navigation = useNavigation();
     const STRIPE_PUBLISHABLE_KEY = 'pk_test_nNf99ywU1zbOU8EDD6oUUoZ100WIQKKHsT'; 
     const user = firebase.auth().currentUser;
@@ -41,6 +40,7 @@ function Payment({route}){
                     name: route.params.data[key].name,
                     price: route.params.data[key].price,
                     quantity: route.params.data[key].quantity,
+                    meatless: route.params.data[key].meatless
                 }
             }
             return temp;

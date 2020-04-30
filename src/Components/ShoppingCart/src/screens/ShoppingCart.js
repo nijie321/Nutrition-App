@@ -19,6 +19,7 @@ function ShoppingCart(){
     const [mealNames, setMealNames]  = useState([]);
     const navigation = useNavigation();
     const route = useRoute();
+    const [meatless, setMeatless] = useState("false");
     const setItems = route.params.setItems;
     async function getDataFromDB(){
         subtotal.current = 0;
@@ -47,9 +48,11 @@ function ShoppingCart(){
                 setItems(quantity);
                 const pick_up_loc = data[d].pick_up_location;
                 const meal_id = d;
+                const meat_less = data[d].meatless;
+                setMeatless(meat_less);
                 setMeal(prevState => {
                     console.log(prevState);
-                    return {...prevState, ...{[d]:{meal_id,name,price,quantity, pick_up_loc}} } })
+                    return {...prevState, ...{[d]:{meal_id,name,price,quantity, pick_up_loc, meatless}} } })
                     subtotal.current += (parseFloat(price.substr(1)) * quantity);
                 })
             .catch((error)=> console.log(error))
@@ -205,7 +208,7 @@ function ShoppingCart(){
                     <Text>REFRESH</Text>
                 </Button>
                 <Button transparent onPress={()=>{ 
-                    navigation.navigate("Payment", {data:meal, mealNames: mealNames})}} >
+                    navigation.navigate("Payment", {data:meal, mealNames: mealNames, meatless:meatless})}} >
                     <Text>Pay Now</Text>
                 </Button>
             </View>
