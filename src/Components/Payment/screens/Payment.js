@@ -38,7 +38,8 @@ function Payment({route, navigation}){
                     name: route.params.data[key].name,
                     price: route.params.data[key].price,
                     quantity: route.params.data[key].quantity,
-                    address: route.params.data[key].pick_up_loc
+                    address: route.params.data[key].pick_up_loc,
+                    meatless: route.params.data[key].meatless
                 }
             }
             return temp;
@@ -65,7 +66,8 @@ function Payment({route, navigation}){
                 console.log("Order Placed Successfully.");
             })
         })
-         navigation.navigate("Confirm",{order:docData,id:id,total:route.params.total});
+        db.collection("shopping_cart").doc(user.uid).delete();
+        navigation.navigate("Confirm",{order:docData,id:id,total:route.params.total});
         // db.collection("order").doc(user.uid).set(docData)
         // .then(() => {Alert.alert("Order Placed Successfully.");})
         // .then(() => {

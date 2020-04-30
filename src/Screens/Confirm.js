@@ -28,11 +28,22 @@ function Confirm({ route, navigation }) {
         <Container>
             <View>
             {elements.map((value, index) => {
+                console.log(value);
+                console.log();
+                var opt="";
+                if(order[id]["meals"][value]["meatless"]=="true"){
+                    opt="Yes";
+                }
+                else{
+                    opt="No";
+                }
                 return  <View style={styles.meal_info_container}>
                             <Image style={styles.img} resizeMode="cover" source={determineImg(value)}/>
                             <Text style={styles.info}>{order[id]["meals"][value]["name"]}
                             {'\n'}Amount:{order[id]["meals"][value]["quantity"]}
-                            {'\n'}Address:{order[id]["meals"][value]["address"]}</Text>
+                            {'\n'}Address:{order[id]["meals"][value]["address"]}
+                            {'\n'}Meatless:{opt}
+                            </Text>
                         </View>
             })}
             <Text>Total: ${total}</Text>

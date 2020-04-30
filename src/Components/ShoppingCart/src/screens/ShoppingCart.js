@@ -50,10 +50,11 @@ function ShoppingCart(){
                 const quantity = parseInt(data[d].qty);
                 const pick_up_loc = data[d].pick_up_location;
                 const meal_id = d;
+                const meatless = data[d].meatless;
 
                 setMeal(prevState => {
                     console.log(prevState);
-                    return {...prevState, ...{[d]:{meal_id,name,price,quantity, pick_up_loc}} } })
+                    return {...prevState, ...{[d]:{meal_id,name,price,quantity, pick_up_loc,meatless}} } })
                     subtotal.current += (parseFloat(price.substr(1)) * quantity);
                 })
             .catch((error)=> console.log(error))

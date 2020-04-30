@@ -38,7 +38,7 @@ function DetailMeal(props) {
   
   const route = useRoute();
   const [display, setDisplay] = useState({toDisplay: ""});
-  const [pickUpLocation, setPickUpLocation] = useState("");
+  const [pickUpLocation, setPickUpLocation] = useState("address 1");
   const [nutritionText, setNutritionText] = useState("");
   const [imgSrc, setImgSrc] = useState();
   const [mealInfo, setMealInfo] = useState({});
@@ -49,7 +49,7 @@ function DetailMeal(props) {
     recipes: false,
     procedure: false
   });
-
+  const [option, setOption] = useState("false");
   const navigation = useNavigation();
 
   const IngredientsList = () => {
@@ -133,7 +133,8 @@ function DetailMeal(props) {
       var docData = {
         [route.params.meal_info]: {
           qty,
-          pick_up_location: pickUpLocation
+          pick_up_location: pickUpLocation,
+          meatless:option
         }
       }
       console.log("docData:", docData);
@@ -153,27 +154,27 @@ function DetailMeal(props) {
   }
 
 
-  function addToCart() {
-    const user = firebase.auth().currentUser;
-    var docData = {
-      [route.params.meal_info]: qty
-    }
-    console.log("docData:", docData);
-    db.collection("shopping_cart").doc(user.uid).update(docData)
-      .then(function () {
-        console.log("update to shopping cart successfully.");
-      })
-      .catch(function (error) {
-        db.collection("shopping_cart").doc(user.uid).set(docData)
-          .then(function () {
-            console.log("add to shopping cart successfully.");
-          })
-        // console.log(error);
-        // console.log("failed adding meal to cart.");
-      })
-    // console.log(qty);
-    // console.log(route.params.meal_info)
-  }
+  // function addToCart() {
+  //   const user = firebase.auth().currentUser;
+  //   var docData = {
+  //     [route.params.meal_info]: qty
+  //   }
+  //   console.log("docData:", docData);
+  //   db.collection("shopping_cart").doc(user.uid).update(docData)
+  //     .then(function () {
+  //       console.log("update to shopping cart successfully.");
+  //     })
+  //     .catch(function (error) {
+  //       db.collection("shopping_cart").doc(user.uid).set(docData)
+  //         .then(function () {
+  //           console.log("add to shopping cart successfully.");
+  //         })
+  //       // console.log(error);
+  //       // console.log("failed adding meal to cart.");
+  //     })
+  //   // console.log(qty);
+  //   // console.log(route.params.meal_info)
+  // }
 
   function directToCart() {
 
@@ -301,11 +302,11 @@ function DetailMeal(props) {
         </View>
 
         <View style={{flexDirection:"row", marginBottom:hp("2%")}}>
-          {/* <Text style={{fontWeight:"bold", fontSize:20, paddingLeft:wp("5%")}}>
+          { <Text style={{fontWeight:"bold", fontSize:20, paddingLeft:wp("5%"),paddingTop:hp("2%")}}>
             Pick-up Location:
-          </Text> */}
+          </Text> }
 
-            <View style={{width: wp("30%") ,marginLeft:wp("5%")}}>
+            <View style={{width: wp("40%") ,marginLeft:wp("5%")}}>
                     <Picker
                     mode="dropdown"
                     iosIcon={<Icon name="arrow-down" />}
@@ -333,7 +334,26 @@ function DetailMeal(props) {
               </Text>
           </TouchableOpacity>
         </View>
-        
+        <View style={{flexDirection:"row", marginBottom:hp("2%")}}>
+          <Text style={{fontWeight:"bold", fontSize:20, paddingLeft:wp("5%"),paddingTop:hp("2%")}}>
+              Meatless:
+          </Text>
+          <View style={{width: wp("30%") ,marginLeft:wp("5%")}}>
+                    <Picker
+                    mode="dropdown"
+                    iosIcon={<Icon name="arrow-down" />}
+                    style={{ width: undefined }}
+                    placeholder="Choose an option to make this meal meatless"
+                    placeholderStyle={{ color: "#bfc6ea" }}
+                    placeholderIconColor="#007aff"
+                    selectedValue={option}
+                    onValueChange={(value)=>{setOption(value);}}
+                >
+                    <Picker.Item label="Yes" value="true" />
+                    <Picker.Item label="No" value="false" />
+                </Picker>
+          </View>
+        </View>
       </View>
 
 
