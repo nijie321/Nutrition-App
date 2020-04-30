@@ -4,18 +4,18 @@ import {
   StyleSheet,
   View,
   Image,
-  Text,
+  // Text,
   TouchableOpacity,
   ScrollView,
   TextInput,
-  Alert
+  Alert,
+  Button
 } from "react-native";
-import {Picker,Icon} from 'native-base';
+import {Picker,Icon, Card, CardItem, Body, Text} from 'native-base';
 import { useRoute, useNavigation } from "@react-navigation/native";
 import firebase from '../../../../../../FireBase';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Feather from 'react-native-vector-icons/Feather';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
@@ -137,7 +137,7 @@ function DetailMeal() {
     }
   }
 
-  function addToFavorite2() {
+  function addToList() {
     var docData = {
       [route.params.meal_info]: 1
     }
@@ -156,7 +156,7 @@ function DetailMeal() {
 
   //remove to favorite
 
-  function removeToFavorite2() {
+  function removeFromList() {
     db.collection("favorite").doc(user.uid).update({
       [ route.params.meal_info ]: firebase.firestore.FieldValue.delete()
     })
@@ -182,27 +182,25 @@ function DetailMeal() {
    
 
       <View>
-        <View style={{flexDirection:"row",}}>
-          <Text style={{fontWeight:"bold", fontSize:30, marginLeft:wp("5%")}}>
-            {mealInfo.name}
-          </Text>
-          <Text style={{fontWeight:"bold", fontSize:30, color:"rgba(106,164,27,1)", paddingLeft:wp("5%"), }}>
-            {mealInfo.price}
-          </Text>
-        </View>
+        <Card>
+          <CardItem>
+            <Body>
+              <Text style={{fontWeight:"bold", fontSize:30}}>
+                {mealInfo.name} <Text style={{fontWeight:"bold", fontSize:25, color:"rgba(106,164,27,1)"}}>Price: {mealInfo.price}</Text>
+              </Text>
+              <Text style={{paddingLeft:20}}>
+                {mealInfo.description}
+              </Text>
+            </Body>
+          </CardItem>
+        </Card>
 
         <View style={{ flexDirection: "row", flex: 3, }}>
           <View style={{ marginHorizontal: 60 }}>
-            <TouchableOpacity onPress={addToFavorite2}>
-              <AntDesign name='like1' size={30} color='#ed2728'/>
-              
-            </TouchableOpacity>
+            <Button title="Add To List" onPress={() => addToList()}/>
           </View>
 
-          <TouchableOpacity onPress={removeToFavorite2}>
-          <AntDesign name='dislike1' size={30} color='#77787d'/>
-           
-          </TouchableOpacity>
+            <Button title="Remove From List" onPress={() => removeFromList()} />
         </View>
         
         <View style={{flexDirection:"row", marginVertical:20}}>
@@ -253,13 +251,6 @@ function DetailMeal() {
         </View>
         
       </View>
-
-    <View style={{padding:30, paddingTop:20, paddingBottom:5}}>
-      <Text style={{color: "rgba(0,0,0,1)",
-            fontSize: 20,
-            fontFamily: "roboto-300"}}
-            >{mealInfo.description}</Text>
-    </View>
     <View
       style={{
         borderBottomColor: 'black',
@@ -286,16 +277,6 @@ function DetailMeal() {
             fontFamily: "roboto-900"
           }}>Ingredients</Text>
         </TouchableOpacity>
-
-        {/* <TouchableOpacity
-        onPress={RecipesList}
-        style={tabSelected.recipes? {backgroundColor:"black"}: {}}
-      >
-        <Text style={{
-          color: "rgba(106,164,27,1)",
-          fontSize: 18,
-          fontFamily: "roboto-900"}}>Recipes</Text>
-      </TouchableOpacity> */}
         <TouchableOpacity
           onPress={ProcedureInfo}
           style={tabSelected.procedure ? { backgroundColor: "black" } : {}}>
@@ -327,145 +308,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
-  // submitButton: {
-  //   alignSelf:"flex-end",
-  //   position: 'absolute',
-  //   bottom:30,
-  //   // left: 200, 
-  // },
   infoContainer:{
     textAlign:"center",
     marginLeft: 15
   },
-  // group: {
-  //   width: 364,
-  //   height: 312,
-
-  //   alignSelf: "flex-end",
-  //   marginTop: -13,
-  //   marginRight: 25
-  // },
   image: {
     alignSelf:"center",
     width: wp("100%"),
     height: hp("50%"),
     
   },
-  // loremIpsum: {
-  //   color: "#121212",
-  //   fontSize: 27,
-  //   fontFamily: "roboto-500",
-  //   marginLeft: 1
-  // },
-  // icon: {
-  //   color: "rgba(106,164,27,1)",
-  //   fontSize: 35
-  // },
-  // loremIpsumColumn: {
-  //   width: 239,
-  //   marginBottom: 1
-  // },
-  // loremIpsumColumnFiller: {
-  //   flex: 1,
-  //   flexDirection: "row"
-  // },
-  // loremIpsum3: {
-  //   // alignItems:"flex-start",
-  //   // alignSelf:"flex-end",
-  //   // alignContent:"flex-end",
-  //   paddingLeft: 30,
-  //   color: "rgba(106,164,27,1)",
-  //   fontSize: 30,
-  //   fontFamily: "impact-regular"
-  // },
-  // materialButtonDanger: {
-  //   width: 100,
-  //   height: 36,
-  //   marginTop: 19,
-  //   marginRight: 2
-  // },
-  // loremIpsum3Column: {
-  //   width: 102,
-  //   alignItems: "flex-end",
-  //   marginTop: 3
-  // },
-  // loremIpsumColumnRow: {
-  //   height: 90, //88
-  //   flexDirection: "row",
-  //   marginTop: 3,
-  //   marginLeft: 22,
-  //   marginRight: 24
-  // },
-  // group2: {
-  //   width: 364,
-  //   height: 18,
-  //   flexDirection: "row",
-  //   marginTop: 70, //87
-  //   marginLeft: 23
-  // },
-  // button2: {
-  //   width: 72,
-  //   height: 18
-  // },
-  // nutrition: {
-  //   color: "rgba(106,164,27,1)",
-  //   fontSize: 18,
-  //   fontFamily: "roboto-900"
-  // },
-  // button52: {
-  //   width: 93,
-  //   height: 18,
-  //   marginLeft: 14
-  // },
-  // button522: {
-  //   width: 93,
-  //   height: 18
-  // },
-  // ingredients: {
-  //   color: "rgba(106,164,27,1)",
-  //   fontSize: 18,
-  //   fontFamily: "roboto-900",
-  // },
-  // button53: {
-  //   width: 65,
-  //   height: 18,
-  //   marginLeft: 18
-  // },
-  // recipes: {
-  //   color: "rgba(106,164,27,1)",
-  //   fontSize: 12,
-  //   fontFamily: "roboto-900"
-  // },
-  // button54: {
-  //   width: 89,
-  //   height: 18,
-  //   flexDirection: "row",
-  //   marginLeft: 13
-  // },
-  // procedureFiller: {
-  //   flex: 1,
-  //   flexDirection: "row"
-  // },
-  // procedure: {
-  //   color: "rgba(106,164,27,1)",
-  //   fontSize: 18,
-  //   fontFamily: "roboto-900",
-  //   width: 89
-  // },
-  // button2Row: {
-  //   height: 18, //18
-  //   flexDirection: "row",
-  //   flex: 1
-  // },
-  // loremIpsum4: {
-  //   width: 364,
-  //   height: 71, //71
-  //   color: "rgba(0,0,0,1)",
-  //   fontSize: 19,
-  //   fontFamily: "roboto-300",
-  //   marginTop: -90, //-90
-  //   marginLeft: 23
-  // }
 });
 
 export default DetailMeal;
