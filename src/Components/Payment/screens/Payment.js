@@ -45,6 +45,7 @@ function Payment({route}){
         }
         db.collection("order").doc(user.uid).set(docData, {merge:true})
         .then(() => {Alert.alert("Payment went through successfully.")})
+        .then(() => navigation.navigate("History"))
         // .then(() => navigation.navigate("Confirm", {order:docData, id:order_id,total:route.params.total}))
         .catch((err) => {console.log(err)})
     }

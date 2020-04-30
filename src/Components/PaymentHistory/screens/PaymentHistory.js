@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react';
-import { Text,Accordion, Icon } from 'native-base';
+import { Text,Accordion, Icon , Button} from 'native-base';
 import {StyleSheet, View} from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
@@ -10,19 +10,32 @@ function OrderContainer(){
     const [hasData, setHasData] = useState(false);
     const [orderData, setOrderdata] = useState({});
     const user = firebase.auth().currentUser;
+    
+    const getData = async () => {
+        setHasData(false);
+        await db.collection('order').doc(user.uid).get()
+        .then(doc => {
+            setOrderdata(doc.data())
+        })
+    }
     useEffect(() => {
-        const getData = async () =>{
-            await db.collection('order').doc(user.uid).get()
-            .then(function(doc){
-                console.log("order data====", doc.data());
-                setOrderdata(doc.data())
-            })
-        }
-
+        // const getData = async () =>{
+        //     await db.collection('order').doc(user.uid).get()
+        //     .then(function(doc){
+        //         console.log("order data====", doc.data());
+        //         setOrderdata(doc.data())
+        //     })
+        // }
         getData()
         .then(() => {setHasData(true);})
         .catch((error) => {console.log(error);})
     },[]);
+    
+    const refreshScreen = async () => {
+        getData()
+        .then(() => setHasData(true))
+        .catch(err => console.log(err));
+    }
 
     function _renderHeader(item, expanded) {
         return (
@@ -71,7 +84,10 @@ function OrderContainer(){
         if(hasData){
             for(const key in orderData){
                 console.log("key=",key);
-                let order_date = orderData[key].order_date.toDate().toDateString();
+                const date = orderData[key].order_date;
+                // let order_date = orderData[key].order_date.toDate().toDateString();
+                let order_date = orderData[key].order_date.toDate().toTimeString();
+                // console.log(orderData[key].order_date.toDate())
                 let meals = orderData[key].meals;
                 array.push({order_date,meals,key});
             }
@@ -82,6 +98,14 @@ function OrderContainer(){
     const dataArray = generateDataArray();
         return(
             <View style={styles.order_container}>
+                <Button transparent onPress={() => {refreshScreen()}} ><Text>Refresh</Text></Button>
+                <View
+                style={{
+                    borderBottomColor: 'black',
+                    borderBottomWidth: 3,
+                    marginBottom: 10,
+                }}
+                />
                 {hasData? 
                     <Accordion
                     dataArray={dataArray}
@@ -108,7 +132,7 @@ function PaymentHistory(){
 
 const styles = StyleSheet.create({
     container:{
-        flexDirection:"column"
+        flexDirection:"column",
     },
     detail_btn:{
         width:wp("15%"),
