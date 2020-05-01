@@ -12,21 +12,14 @@ import {
 } from "react-native";
 import {Picker,Icon, Card, CardItem, Body, Text} from 'native-base';
 import { useRoute, useNavigation } from "@react-navigation/native";
-
 import firebase from '../../../../../../FireBase';
-
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Feather from 'react-native-vector-icons/Feather';
-
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-const db = firebase.firestore();
 
-// const width = Dimensions.get("window").width;
-
-
-function DetailMeal(props) {
-
-  
+function DetailMeal() {
+  const db = firebase.firestore();
+  const user = firebase.auth().currentUser;
   const route = useRoute();
   const [display, setDisplay] = useState({toDisplay: ""});
   const [pickUpLocation, setPickUpLocation] = useState("address 1");
@@ -118,6 +111,7 @@ function DetailMeal(props) {
     })
   }
   
+  const alertMessage = (method="update",where="shopping cart") => Alert.alert(`${method} to ${where} successfully`);
   function addToCart(){
     if(qty > 0){
       const user = firebase.auth().currentUser;
@@ -128,15 +122,14 @@ function DetailMeal(props) {
           meatless:option
         }
       }
-      console.log("docData:", docData);
       db.collection("shopping_cart").doc(user.uid).update(docData)
       .then(function(){
-        console.log("update to shopping cart successfully.");
+        alertMessage();
       })
       .catch(function(error){
         db.collection("shopping_cart").doc(user.uid).set(docData)
         .then(function(){
-          console.log("add to shopping cart successfully.");
+          alertMessage("add")
         })
       })  
     }else{
@@ -151,25 +144,22 @@ function DetailMeal(props) {
     console.log("docData:", docData);
     db.collection("favorite").doc(user.uid).update(docData)
       .then(function () {
-        console.log("update to favorite successfully.");
+        alertMessage("update","list");
       })
       .catch(function (error) {
         db.collection("favorite").doc(user.uid).set(docData)
           .then(function () {
-            console.log("add to favorite successfully.");
+            alertMessage("add","list");
           })
         
       })
    
   }
-
-  //remove from favorite
-
   function removeFromList() {
     db.collection("favorite").doc(user.uid).update({
       [ route.params.meal_info ]: firebase.firestore.FieldValue.delete()
     })
-    .then(() => {console.log("delete successfully")})
+    .then(_ => {Alert.alert("delete from list successfully.")})
     .catch((err) => {console.log(err)});
   }
 
@@ -178,8 +168,6 @@ function DetailMeal(props) {
     getMealInfo();
     setBackButton();
   }, []);
-
-  // getMealInfo();
 
   return (
           
