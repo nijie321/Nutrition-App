@@ -4,8 +4,6 @@ import { Text, Button, Icon } from 'native-base';
 import {StyleSheet, View, Image, ScrollView} from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-
 import {useNavigation, useRoute } from '@react-navigation/native';
 
 import firebase from '../../../../../FireBase';
@@ -38,6 +36,7 @@ function ShoppingCart(){
             subtotal.current = 0.0;
             setMeal([]);
         }
+        let totalQty = 0;
         for (const d in data){
             await db.collection('meals').doc(d).get()
             .then(function(doc){
@@ -45,7 +44,7 @@ function ShoppingCart(){
                 const name = temp.name;
                 const price = temp.price;
                 const quantity = parseInt(data[d].qty);
-                setItems(quantity);
+                totalQty += quantity;
                 const pick_up_loc = data[d].pick_up_location;
                 const meal_id = d;
                 const meat_less = data[d].meatless;
@@ -57,6 +56,7 @@ function ShoppingCart(){
                 })
             .catch((error)=> console.log(error))
         }
+        setItems(totalQty);
     }
     useEffect(() => {
         getDataFromDB().then((data) => loadData(data)).then(() => setHasData(true))
@@ -66,7 +66,7 @@ function ShoppingCart(){
         getDataFromDB().then((data) => loadData(data, true)).then(() =>setHasData(true))
     }
 
-    async function updateQty(field_id, new_val){
+    async function updateQty(field_id, new_val, update="add"){
         // let id = field_id;
         await db.collection("shopping_cart").doc(user.uid).update({
             [field_id + '.qty'] : new_val.toString()
@@ -74,19 +74,29 @@ function ShoppingCart(){
         .then(function(){
             console.log("update shopping cart successfully.");
         })
+        .then(_ => {
+            if(update === "add"){
+                setItems(prevState => {return prevState + 1})
+            }else if(update === "subtract"){
+                setItems(prevState => {return prevState - 1})
+            }else{
+                console.log("invalid update method");
+            }
+        })
         .catch(function(error){
             console.log(error);
         })
+        
     }
     function onMinusPress(meal){
         const quantity = meal.quantity;
         const new_quantity = quantity - 1;
-        setItems(new_quantity);
+        // setItems(new_quantity);
         if(quantity >= 1){
             setMeal(prevState => {
                 return {...prevState, ...{[meal.meal_id]:{...prevState[meal.meal_id], quantity:new_quantity}}}}
                 )
-            updateQty(meal.meal_id, new_quantity);
+            updateQty(meal.meal_id, new_quantity, "subtract");
 
             subtotal.current -= parseFloat(meal.price.substr(1));
             if(quantity == 1){
@@ -108,7 +118,7 @@ function ShoppingCart(){
     function onPlusPress(meal){
         const quantity = meal.quantity;
         const new_quantity = quantity + 1;
-        setItems(new_quantity);
+        // setItems(new_quantity);
         setMeal(prevState => {return {...prevState, ...{[meal.meal_id]:{...prevState[meal.meal_id], quantity:new_quantity}}}})
         updateQty(meal.meal_id,new_quantity);
         subtotal.current += parseFloat(meal.price.substr(1));
