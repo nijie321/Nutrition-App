@@ -9,16 +9,18 @@ import {
   Image,
   ScrollView
 } from "react-native";
-import MaterialButtonSuccess1 from "../components/MaterialButtonSuccess1";
-import MaterialButtonSuccess from "../components/MaterialButtonSuccess";
+// import MaterialButtonSuccess1 from "../components/MaterialButtonSuccess1";
+// import MaterialButtonSuccess from "../components/MaterialButtonSuccess";
+
+import Title from "../components/Title";
+import LoginFields from "../components/LoginFields";
+import AccountManagementFields from "../components/AccountManagementFields";
 
 import {useNavigation, StackActions} from '@react-navigation/native';
 
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import * as firebase from 'firebase';
-
-
-function Welcome(props) {
+function Welcome() {
 
   const [email, setEmail] = useState("nijie321@outlook.com");
   const [password, setPassword] = useState("abc123");
@@ -27,9 +29,6 @@ function Welcome(props) {
 
   function onLoginPress(){
     firebase.auth().signInWithEmailAndPassword(email,password)
-        // .then(function() {
-        //     Alert.alert("Signed in successfully");
-        // })
         .then(() => {
           navigation.dispatch(
             StackActions.replace("Home")
@@ -49,73 +48,20 @@ function Welcome(props) {
   return (
     <ScrollView>
       <View style={{flex:1, borderColor:"red"}}>
-       
-        <View style={{alignItems:"center", marginTop:hp("10%"),}}>
-          <Text style={styles.welcomeText}>Welcome to</Text>
-        </View>
-
-        <View style={{alignItems:"center", justifyContent: 'center', width: wp("100%"), height: hp("15%"),}}>
-        <Image
-          source={require('../../../../../../assets/MemphisEATS_logo.png')}
-          // style={StyleSheet.logo}   
-          style={{width: wp("50%"), height: hp("20%"), }}   
-          
-        ></Image>
-        </View>
-
-
-        <View style={{ alignSelf:"center"}}>
-          <Text style={styles.email}>Email:</Text>
-          <TextInput 
-            placeholder="Enter Your Email"
-            placeholderTextColor="rgba(230,230,230,1)"
-            keyboardType="email-address"
-            autoCapitalize="none"
-            autoCorrect={false}
-            onChangeText={(text) => {setEmail(text)}}
-            style={styles.textInput6}
-          />
-
-          <Text style={[styles.password, {marginTop:hp("3%")}]}>Password:</Text>
-          <TextInput 
-            placeholder="Enter Your Password"
-            placeholderTextColor="rgba(230, 230, 230,1)"
-            onChangeText={(text)=>{setPassword(text)}}
-            secureTextEntry={true}
-            autoCapitalize="none"
-            autoCorrect={false}
-            style={styles.textInput6}
-          />
-        </View>
-
-       
-        <View style={{ marginTop: hp("6%"), marginLeft: wp("15%"), flexDirection: "row" }}>
+        <Title />
+        <LoginFields />
+        <AccountManagementFields />
+        {/* <View style={{ marginTop: hp("6%"), marginLeft: wp("15%"), flexDirection: "row" }}>
           <TouchableOpacity
             onPress={() => { navigation.navigate("Forget Password") }}
           // style={styles.forgotThePassword}
           >
             <Text style={styles.forgotThePassword}>Forget Password?</Text>
           </TouchableOpacity>
-
-          <MaterialButtonSuccess1 style={[styles.MaterialButtonSuccess1, { marginRight: 10 }]}
-            onButtonClick={onLoginPress}
-          />
         </View> 
-
-       
-
         <View style={{marginTop:hp("5%"), flexDirection:"column", alignItems:"center" }}>
           <Text style={styles.dontHaveAnAcc}>Don't have an account?</Text>
-          
-          <View>
-          <MaterialButtonSuccess 
-            style={styles.materialButtonSuccess2}
-            onButtonClick={onJoinNowPress}
-          />
-
-          </View>
-          
-        </View>
+        </View> */}
       </View>
       </ScrollView>
   );
@@ -176,24 +122,16 @@ const styles = StyleSheet.create({
    // marginLeft: 54
   },
   welcomeText: {
-    // borderWidth:5,
     width: wp("70%"),
     height: hp("10%"),
-    // width: 277,
-    // height: 81,
+    marginBottom:-wp("15%"),
     color: "rgba(106,164,27,1)",
     fontSize: wp("8%"),
     fontFamily: "roboto-regular",
-    // lineHeight: 40,
     textAlign: "center",
-    // marginTop: -638,
-    // marginLeft: 69
   },
   
   email: {
-
-    // width: 111,
-    // height: 19,
     width: wp("20%"),
     height: hp("4%"),
     color: "rgba(122,179,52,1)",
