@@ -254,3 +254,5 @@ apps/bare-expo/deploy-url.txt
 # .expo/*
 config.js
 secretKey.json
+
+.idea
